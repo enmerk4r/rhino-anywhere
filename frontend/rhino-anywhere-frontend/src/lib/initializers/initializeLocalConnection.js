@@ -1,6 +1,9 @@
 export const initializeLocalConnection = async (
   signalChannel,
-  videoElement
+  sendChannel,
+  receiveChannel,
+  videoElement,
+  dataElement
 ) => {
   console.log('Starting');
   let localConnection = new RTCPeerConnection();
@@ -18,6 +21,8 @@ export const initializeLocalConnection = async (
     videoElement.srcObject = event.streams[0];
     console.log('found track');
   };
+
+  sendChannel = 
 
   signalChannel.onmessage = async (event) => {
     console.log('Received Message');
@@ -38,5 +43,20 @@ export const initializeLocalConnection = async (
     }
   };
 
+  localConnection.ondatachannel = (e) => receiveChannelCallback(e, receiveChannel);
+
   return localConnection;
 };
+
+const sendChannelCallback = (e, sendChannel) => {
+  
+}
+
+const receiveChannelCallback = (e, receiveChannel) => {
+  receiveChannel = e.channel;
+  receiveChannel.onemessage = receiveMessageCallback;
+}
+
+const receiveMessageCallback = (event) => {
+    
+}
