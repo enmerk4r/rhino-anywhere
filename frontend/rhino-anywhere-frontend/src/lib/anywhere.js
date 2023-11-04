@@ -21,7 +21,7 @@ export class RhinoAnywhere {
     console.log('Setting up RhinoAnywhere');
 
     setupEvents(this._videoElement, (data) => {
-      sendData('input', data);
+      this._sendData('input', data);
     });
 
     // TODO: Setup connection
@@ -46,7 +46,7 @@ export class RhinoAnywhere {
    * @param {*} string 
    */
   sendCommand(string) {
-    _sendData('command', {
+    this._sendData('command', {
       command: string
     });
   }
