@@ -6,11 +6,6 @@ export const initializeLocalConnection = async (
   let localConnection = new RTCPeerConnection();
   console.log('Created local connection');
 
-  // const offer = await localConnection.createOffer();
-  // console.log('Offer created');
-  // await localConnection.setLocalDescription(offer);
-  // console.log('Local description set');
-
   localConnection.onicecandidate = (event) => {
     console.log('Detected ice candidate event');
     if (event.candidate) {
