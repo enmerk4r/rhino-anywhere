@@ -1,4 +1,5 @@
 import initializeLocalConnection from './initializers/initializeLocalConnection';
+import { setupEvents } from './inputHandlers';
 
 /**
  * Anywhere Library Creator
@@ -7,7 +8,10 @@ import initializeLocalConnection from './initializers/initializeLocalConnection'
  */
 export function anywhere(element, url) {
   console.log('Setting up RhinoAnywhere');
-  // TODO: Setup event listeners
+
+  setupEvents(element, (data) => {
+    sendData('input', data);
+  });
 
   // TODO: Setup connection
 
@@ -20,4 +24,25 @@ export function anywhere(element, url) {
   }
 
   function sendCommand() {}
+}
+
+export function sendCommand(string) {
+  sendData('command', {
+    command: string
+  });
+}
+
+/**
+ * Send data to connection
+ * @param {string} type "input" or "command"
+ * @param {Object} data
+ */
+function sendData(type, data) {
+  var toSend = {
+    type: type,
+    data: data
+  };
+
+  // Send over communication channel here
+  console.log(toSend);
 }
