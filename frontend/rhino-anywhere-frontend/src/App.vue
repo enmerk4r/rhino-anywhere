@@ -2,11 +2,15 @@
 import SearchComponent from './components/SearchComponent.vue'
 import VideoComponent from './components/VideoComponent.vue';
 import EditToolsComponent from './components/EditToolsComponent.vue';
+import WelcomePageComponent from './components/WelcomePageComponent.vue';
 </script>
 
 <template>
   <div class="container">
     <div class="search-area">
+       <div class="logo-container">
+        pretty logo
+      </div>
       <SearchComponent />
     </div>
 
@@ -31,6 +35,7 @@ import EditToolsComponent from './components/EditToolsComponent.vue';
 .search-area {
   align-self: flex-start;
   align-items: left;
+  display: flex;
 }
 
 .content-area {
