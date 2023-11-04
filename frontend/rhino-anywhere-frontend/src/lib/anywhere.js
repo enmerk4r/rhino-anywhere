@@ -51,6 +51,14 @@ export class RhinoAnywhere {
     });
   }
 
+  sendResize(w, h) {
+    this._sendData('resize', {
+      width: w,
+      height: h
+    });
+    console.log(w,h);
+  }
+
   /**
    * Send data to connection
    * @param {string} type "input" or "command"

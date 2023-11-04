@@ -4,18 +4,17 @@
       <img :src="currentImage" class="background-image" />
     </div>
     <div class="link-input-container">
-      <input type="text" v-model="link" placeholder="Enter link here..." class="link-input"/>
+      <input type="text" v-model="link" placeholder="Enter link here..." class="link-input" />
     </div>
     <div class="content">
-      <button :disabled="!link"
-      @click="startSomething">Start something...</button>
+      <button :disabled="!link" @click="startSomething">Start something...</button>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-const link = ref('');
+const link = ref('ws://127.0.0.1:8081/');
 const images = [
   new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href,
   new URL('../assets/icons/Rhinoceros_2.png', import.meta.url).href
@@ -29,13 +28,13 @@ let timer = null;
 const rotateImages = () => {
   timer = setInterval(() => {
     currentImageIndex.value = (currentImageIndex.value + 1) % images.length;
-  }, 200); 
+  }, 200);
 };
 
 const emit = defineEmits(['start']);
 
 const startSomething = () => {
-   emit('start', link.value); 
+  emit('start', link.value);
 };
 
 onMounted(() => {
@@ -43,25 +42,25 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  clearInterval(timer); 
+  clearInterval(timer);
 });
 </script>
 
 <style scoped>
 .welcome-page {
   text-align: center;
-  padding-top: 50px; 
+  padding-top: 50px;
 }
 
 .image-container {
   display: inline-block;
   width: 500px;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 .background-image {
   width: 100%;
-  height: auto; 
+  height: auto;
 }
 
 .content {
@@ -72,17 +71,17 @@ onBeforeUnmount(() => {
 button {
   font-size: 24px;
   padding: 20px 40px;
-  background-color: #fff; 
-  color: #007bff; 
-  border: 2px solid #007bff; 
+  background-color: #fff;
+  color: #007bff;
+  border: 2px solid #007bff;
   cursor: pointer;
-  border-radius: 25px; 
-  transition: background-color 0.3s, color 0.3s; 
+  border-radius: 25px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 button:hover {
   background-color: #007bff;
-  color: #fff; 
+  color: #fff;
 }
 
 button:disabled {
@@ -94,18 +93,18 @@ button:disabled {
 
 
 link-input-container {
-  margin: 20px 0; 
+  margin: 20px 0;
 }
 
 .link-input {
   font-size: 18px;
   padding: 15px;
-  width: 50%; 
+  width: 50%;
   margin: 0 auto;
-  margin-bottom: 20px; 
-  display: block; 
-  border: 1px solid #ccc; 
-    cursor: pointer;
-  border-radius: 25px; 
+  margin-bottom: 20px;
+  display: block;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 25px;
 }
 </style>
