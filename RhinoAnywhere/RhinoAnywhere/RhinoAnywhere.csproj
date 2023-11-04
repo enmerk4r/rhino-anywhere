@@ -6,6 +6,7 @@
     <Title>RhinoAnywhere</Title>
     <Description>Description of RhinoAnywhere</Description>
     <TargetExt>.rhp</TargetExt>
+	  <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,8 @@
   
   <ItemGroup>
     <PackageReference Include="RhinoCommon" Version="7.13.21348.13001" IncludeAssets="compile;build" />
+    <PackageReference Include="SIPSorcery" Version="6.0.12" />
+    <PackageReference Include="SIPSorceryMedia.Encoders" Version="0.0.12-pre" />
   </ItemGroup>
   
 </Project>
