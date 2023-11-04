@@ -3,7 +3,8 @@
  * @param {HTMLVideoElement} element
  * @param {string} url
  */
-function anywhere(element, url) {
+export function anywhere(element, url) {
+  console.log("Setting up RhinoAnywhere");
   // TODO: Setup event listeners
 
   // TODO: Setup connection
