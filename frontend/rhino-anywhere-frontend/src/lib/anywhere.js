@@ -20,13 +20,12 @@ export function anywhere(videoElement, textElement, url) {
   let signalChannel;
   let localConnection;
 
-  async function _setup() {
-    signalChannel = new WebSocket(url, []);
-    localConnection = await initializeLocalConnection(
-      signalChannel,
-      videoElement
-    ); //Need to establish vars for data input and output
-  }
+  signalChannel = new WebSocket(url, []);
+  localConnection = initializeLocalConnection(
+    signalChannel,
+    videoElement,
+    textElement
+  ); //Need to establish vars for data input and output
 
   function sendCommand() {}
 
