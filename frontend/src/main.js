@@ -18,30 +18,49 @@ limitations under the License.
 
 var startButton = document.getElementById('startButton');
 var callButton = document.getElementById('callButton');
+var sendButton = document.getElementById('sendButton');
 var hangupButton = document.getElementById('hangupButton');
+
 callButton.disabled = true;
 hangupButton.disabled = true;
+sendButton.disabled = true;
+
 startButton.onclick = start;
 callButton.onclick = call;
+sendButton.onclick = sendData;
 hangupButton.onclick = hangup;
 
 var startTime;
 var localVideo = document.getElementById('localVideo');
 var remoteVideo = document.getElementById('remoteVideo');
 
-localVideo.addEventListener('loadedmetadata', function() {
-  trace('Local video videoWidth: ' + this.videoWidth +
-    'px,  videoHeight: ' + this.videoHeight + 'px');
+localVideo.addEventListener('loadedmetadata', function () {
+  trace(
+    'Local video videoWidth: ' +
+      this.videoWidth +
+      'px,  videoHeight: ' +
+      this.videoHeight +
+      'px'
+  );
 });
 
-remoteVideo.addEventListener('loadedmetadata', function() {
-  trace('Remote video videoWidth: ' + this.videoWidth +
-    'px,  videoHeight: ' + this.videoHeight + 'px');
+remoteVideo.addEventListener('loadedmetadata', function () {
+  trace(
+    'Remote video videoWidth: ' +
+      this.videoWidth +
+      'px,  videoHeight: ' +
+      this.videoHeight +
+      'px'
+  );
 });
 
-remoteVideo.onresize = function() {
-  trace('Remote video size changed to ' +
-    remoteVideo.videoWidth + 'x' + remoteVideo.videoHeight);
+remoteVideo.onresize = function () {
+  trace(
+    'Remote video size changed to ' +
+      remoteVideo.videoWidth +
+      'x' +
+      remoteVideo.videoHeight
+  );
   // We'll use the first onsize callback as an indication that video has started
   // playing out.
   if (startTime) {
@@ -60,11 +79,11 @@ var offerOptions = {
 };
 
 function getName(pc) {
-  return (pc === pc1) ? 'pc1' : 'pc2';
+  return pc === pc1 ? 'pc1' : 'pc2';
 }
 
 function getOtherPc(pc) {
-  return (pc === pc1) ? pc2 : pc1;
+  return pc === pc1 ? pc2 : pc1;
 }
 
 function gotStream(stream) {
@@ -77,12 +96,13 @@ function gotStream(stream) {
 function start() {
   trace('Requesting local stream');
   startButton.disabled = true;
-  navigator.mediaDevices.getUserMedia({
-    audio: true,
-    video: true
-  })
+  navigator.mediaDevices
+    .getUserMedia({
+      audio: true,
+      video: true
+    })
     .then(gotStream)
-    .catch(function(e) {
+    .catch(function (e) {
       alert('getUserMedia() error: ' + e.name);
     });
 }
@@ -103,18 +123,18 @@ function call() {
   var servers = null;
   pc1 = new RTCPeerConnection(servers);
   trace('Created local peer connection object pc1');
-  pc1.onicecandidate = function(e) {
+  pc1.onicecandidate = function (e) {
     onIceCandidate(pc1, e);
   };
   pc2 = new RTCPeerConnection(servers);
   trace('Created remote peer connection object pc2');
-  pc2.onicecandidate = function(e) {
+  pc2.onicecandidate = function (e) {
     onIceCandidate(pc2, e);
   };
-  pc1.oniceconnectionstatechange = function(e) {
+  pc1.oniceconnectionstatechange = function (e) {
     onIceStateChange(pc1, e);
   };
-  pc2.oniceconnectionstatechange = function(e) {
+  pc2.oniceconnectionstatechange = function (e) {
     onIceStateChange(pc2, e);
   };
   pc2.onaddstream = gotRemoteStream;
@@ -123,12 +143,9 @@ function call() {
   trace('Added local stream to pc1');
 
   trace('pc1 createOffer start');
-  pc1.createOffer(
-    offerOptions
-  ).then(
-    onCreateOfferSuccess,
-    onCreateSessionDescriptionError
-  );
+  pc1
+    .createOffer(offerOptions)
+    .then(onCreateOfferSuccess, onCreateSessionDescriptionError);
 }
 
 function onCreateSessionDescriptionError(error) {
@@ -138,27 +155,20 @@ function onCreateSessionDescriptionError(error) {
 function onCreateOfferSuccess(desc) {
   trace('Offer from pc1\n' + desc.sdp);
   trace('pc1 setLocalDescription start');
-  pc1.setLocalDescription(desc).then(
-    function() {
-      onSetLocalSuccess(pc1);
-    },
-    onSetSessionDescriptionError
-  );
+  pc1.setLocalDescription(desc).then(function () {
+    onSetLocalSuccess(pc1);
+  }, onSetSessionDescriptionError);
   trace('pc2 setRemoteDescription start');
-  pc2.setRemoteDescription(desc).then(
-    function() {
-      onSetRemoteSuccess(pc2);
-    },
-    onSetSessionDescriptionError
-  );
+  pc2.setRemoteDescription(desc).then(function () {
+    onSetRemoteSuccess(pc2);
+  }, onSetSessionDescriptionError);
   trace('pc2 createAnswer start');
   // Since the 'remote' side has no media stream we need
   // to pass in the right constraints in order for it to
   // accept the incoming offer of audio and video.
-  pc2.createAnswer().then(
-    onCreateAnswerSuccess,
-    onCreateSessionDescriptionError
-  );
+  pc2
+    .createAnswer()
+    .then(onCreateAnswerSuccess, onCreateSessionDescriptionError);
 }
 
 function onSetLocalSuccess(pc) {
@@ -181,33 +191,31 @@ function gotRemoteStream(e) {
 function onCreateAnswerSuccess(desc) {
   trace('Answer from pc2:\n' + desc.sdp);
   trace('pc2 setLocalDescription start');
-  pc2.setLocalDescription(desc).then(
-    function() {
-      onSetLocalSuccess(pc2);
-    },
-    onSetSessionDescriptionError
-  );
+  pc2.setLocalDescription(desc).then(function () {
+    onSetLocalSuccess(pc2);
+  }, onSetSessionDescriptionError);
   trace('pc1 setRemoteDescription start');
-  pc1.setRemoteDescription(desc).then(
-    function() {
-      onSetRemoteSuccess(pc1);
-    },
-    onSetSessionDescriptionError
-  );
+  pc1.setRemoteDescription(desc).then(function () {
+    onSetRemoteSuccess(pc1);
+  }, onSetSessionDescriptionError);
 }
 
 function onIceCandidate(pc, event) {
-  getOtherPc(pc).addIceCandidate(event.candidate)
+  getOtherPc(pc)
+    .addIceCandidate(event.candidate)
     .then(
-      function() {
+      function () {
         onAddIceCandidateSuccess(pc);
       },
-      function(err) {
+      function (err) {
         onAddIceCandidateError(pc, err);
       }
     );
-  trace(getName(pc) + ' ICE candidate: \n' + (event.candidate ?
-    event.candidate.candidate : '(null)'));
+  trace(
+    getName(pc) +
+      ' ICE candidate: \n' +
+      (event.candidate ? event.candidate.candidate : '(null)')
+  );
 }
 
 function onAddIceCandidateSuccess(pc) {
