@@ -6,13 +6,18 @@ import EditToolsComponent from './components/EditToolsComponent.vue';
 import WelcomePageComponent from './components/WelcomePageComponent.vue';
 
 let showWelcomePage = ref(true);
+
+function start(link) {
+  showWelcomePage.value = false;
+  window.anywhere.connect(link);
+}
 </script>
 
 <template>
-  <WelcomePageComponent v-if="showWelcomePage" @start="showWelcomePage = false" />
-  <div class="container" v-else>
+  <WelcomePageComponent v-show="showWelcomePage" @start="start" />
+  <div class="container" v-show="!showWelcomePage">
     <div class="search-area">
-       <div class="logo-container">
+      <div class="logo-container">
         pretty logo
       </div>
       <SearchComponent />
@@ -20,10 +25,10 @@ let showWelcomePage = ref(true);
 
     <div class="content-area">
       <div class="edit-tools">
-        <EditToolsComponent/>
+        <EditToolsComponent />
       </div>
       <div class="video-component">
-        <VideoComponent/>
+        <VideoComponent />
       </div>
     </div>
   </div>
@@ -44,21 +49,22 @@ let showWelcomePage = ref(true);
 
 .content-area {
   display: flex;
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
 .edit-tools {
   width: 20%;
-  width:50px;
+  width: 50px;
   border: 1px solid #ccc;
   border-radius: 30px;
 }
 
 .video-component {
   flex-grow: 1;
-  margin-left: 20px; 
+  margin-left: 20px;
   border: 1px solid #ccc;
-  text-align: right; /* Aligns the content of the video component to the right */
+  text-align: right;
+  /* Aligns the content of the video component to the right */
 }
 
 @media (max-width: 600px) {
@@ -68,9 +74,10 @@ let showWelcomePage = ref(true);
 
   .video-component {
     margin-left: 0;
-    margin-top: 20px; /* Adjust the margin as needed */
-    text-align: center; /* Center the content on small screens */
+    margin-top: 20px;
+    /* Adjust the margin as needed */
+    text-align: center;
+    /* Center the content on small screens */
   }
 }
-
 </style>
