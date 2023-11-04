@@ -215,29 +215,29 @@ namespace RhinoAnywhere
         {
             if(inputArgs.type == "input")
             {
-                if (!int.TryParse(inputArgs.data.value, out int val))
-                    return;
 
-                int left = 0;
-                int right = 2;
+                string val = inputArgs.data.value;
 
-                if (inputArgs.data.method == "up" && val == left)
+                string left = "0";
+                string right = "2";
+
+                if (inputArgs.data.action == "up" && val == left)
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.LeftUp);
                 }
-                else if (inputArgs.data.method == "down" && val == left)
+                else if (inputArgs.data.action == "down" && val == left)
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.LeftDown);
                 }
-                else if (inputArgs.data.method == "down" && val == right)
+                else if (inputArgs.data.action == "down" && val == right)
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.RightDown);
                 }
-                else if (inputArgs.data.method == "up" && val == right)
+                else if (inputArgs.data.action == "up" && val == right)
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.RightUp);
                 }
-                else if (inputArgs.data.method == "move")
+                else if (inputArgs.data.action == "move")
                 {
                     double newX = inputArgs.data.x + inputArgs.data.deltax;
                     double newY = inputArgs.data.y + inputArgs.data.deltay;

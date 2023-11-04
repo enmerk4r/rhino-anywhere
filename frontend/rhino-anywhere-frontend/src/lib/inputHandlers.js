@@ -3,10 +3,10 @@ var EMPTY = "NA";
 var template = {
   method: EMPTY,
   action: EMPTY,
-  x: EMPTY,
-  y: EMPTY,
-  deltax: EMPTY,
-  deltay: EMPTY,
+  x: 0,
+  y: 0,
+  deltax: 0,
+  deltay: 0,
   value: EMPTY
 }
 
@@ -44,10 +44,10 @@ export function setupEvents(element, callback){
     push({ 
       method: "mouse", 
       action: "move",
-      x: e.offsetX / element.width, 
-      y: e.offsetY / element.width, 
-      deltax: e.movementX / element.width,
-      deltay: e.movementY / element.width
+      x: e.offsetX / element.clientWidth, 
+      y: e.offsetY / element.clientHeight, 
+      deltax: e.movementX / element.clientWidth,
+      deltay: e.movementY / element.clientHeight
     });
 
     e.preventDefault();
