@@ -1,47 +1,60 @@
 <script setup>
-import { ref } from "vue"
+import { ref, computed, onMounted, onUnmounted } from "vue";
+
+import { RhinoCommands } from '../assets/data/rhinoCommands.js'
 let search = ref("")
 let searchHistory = ref([])
 
-let commands = ["aa", "bb", "cc"]
-let filteredCommands = ref([])
-let highlightedIndex = ref(0)
 
-// Method to add the search term to the history
+let commands = ref(RhinoCommands); 
+
+const filteredSuggestions = computed(() => {
+  if (!search.value) {
+    return [];
+  }
+  return commands.value.filter((cmd) =>
+    cmd.toLowerCase().startsWith(search.value.toLowerCase())
+  );
+});
+
 const addSearchTerm = () => {
-  // Avoid adding empty strings or duplicates
   if (search.value && !searchHistory.value.includes(search.value)) {
     searchHistory.value.push(search.value)
-    search.value = "" // Clear the input after adding to history
+
+    //window.anywhere.sendCommand(search.value);
+    search.value = "" // Clear the input after sending the command
   }
 }
 
-const filterCommands = () => {
-  if (!search) {
-    filteredCommands = []
-    return
-  }
-  filteredCommands = commands.filter((cmd) =>
-    cmd.toLowerCase().includes(search)
-  )
-}
+// window.anywhere.onMessageReceived = (data) => {
+//   searchHistory.value.push(data);
+// }
 
-const highlightNext = () => {
-  if (highlightedIndex < filteredCommands.length - 1) {
-    highlightedIndex++
+const handleTab = (event) => {
+  if (event.key === "Tab" && filteredSuggestions.value.length > 0) {
+    event.preventDefault(); 
+    search.value = filteredSuggestions.value[0];
+    console.log(filteredSuggestions.value[0])
+    //addSearchTerm(); 
   }
-}
+};
 
-const highlightPrevious = () => {
-  if (highlightedIndex > 0) {
-    highlightedIndex--
+const handleEnter = (event) => {
+  if (event.key === "Enter" && filteredSuggestions.value.length > 0) {
+    event.preventDefault(); // Prevent the default enter behavior
+    search.value = filteredSuggestions.value[0]; // Select the first suggestion
+    console.log(filteredSuggestions.value[0])
+    addSearchTerm(); // Send the selected suggestion as a search term
   }
-}
+};
 
-const selectCommand = (command) => {
-  search = command
-  filteredCommands = []
-}
+onMounted(() => {
+  window.addEventListener("keydown", handleTab);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("keydown", handleTab);
+});
 </script>
 
 <template>
@@ -56,33 +69,18 @@ const selectCommand = (command) => {
     </div>
 
     <!-- Search bar -->
-    <input
-      type="text"
-      placeholder="Type your Rhino command here..."
-      v-model="search"
-      @keyup.enter="addSearchTerm"
-    />
+    <input type="text" placeholder="Type your Rhino command here..." v-model="search" @keyup.enter="addSearchTerm" />
 
-    <!-- <div class="autocomplete">
-      <input
-        type="text"
-        v-model="search"
-        @input="filterCommands"
-        @keydown.down.prevent="highlightNext"
-        @keydown.up.prevent="highlightPrevious"
-        @keydown.enter.prevent="selectCommand"
-      />
-      <ul v-if="filteredCommands.length">
-        <li
-          v-for="(command, index) in filteredCommands"
-          :key="command"
-          :class="{ highlight: index === highlightedIndex }"
-          @mousedown="selectCommand(command)"
-        >
-          {{ command }}
-        </li>
-      </ul>
-    </div> -->
+
+    <ul v-if="filteredSuggestions.length" class="suggestions">
+      <li
+        v-for="(suggestion, index) in filteredSuggestions"
+        :key="index"
+        @mousedown.prevent="search.value = suggestion; addSearchTerm()"
+      >
+        {{ suggestion }}
+      </li>
+    </ul>
 
   </div>
 </template>
@@ -93,6 +91,8 @@ const selectCommand = (command) => {
   flex-direction: column;
   align-items: left;
   margin-top: 0px;
+  position:relative;
+  margin-bottom: 50px;
 }
 
 .search-history {
@@ -110,7 +110,7 @@ const selectCommand = (command) => {
 input[type="text"] {
   padding: 10px 15px;
   font-size: 16px;
-  width: 500px;
+  width: 570px;
   border-radius: 20px;
   border: 1px solid #ccc;
   outline: none;
@@ -118,8 +118,8 @@ input[type="text"] {
 
 ul.no-bullets {
   list-style-type: none;
-  padding: 0; 
-  margin: 0; 
+  padding: 0;
+  margin: 0;
 }
 
 ul {
@@ -128,5 +128,31 @@ ul {
   margin-left: 0;
   line-height: 1;
   color: grey;
+}
+
+.suggestions {
+  margin-top: 2px; 
+  border-radius: 20px;
+  list-style-type: none;
+  padding: 0;
+  width: 600px;
+  position: absolute;
+  left: 0; 
+  top: 100%; 
+  background-color: #f8f8f8; 
+  z-index: 10;
+  max-height: 100px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+}
+
+.suggestions li {
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.suggestions li:hover {
+  background-color: #ececec; 
 }
 </style>

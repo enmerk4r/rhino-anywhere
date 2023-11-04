@@ -1,9 +1,9 @@
 <script setup>
-import { anywhere } from "./../lib/anywhere.js";
 import { onMounted } from 'vue';
 
 function initialize() {
-    anywhere(document.getElementById("rhinoViewport"), document.getElementById("rhinoTextBox"), "ws://127.0.0.1:8081/");
+    window.anywhere.bind(document.getElementById("rhinoViewport"));
+    window.anywhere.connect("ws://127.0.0.1:8081/");
 }
 
 //onMounted(() => initialize());
