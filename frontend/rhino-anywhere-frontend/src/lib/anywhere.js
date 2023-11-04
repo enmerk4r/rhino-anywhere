@@ -37,4 +37,5 @@ function sendData(type, data){
   }
 
   // Send over communication channel here
+  console.log(toSend);
 }

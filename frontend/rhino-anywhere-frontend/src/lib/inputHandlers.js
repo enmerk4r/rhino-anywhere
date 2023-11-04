@@ -66,7 +66,6 @@ export function setupEvents(element, callback){
       y: e.offsetY, 
       value:e.button
     });
-    emitMouseUp(e.button, e.offsetX, e.offsetY);
     e.preventDefault();
   };
 
@@ -76,8 +75,8 @@ export function setupEvents(element, callback){
     e.preventDefault();
   };
 
-  if ("onmousewheel" in playerElement) {
-    playerElement.onmousewheel = function (e) {
+  if ("onmousewheel" in element) {
+    element.onmousewheel = function (e) {
       push({ 
         method: "mouse", 
         action: "scroll",
@@ -88,7 +87,7 @@ export function setupEvents(element, callback){
       e.preventDefault();
     };
   } else {
-    playerElement.addEventListener(
+    element.addEventListener(
       "DOMMouseScroll",
       function (e) {
         push({ 
