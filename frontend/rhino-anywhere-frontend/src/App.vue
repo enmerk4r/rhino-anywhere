@@ -11,6 +11,7 @@ function start(link) {
   showWelcomePage.value = false;
   window.anywhere.connect(link);
 }
+
 </script>
 
 <template>
@@ -35,6 +36,12 @@ function start(link) {
 </template>
 
 <style scoped>
+
+#rhinoViewport {
+  width: 100%;
+  height: 100%;
+}
+
 .container {
   background-color: white;
   display: flex;
@@ -80,4 +87,5 @@ function start(link) {
     /* Center the content on small screens */
   }
 }
+
 </style>

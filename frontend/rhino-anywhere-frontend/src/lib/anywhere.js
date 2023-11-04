@@ -52,11 +52,11 @@ export class RhinoAnywhere {
   }
 
   sendResize(w, h) {
+    console.log(w,h);
     this._sendData('resize', {
       width: w,
       height: h
     });
-    console.log(w,h);
   }
 
   /**
