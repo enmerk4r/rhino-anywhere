@@ -28,8 +28,6 @@ export function anywhere(videoElement, textElement, url) {
   ); //Need to establish vars for data input and output
 
   function sendCommand() {}
-
-  _setup();
 }
 
 export function sendCommand(string) {

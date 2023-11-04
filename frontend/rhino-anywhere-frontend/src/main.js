@@ -8,5 +8,5 @@ import { anywhere } from './lib/anywhere.js';
 anywhere(
   document.getElementById('rhinoViewport'),
   document.getElementById('rhinoTextBox'),
-  'ws://127.0.0.1:8081/'
+  'wss://test.antmedia.io:5443/LiveApp/websocket'
 );
