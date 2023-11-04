@@ -1,25 +1,31 @@
 <script setup>
-//import HelloWorld from './components/HelloWorld.vue'
+import SearchComponent from './components/SearchComponent.vue'
+import VideoComponent from './components/VideoComponent.vue';
+import EditToolsComponent from './components/EditToolsComponent.vue';
 </script>
 
 <template>
   <div>
-    <img src="./assets/img/rhino.png" alt="some nice logo"  style="width: 100px; height: 100px;"/>
-  <h1>Rhino anywhere</h1>
+    <SearchComponent class="search-component" />
+    <h3>Rhino anywhere</h3>
+<div className="container">
+  <div className="edit-tools">
+    <EditToolsComponent/>
+  </div>
+  <div className="video-component">
+    <VideoComponent/>
+  </div>
+</div>
+  
 </div>  
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.search-component {
+  position: absolute; /* or 'fixed' if you want it to stay at the top even when scrolling */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensure it's above other content; adjust as necessary */
 }
 </style>
