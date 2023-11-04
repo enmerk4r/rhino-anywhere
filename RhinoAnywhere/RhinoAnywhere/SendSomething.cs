@@ -2,11 +2,13 @@
 using Rhino;
 using Rhino.Commands;
 using Rhino.Display;
+using RhinoAnywhereCore;
 using SIPSorcery.Media;
 using SIPSorcery.Net;
 using SIPSorceryMedia.Abstractions;
 using SIPSorceryMedia.Encoders;
 using System;
+using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -102,6 +104,17 @@ namespace RhinoAnywhere
                 }
             };
 
+            connection.createDataChannel("test");
+
+            connection.ondatachannel += async (channel) =>
+            {
+                channel.onmessage += (test1, something, data) =>
+                {
+                    string text = System.Text.Encoding.UTF8.GetString(data);
+                    RhinoApp.WriteLine($"Got {text} from client");
+                };
+            };
+
             return Task.FromResult(connection);
         }
 
@@ -121,5 +134,42 @@ namespace RhinoAnywhere
             connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
         }
 
+        private void StartListener()
+        {
+            //Listener gets a message in.
+            //Deserialize InputEventArgs
+            InputEventArgs  inputArgs = null;
+            InputRecieved(inputArgs);
+        }
+
+        private void InputRecieved(InputEventArgs inputArgs)
+        {
+            if(inputArgs.Type == "input")
+            {
+                if (inputArgs.Data.Method == "leftup")
+                {
+                    MouseController.MouseEvent(MouseController.MouseEventFlags.LeftUp);
+                }
+                else if (inputArgs.Data.Method == "leftdown")
+                {
+                    MouseController.MouseEvent(MouseController.MouseEventFlags.LeftDown);
+                }
+                else if (inputArgs.Data.Method == "rightdown")
+                {
+                    MouseController.MouseEvent(MouseController.MouseEventFlags.RightDown);
+                }
+                else if (inputArgs.Data.Method == "rightup")
+                {
+                    MouseController.MouseEvent(MouseController.MouseEventFlags.RightUp);
+                }
+                else if (inputArgs.Data.Method == "move")
+                {
+                    int newX = inputArgs.Data.X + inputArgs.Data.DeltaX;
+                    int newY = inputArgs.Data.Y + inputArgs.Data.DeltaY;
+
+                    MouseController.SetCursorPosition(newX, newY);
+                }
+            }
+        }
     }
 }
