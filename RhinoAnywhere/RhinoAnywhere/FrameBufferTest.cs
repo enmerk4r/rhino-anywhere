@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using Rhino;
 using Rhino.Commands;
+using Rhino.Display;
+using Rhino.PlugIns;
 
 namespace RhinoAnywhere
 {
@@ -18,8 +21,20 @@ namespace RhinoAnywhere
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
-            // TODO: complete command.
+            Rhino.Display.DisplayPipeline.DrawForeground += DisplayPipeline_PostDrawObjects; ;
             return Result.Success;
+        }
+
+        private void DisplayPipeline_PostDrawObjects(object sender, DrawEventArgs e)
+        {
+            // TODO: complete command.
+            RhinoView activeView = Rhino.RhinoDoc.ActiveDoc.Views.ActiveView;
+
+            var size = activeView.Size;
+            using (var bitmap = new Bitmap(size.Width, size.Height))
+            {
+                Bitmap outputBitmap = e.Display.FrameBuffer;
+            }
         }
     }
 }
