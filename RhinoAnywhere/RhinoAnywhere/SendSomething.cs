@@ -13,6 +13,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Threading.Tasks;
 using WebSocketSharp.Server;
 
@@ -71,6 +72,22 @@ namespace RhinoAnywhere
             }
         }
 
+        public struct ClickPacket
+        {
+            public string type { get; set; }
+            public ClickData data { get; set; }
+        }
+
+        public struct ClickData
+        {
+            public string method { get; set; }
+            public string action { get; set; }
+            public double x { get; set; }
+            public double y { get; set; }
+            public double deltax { get; set; }
+            public double deltay { get; set; }
+        }
+
         private Task<RTCPeerConnection> CreatePeerConnection()
         {
             connection = new RTCPeerConnection(null);
@@ -105,12 +122,15 @@ namespace RhinoAnywhere
 
             connection.createDataChannel("test");
 
-            connection.ondatachannel += async (channel) =>
+            connection.ondatachannel += (channel) =>
             {
                 channel.onmessage += (test1, something, data) =>
                 {
-                    string text = System.Text.Encoding.UTF8.GetString(data);
-                    RhinoApp.WriteLine($"Got {text} from client");
+                    string json = System.Text.Encoding.UTF8.GetString(data);
+                    var clickPacket = JsonSerializer.Deserialize<ClickPacket>(json);
+                    ;
+
+                    RhinoApp.WriteLine($"Got x:{clickPacket.data.x} y:{clickPacket.data.y} from client");
                 };
             };
 

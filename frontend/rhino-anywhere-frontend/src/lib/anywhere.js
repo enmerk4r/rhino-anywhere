@@ -59,9 +59,9 @@ export class RhinoAnywhere {
   _sendData(type, data) {
     var toSend = {
       type: type,
-      data: data
+      data: data,
     };
 
-    this._sendChannel.send(toSend);
+    this._sendChannel.send(JSON.stringify(toSend));
   }
 }
