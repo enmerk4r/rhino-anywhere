@@ -1,4 +1,4 @@
-export default initializeLocalConnection = async (
+export var initializeLocalConnection = async (
   signalChannel,
   videoElement,
   dataInputElement,
