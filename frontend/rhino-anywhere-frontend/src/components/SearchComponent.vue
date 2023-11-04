@@ -21,7 +21,7 @@ const addSearchTerm = () => {
   if (search.value && !searchHistory.value.includes(search.value)) {
     searchHistory.value.push(search.value)
 
-    window.anywhere.sendCommand(search.value);
+    //window.anywhere.sendCommand(search.value);
     search.value = "" // Clear the input after sending the command
   }
 }

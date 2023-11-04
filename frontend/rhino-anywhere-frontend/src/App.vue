@@ -31,7 +31,6 @@ let showWelcomePage = ref(true);
 
 <style scoped>
 .container {
-  background-color: white;
   display: flex;
   flex-direction: column;
 }

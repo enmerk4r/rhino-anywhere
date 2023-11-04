@@ -35,7 +35,7 @@ const rotateImages = () => {
 const emit = defineEmits(['start']);
 
 const startSomething = () => {
-   emit('start'); 
+   emit('start', link.value); 
 };
 
 onMounted(() => {

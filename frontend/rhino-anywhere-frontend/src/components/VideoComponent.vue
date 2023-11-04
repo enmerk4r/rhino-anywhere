@@ -11,6 +11,6 @@ function initialize() {
 
 <template>
     <div id="rhinoTextBox"></div>
-    <video controls autoplay="autoplay" id="rhinoViewport" width="640" height="480"></video>
+    <video autoplay="autoplay" id="rhinoViewport" width="640" height="480" controls="false"></video>
     <button @click="initialize">start</button>
 </template>
