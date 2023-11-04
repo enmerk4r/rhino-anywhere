@@ -17,111 +17,142 @@ limitations under the License.
 -->
 
 <html lang="en">
-<head>
+  <head>
+    <script>
+      //  philipwalton.com/articles/the-google-analytics-setup-i-use-on-every-site-i-build
+      window.ga =
+        window.ga ||
+        function () {
+          (ga.q = ga.q || []).push(arguments);
+        };
+      ga('create', 'UA-33848682-1', 'auto');
+      ga('set', 'transport', 'beacon');
+      ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
 
-<script>
-//  philipwalton.com/articles/the-google-analytics-setup-i-use-on-every-site-i-build
-window.ga = window.ga || function() {
-  (ga.q = ga.q || []).push(arguments);
-};
-ga('create', 'UA-33848682-1', 'auto');
-ga('set', 'transport', 'beacon');
-ga('send', 'pageview');
-</script>
-<script async src="https://www.google-analytics.com/analytics.js"></script>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Simplest possible examples of HTML, CSS and JavaScript."
+    />
+    <meta name="author" content="//samdutton.com" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      itemprop="name"
+      content="simpl.info: simplest possible examples of HTML, CSS and JavaScript"
+    />
+    <meta itemprop="image" content="/images/icons/icon192.png" />
+    <meta id="theme-color" name="theme-color" content="#fff" />
 
-<meta charset="utf-8">
-<meta name="description" content="Simplest possible examples of HTML, CSS and JavaScript.">
-<meta name="author" content="//samdutton.com">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta itemprop="name" content="simpl.info: simplest possible examples of HTML, CSS and JavaScript">
-<meta itemprop="image" content="/images/icons/icon192.png">
-<meta id="theme-color" name="theme-color" content="#fff">
+    <link rel="icon" href="/images/icons/icon192.png" />
 
-<link rel="icon" href="/images/icons/icon192.png">
+    <base target="_blank" />
 
-<base target="_blank">
+    <title>RTCPeerConnection</title>
 
+    <link rel="stylesheet" href="../css/main.css" />
 
-<title>RTCPeerConnection</title>
+    <style>
+      button {
+        margin: 0 20px 0 0;
+        width: 85.9px;
+      }
 
-<link rel="stylesheet" href="../css/main.css">
+      button#hangupButton {
+        margin: 0;
+      }
 
-<style>
-  button {
-    margin: 0 20px 0 0;
-    width: 85.9px;
-  }
+      p.borderBelow {
+        margin: 0 0 1.5em 0;
+        padding: 0 0 1.5em 0;
+      }
 
-  button#hangupButton {
-    margin: 0;
-  }
+      video {
+        height: 225px;
+        margin: 0 0 20px 0;
+        vertical-align: top;
+        width: calc(50% - 13px);
+      }
 
-  p.borderBelow {
-    margin: 0 0 1.5em 0;
-    padding: 0 0 1.5em 0;
-  }
+      video#localVideo {
+        margin: 0 20px 20px 0;
+      }
 
-  video {
-    height: 225px;
-    margin: 0 0 20px 0;
-    vertical-align: top;
-    width: calc(50% - 13px);
-  }
+      @media (max-width: 400px) {
+        button {
+          width: 83px;
+        }
 
-  video#localVideo {
-    margin: 0 20px 20px 0;
-  }
+        button {
+          margin: 0 11px 10px 0;
+        }
 
-  @media (max-width: 400px) {
+        video {
+          height: 90px;
+          margin: 0 0 10px 0;
+          width: calc(50% - 7px);
+        }
 
-    button {
-      width: 83px;
-    }
+        video#localVideo {
+          margin: 0 10px 20px 0;
+        }
+      }
+    </style>
+  </head>
 
-    button {
-      margin: 0 11px 10px 0;
-    }
+  <body>
+    <div id="container">
+      <h1>
+        <a href="../index.html" title="simpl.info home page">simpl.info</a>
+        RTCPeerConnection
+      </h1>
 
-    video {
-      height: 90px;
-      margin: 0 0 10px 0;
-      width: calc(50% - 7px);
-    }
+      <!-- <p>Check out the complete set of WebRTC demos at <a href="https://webrtc.github.io/samples/" title="WebRTC samples GitHub Pages">webrtc.github.io/samples</a>.</p> -->
 
-    video#localVideo {
-      margin: 0 10px 20px 0;
-    }
-  }
-</style>
+      <video id="localVideo" autoplay muted playsinline></video>
+      <video id="remoteVideo" autoplay playsinline></video>
 
-</head>
+      <div>
+        <button id="startButton">Start</button>
+        <button id="callButton">Call</button>
+        <button id="startData">Send Data</button>
+        <button id="hangupButton">Hang Up</button>
+      </div>
 
-<body>
+      <div id="sendReceive">
+        <div id="send">
+          <h2>Send</h2>
+          <textarea
+            id="dataChannelSend"
+            disabled
+            placeholder="Press Start, enter some text, then press Send."
+          ></textarea>
+        </div>
+        <div id="receive">
+          <h2>Receive</h2>
+          <textarea id="dataChannelReceive" disabled></textarea>
+        </div>
+      </div>
 
-  <div id="container">
+      <p>
+        View the console to see logging. The <code>MediaStream</code> object
+        <code>localStream</code>, and the <code>RTCPeerConnection</code> objects
+        <code>localPeerConnection</code> and
+        <code>remotePeerConnection</code> are in global scope, so you can
+        inspect them in the console as well.
+      </p>
 
-    <h1><a href="../index.html" title="simpl.info home page">simpl.info</a> RTCPeerConnection</h1>
+      <p>
+        For more information about RTCPeerConnection, see
+        <a
+          href="https://www.html5rocks.com/en/tutorials/webrtc/basics/"
+          title="HTML5 Rocks article about WebRTC by Sam Dutton"
+          >Getting Started With WebRTC</a
+        >.
+      </p>
 
-    <!-- <p>Check out the complete set of WebRTC demos at <a href="https://webrtc.github.io/samples/" title="WebRTC samples GitHub Pages">webrtc.github.io/samples</a>.</p> -->
-
-    <video id="localVideo" autoplay muted playsinline></video>
-    <video id="remoteVideo" autoplay playsinline></video>
-
-    <div>
-      <button id="startButton">Start</button>
-      <button id="callButton">Call</button>
-      <button id="hangupButton">Hang Up</button>
+      <script src="js/main.js"></script>
     </div>
-
-    <p>View the console to see logging. The <code>MediaStream</code> object <code>localStream</code>, and the <code>RTCPeerConnection</code> objects <code>localPeerConnection</code> and <code>remotePeerConnection</code> are in global scope, so you can inspect them in the console as well.</p>
-
-    <p>For more information about RTCPeerConnection, see <a href="https://www.html5rocks.com/en/tutorials/webrtc/basics/" title="HTML5 Rocks article about WebRTC by Sam Dutton">Getting Started With WebRTC</a>.</p>
-
-    <script src="js/main.js"></script>
-
-  </div>
-
-</body>
-
+  </body>
 </html>
