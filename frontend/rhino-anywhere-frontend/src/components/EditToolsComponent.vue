@@ -12,15 +12,18 @@ const toggleIcon = (index) => {
 function doSomething(){
 
 }
+
+function drawLine(){
+  console.log("draw line");
+}
+
 </script>
 
 <template>
   <div class="icon-stack">
-     <div 
-              @click="doSomething">
-            <Add class = "icon" />
-          </div>
-
+    <button @click="drawLine">
+      <Add></Add>
+    </button>
 
       <Add class = "icon" 
         :class="{ 'icon-hover': !clicked, 'icon-clicked': clicked }"/>
