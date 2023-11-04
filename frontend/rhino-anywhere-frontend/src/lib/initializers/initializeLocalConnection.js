@@ -1,9 +1,7 @@
 export const initializeLocalConnection = async (
   signalChannel,
-  sendChannel,
-  receiveChannel,
   videoElement,
-  dataElement
+  onMessageReceived
 ) => {
   console.log('Starting');
   let localConnection = new RTCPeerConnection();
@@ -22,7 +20,7 @@ export const initializeLocalConnection = async (
     console.log('found track');
   };
 
-  sendChannel = 
+  sendChannel = localConnection.createDataChannel("sebdDataChannel", null)
 
   signalChannel.onmessage = async (event) => {
     console.log('Received Message');
@@ -43,7 +41,7 @@ export const initializeLocalConnection = async (
     }
   };
 
-  localConnection.ondatachannel = (e) => receiveChannelCallback(e, receiveChannel);
+  localConnection.ondatachannel = (e) => receiveChannelCallback(e, onMessageReceived);
 
   return localConnection;
 };
@@ -52,10 +50,9 @@ const sendChannelCallback = (e, sendChannel) => {
   
 }
 
-const receiveChannelCallback = (e, receiveChannel) => {
-  receiveChannel = e.channel;
-  receiveChannel.onemessage = receiveMessageCallback;
-}
+const receiveChannelCallback = (e, onMessageReceived) => 
+  e.channel.onmessage = onMessageReceived;
+
 
 const receiveMessageCallback = (event) => {
     

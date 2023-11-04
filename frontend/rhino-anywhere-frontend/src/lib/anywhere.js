@@ -29,12 +29,15 @@ export class RhinoAnywhere {
     // TODO: TODO create public methods to allow us to send command and mouse movements
     let signalChannel;
     let localConnection;
+    
+    let sendChannel;
+    let receiveChannel;
 
     signalChannel = new WebSocket(url, []);
     localConnection = initializeLocalConnection(
       signalChannel,
       this._videoElement,
-      onMessageReceived
+      this.onMessageReceived
     ); //Need to establish vars for data input and output
   }
 
