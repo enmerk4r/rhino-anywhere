@@ -34,7 +34,6 @@ export function setupEvents(element, callback){
 
     for(var i in input){
       data[i] = input[i];
-      console.log(i);
     }
 
     //send
