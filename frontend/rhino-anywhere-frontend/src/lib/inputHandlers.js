@@ -3,10 +3,10 @@ var EMPTY = "NA";
 var template = {
   method: EMPTY,
   action: EMPTY,
-  x: EMPTY,
-  y: EMPTY,
-  deltax: EMPTY,
-  deltay: EMPTY,
+  x: 0,
+  y: 0,
+  deltax: 0,
+  deltay: 0,
   value: EMPTY
 }
 
