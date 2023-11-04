@@ -3,10 +3,10 @@ import { setupEvents } from './inputHandlers';
 
 /**
  * Anywhere Library Creator
- * @param {HTMLVideoElement} element
+ * @param {HTMLVideoElement} videoElement
  * @param {string} url
  */
-export function anywhere(element, url) {
+export function anywhere(videoElement, dataElement, url) {
   console.log('Setting up RhinoAnywhere');
 
   setupEvents(element, (data) => {
@@ -20,7 +20,7 @@ export function anywhere(element, url) {
 
   function _setup() {
     signalChannel = new WebSocket(url, []);
-    initializeLocalConnection(signalChannel, element); //Need to establish vars for data input and output
+    initializeLocalConnection(signalChannel, videoElement, dataElement); //Need to establish vars for data input and output
   }
 
   function sendCommand() {}
