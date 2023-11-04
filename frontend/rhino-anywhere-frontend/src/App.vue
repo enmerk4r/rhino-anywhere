@@ -1,12 +1,16 @@
 <script setup>
+import { ref } from 'vue';
 import SearchComponent from './components/SearchComponent.vue'
 import VideoComponent from './components/VideoComponent.vue';
 import EditToolsComponent from './components/EditToolsComponent.vue';
 import WelcomePageComponent from './components/WelcomePageComponent.vue';
+
+let showWelcomePage = ref(false);
 </script>
 
 <template>
-  <div class="container">
+  <WelcomePageComponent v-if="showWelcomePage" @start="showWelcomePage = false" />
+  <div class="container" v-else>
     <div class="search-area">
        <div class="logo-container">
         pretty logo
