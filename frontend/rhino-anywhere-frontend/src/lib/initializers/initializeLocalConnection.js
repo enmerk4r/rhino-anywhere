@@ -1,6 +1,5 @@
 export const initializeLocalConnection = async (
   signalChannel,
-  sendChannel,
   videoElement,
   onMessageReceived
 ) => {
@@ -21,7 +20,7 @@ export const initializeLocalConnection = async (
     console.log('found track');
   };
 
-  sendChannel = localConnection.createDataChannel("sendDataChannel", null)
+  //sendChannel = localConnection.createDataChannel("sendDataChannel", null)
 
   signalChannel.onmessage = async (event) => {
     console.log('Received Message');
@@ -47,5 +46,7 @@ export const initializeLocalConnection = async (
   return localConnection;
 };
 
-const receiveChannelCallback = (e, onMessageReceived) => 
+const receiveChannelCallback = (e, onMessageReceived) => {
   e.channel.onmessage = onMessageReceived;
+}
+  

@@ -3,6 +3,7 @@ import { setupEvents } from './inputHandlers';
 
 export class RhinoAnywhere {
   _videoElement = null;
+  _sendChannel = null;
   onMessageReceived = (data) => { console.log("Not subscribed, but you sent " + data)}
 
   /**
@@ -17,7 +18,7 @@ export class RhinoAnywhere {
    * Connect to rhino
    * @param {*} url URl to connect to
    */
-  connect(url){
+  async connect(url){
     console.log('Setting up RhinoAnywhere');
 
     setupEvents(this._videoElement, (data) => {
@@ -29,18 +30,15 @@ export class RhinoAnywhere {
     // TODO: TODO create public methods to allow us to send command and mouse movements
     let signalChannel;
     let localConnection;
-    
-    let sendChannel;
 
     signalChannel = new WebSocket(url, []);
-    localConnection = initializeLocalConnection(
+    localConnection = await initializeLocalConnection(
       signalChannel,
       this._videoElement,
       this.onMessageReceived
     ); //Need to establish vars for data input and output 
 
-    this.sendChannel = localConnection.createDataChannel("sendDataChannel", null);
-
+    this._sendChannel = localConnection.createDataChannel("sendDataChannel", null);
   }
 
   /**
@@ -64,9 +62,6 @@ export class RhinoAnywhere {
       data: data
     };
 
-    // Send over communication channel here
-    console.log(toSend);
-
-    sendChannel.send(toSend);
+    this._sendChannel.send(toSend);
   }
 }
