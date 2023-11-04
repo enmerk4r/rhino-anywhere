@@ -2,7 +2,11 @@
 import { onMounted } from 'vue';
 
 function initialize() {
-    window.anywhere.bind(document.getElementById("rhinoViewport"));
+    var viewport = document.getElementById("rhinoViewport")
+    window.anywhere.bind(viewport);
+    viewport.onresize += (e) => {
+        window.anywhere.sendResize(viewport.clientWidth, viewport.clientHeight);
+    }
 }
 
 onMounted(() => initialize());
