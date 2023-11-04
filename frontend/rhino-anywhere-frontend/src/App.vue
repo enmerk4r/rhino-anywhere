@@ -36,7 +36,6 @@ function start(link) {
 
 <style scoped>
 .container {
-  background-color: white;
   display: flex;
   flex-direction: column;
 }
