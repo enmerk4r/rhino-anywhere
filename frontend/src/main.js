@@ -126,6 +126,7 @@ function call() {
   pc1.onicecandidate = function (e) {
     onIceCandidate(pc1, e);
   };
+
   pc2 = new RTCPeerConnection(servers);
   trace('Created remote peer connection object pc2');
   pc2.onicecandidate = function (e) {
