@@ -62,6 +62,6 @@ export class RhinoAnywhere {
       data: data
     };
 
-    this._sendChannel.send(toSend);
+    this._sendChannel.send(JSON.stringify(toSend));
   }
 }
