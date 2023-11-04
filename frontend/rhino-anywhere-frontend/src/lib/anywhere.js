@@ -1,47 +1,72 @@
 import { initializeLocalConnection } from './initializers/initializeLocalConnection';
 import { setupEvents } from './inputHandlers';
 
-/**
- * Anywhere Library Creator
- * @param {HTMLVideoElement} videoElement
- * @param {HTMLElement} textElement
- * @param {string} url
- */
-export function anywhere(videoElement, textElement, url) {
-  console.log('Setting up RhinoAnywhere');
+export class RhinoAnywhere {
+  _videoElement = null;
+  onMessageReceived = (data) => { console.log("Not subscribed, but you sent " + data)}
 
-  setupEvents(videoElement, (data) => {
-    sendData('input', data);
-  });
+  /**
+   * Bind to a video element
+   * @param {*} videoElement 
+   */
+  bind(videoElement){
+    this._videoElement = videoElement;
+  }
 
-  // TODO: Setup connection
+  /**
+   * Connect to rhino
+   * @param {*} url URl to connect to
+   */
+  connect(url){
+    console.log('Setting up RhinoAnywhere');
 
-  // TODO: TODO create public methods to allow us to send command and mouse movements
-  let signalChannel;
+    setupEvents(this._videoElement, (data) => {
+      this._sendData('input', data);
+    });
 
-  signalChannel = new WebSocket(url, []);
-  initializeLocalConnection(signalChannel, videoElement, textElement); //Need to establish vars for data input and output
+    // TODO: Setup connection
 
-  function sendCommand() {}
-}
+    // TODO: TODO create public methods to allow us to send command and mouse movements
+    let signalChannel;
+    let localConnection;
+    
+    let sendChannel;
 
-export function sendCommand(string) {
-  sendData('command', {
-    command: string
-  });
-}
+    signalChannel = new WebSocket(url, []);
+    localConnection = initializeLocalConnection(
+      signalChannel,
+      this._videoElement,
+      this.onMessageReceived
+    ); //Need to establish vars for data input and output 
 
-/**
- * Send data to connection
- * @param {string} type "input" or "command"
- * @param {Object} data
- */
-function sendData(type, data) {
-  var toSend = {
-    type: type,
-    data: data
-  };
+    this.sendChannel = localConnection.createDataChannel("sendDataChannel", null);
 
-  // Send over communication channel here
-  console.log(toSend);
+  }
+
+  /**
+   * Execute a command
+   * @param {*} string 
+   */
+  sendCommand(string) {
+    this._sendData('command', {
+      command: string
+    });
+  }
+
+  /**
+   * Send data to connection
+   * @param {string} type "input" or "command"
+   * @param {Object} data
+   */
+  _sendData(type, data) {
+    var toSend = {
+      type: type,
+      data: data
+    };
+
+    // Send over communication channel here
+    console.log(toSend);
+
+    sendChannel.send(toSend);
+  }
 }

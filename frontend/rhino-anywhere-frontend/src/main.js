@@ -1,8 +1,9 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import { createApp } from 'vue';
+import './style.css';
+import App from './App.vue';
+import { RhinoAnywhere } from './lib/anywhere';
 
-createApp(App).mount('#app')
+window.anywhere = new RhinoAnywhere();
 
-import { anywhere } from "./lib/anywhere.js";
-anywhere(document.getElementById("rhinoViewport"), document.getElementById("rhinoTextBox"), "ws://192.168.0.224:8081");
+createApp(App).mount('#app');
+
