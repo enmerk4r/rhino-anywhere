@@ -5,27 +5,63 @@ import EditToolsComponent from './components/EditToolsComponent.vue';
 </script>
 
 <template>
-  <div>
-    <SearchComponent class="search-component" />
-    <h3>Rhino anywhere</h3>
-<div className="container">
-  <div className="edit-tools">
-    <EditToolsComponent/>
+  <div class="container">
+    <div class="search-area">
+      <SearchComponent />
+    </div>
+
+    <div class="content-area">
+      <div class="edit-tools">
+        <EditToolsComponent/>
+      </div>
+      <div class="video-component">
+        <VideoComponent/>
+      </div>
+    </div>
   </div>
-  <div className="video-component">
-    <VideoComponent/>
-  </div>
-</div>
-  
-</div>  
 </template>
 
 <style scoped>
-.search-component {
-  position: absolute; /* or 'fixed' if you want it to stay at the top even when scrolling */
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000; /* Ensure it's above other content; adjust as necessary */
+.container {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
 }
+
+.search-area {
+  align-self: flex-start;
+  align-items: left;
+}
+
+.content-area {
+  display: flex;
+  margin-top: 20px; 
+}
+
+.edit-tools {
+  width: 20%;
+  width:50px;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+}
+
+.video-component {
+  flex-grow: 1;
+  margin-left: 20px; 
+  border: 1px solid #ccc;
+  text-align: right; /* Aligns the content of the video component to the right */
+}
+
+@media (max-width: 600px) {
+  .content-area {
+    flex-direction: column;
+  }
+
+  .video-component {
+    margin-left: 0;
+    margin-top: 20px; /* Adjust the margin as needed */
+    text-align: center; /* Center the content on small screens */
+  }
+}
+
 </style>
