@@ -1,6 +1,7 @@
 ﻿using Org.BouncyCastle.Utilities;
 using Rhino;
 using Rhino.Commands;
+using Rhino.Display;
 using SIPSorcery.Media;
 using SIPSorcery.Net;
 using SIPSorceryMedia.Abstractions;
@@ -19,7 +20,7 @@ namespace RhinoAnywhere
     public sealed class SendSomething : Command
     {
         private const int WEBSOCKET_PORT = 8081;
-        private uint durationUnits => 1;
+        private uint durationUnits => 16;
 
         public override string EnglishName => nameof(SendSomething);
 
@@ -28,6 +29,8 @@ namespace RhinoAnywhere
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
+            Rhino.Display.DisplayPipeline.DrawForeground += DisplayPipeline_PostDrawObjects;
+
             if (connection is not null)
                 connection.Close("Because I said so");
 
@@ -41,45 +44,30 @@ namespace RhinoAnywhere
             webSocketServer.AddWebSocketService<WebRTCWebSocketPeer>("/", (peer) => peer.CreatePeerConnection = () => CreatePeerConnection());
             webSocketServer.Start();
 
-            RhinoApp.Idle += RhinoApp_Idle;
-
             RhinoApp.WriteLine($"Waiting for web socket connections on {webSocketServer.Address}:{webSocketServer.Port}...");
 
             // Probably
             return Result.Success;
         }
 
-        private static byte[] myOtherBits { get; set; }
-        private static byte[] myBits()
+        private void DisplayPipeline_PostDrawObjects(object sender, DrawEventArgs e)
         {
-            if (myOtherBits is not null)
-                return myOtherBits;
+            if (connection is null)
+                return;
 
-            var h = 640;
-            var w = 480;
-            var bits = new byte[h * w * 4];
-            for (int i = 0; i<h; i++)
-            {
-                for (int j = 0; j<w; j++)
-                {
-                    var pixIndex = (i * w + j) * 4;
-                    bits[pixIndex + 0] = 0; // B
-                    bits[pixIndex + 1] = 0; // G
-                    bits[pixIndex + 2] = 255; // R
-                    bits[pixIndex + 3] = 0; // A
-                }
-            }
+            if (webSocketServer is null)
+                return;
 
-            myOtherBits = bits;
-            return myOtherBits;
-        }
-
-        private void RhinoApp_Idle(object sender, EventArgs e)
-        {
-            // RhinoApp.Idle -= RhinoApp_Idle;
+            // TODO: complete command.
+            RhinoView activeView = Rhino.RhinoDoc.ActiveDoc.Views.ActiveView;
 
             var encoder = new VpxVideoEncoder();
-            connection.SendVideo(durationUnits, encoder.EncodeVideo(640, 480, myBits(), VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
+            var size = activeView.Size;
+            using (var bitmap = new Bitmap(size.Width, size.Height))
+            {
+                Bitmap outputBitmap = e.Display.FrameBuffer;
+                SendBitmap(outputBitmap, encoder);
+            }
         }
 
         private Task<RTCPeerConnection> CreatePeerConnection()
@@ -114,8 +102,6 @@ namespace RhinoAnywhere
                 }
             };
 
-            RhinoApp.Idle += RhinoApp_Idle;
-
             return Task.FromResult(connection);
         }
 
@@ -131,7 +117,8 @@ namespace RhinoAnywhere
 
             Marshal.Copy(ptr, rgbValues, 0, bytes);
 
-            connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Rgb, VideoCodecsEnum.JPEG));
+            // connection.SendVideo(durationUnits, encoder.EncodeVideo(640, 480, myBits(), VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
+            connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
         }
 
     }
