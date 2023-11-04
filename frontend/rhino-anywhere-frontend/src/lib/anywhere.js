@@ -1,15 +1,17 @@
 import { initializeLocalConnection } from './initializers/initializeLocalConnection';
+import { initializeLocalConnection } from './initializers/initializeLocalConnection';
 import { setupEvents } from './inputHandlers';
 
 /**
  * Anywhere Library Creator
  * @param {HTMLVideoElement} videoElement
+ * @param {HTMLElement} textElement
  * @param {string} url
  */
-export function anywhere(videoElement, dataElement, url) {
+export function anywhere(videoElement, textElement, url) {
   console.log('Setting up RhinoAnywhere');
 
-  setupEvents(element, (data) => {
+  setupEvents(videoElement, (data) => {
     sendData('input', data);
   });
 

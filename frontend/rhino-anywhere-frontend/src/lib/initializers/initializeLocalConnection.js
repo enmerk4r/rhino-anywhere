@@ -2,7 +2,7 @@ export const initializeLocalConnection = async (
   signalChannel,
   videoElement
 ) => {
-  let localConnection = new RTCPeerConnection(configuration);
+  let localConnection = new RTCPeerConnection();
 
   const offer = await localConnection.createOffer();
   await localConnection.setLocalDescription(offer);
