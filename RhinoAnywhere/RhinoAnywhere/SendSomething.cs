@@ -8,6 +8,7 @@ using SIPSorcery.Net;
 using SIPSorceryMedia.Abstractions;
 using SIPSorceryMedia.Encoders;
 using System;
+using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -101,6 +102,17 @@ namespace RhinoAnywhere
                         testPatternSource.Dispose();
                         break;
                 }
+            };
+
+            connection.createDataChannel("test");
+
+            connection.ondatachannel += async (channel) =>
+            {
+                channel.onmessage += (test1, something, data) =>
+                {
+                    string text = System.Text.Encoding.UTF8.GetString(data);
+                    RhinoApp.WriteLine($"Got {text} from client");
+                };
             };
 
             return Task.FromResult(connection);
