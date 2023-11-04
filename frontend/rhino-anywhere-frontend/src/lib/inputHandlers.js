@@ -1,25 +1,76 @@
+var template = {
+  method: "mouse|touch|keyboard",
+  action: "up|down|move|scroll",
+  x: "1",
+  y: "2",
+  deltax: "10",
+  deltay: "0",
+  value: "a"
+}
+
 /**
  * Setup events
  * @param {HTMLVideoElement} element 
  * @param {func} callback that receives the data object
  */
 export function setupEvents(element, callback){
-  // TODO: Send events
-}
+  /**
+   * create object and send it
+   * @param {} input data for the input
+   */
+  function push(input){
+    //validate stuff
+    if(!("method" in input)) {
+      throw new Error("Missing method in pkg");
+    }
+
+    if(!("action" in input)) {
+      throw new Error("Missing method in pkg");
+    }
+
+    //send
+    callback(input)
+  }
 
 
-function registerHoveringMouseEvents(playerElement) {
-  //styleCursor = 'none';   // We will rely on UE4 client's software cursor.
-  styleCursor = "default"; // Showing cursor
+  element.onmousemove = function (e) {
+    push({ 
+      method: "mouse", 
+      action: "move",
+      x: e.offsetX, 
+      y: e.offsetY, 
+      deltax: e.movementX,
+      deltay: e.movementY
+    });
 
-  
+    e.preventDefault();
+  };
 
-  // When the context menu is shown then it is safest to release the button
-  // which was pressed when the event happened. This will guarantee we will
-  // get at least one mouse up corresponding to a mouse down event. Otherwise
-  // the mouse can get stuck.
-  // https://github.com/facebook/react/issues/5531
-  playerElement.oncontextmenu = function (e) {
+  element.onmousedown = function (e) {
+    push({ 
+      method: "mouse", 
+      action: "down",
+      x: e.offsetX, 
+      y: e.offsetY, 
+      value:e.button
+    });
+    
+    e.preventDefault();
+  };
+
+  element.onmouseup = function (e) {
+    push({ 
+      method: "mouse", 
+      action: "up",
+      x: e.offsetX, 
+      y: e.offsetY, 
+      value:e.button
+    });
+    emitMouseUp(e.button, e.offsetX, e.offsetY);
+    e.preventDefault();
+  };
+
+  element.oncontextmenu = function (e) {
     // This causes issues with mac not being able to use left button.
     //emitMouseUp(e.button, e.offsetX, e.offsetY);
     e.preventDefault();
@@ -27,29 +78,34 @@ function registerHoveringMouseEvents(playerElement) {
 
   if ("onmousewheel" in playerElement) {
     playerElement.onmousewheel = function (e) {
-      emitMouseWheel(e.wheelDelta, e.offsetX, e.offsetY);
+      push({ 
+        method: "mouse", 
+        action: "scroll",
+        x: e.offsetX, 
+        y: e.offsetY, 
+        value:e.wheelDelta
+      });
       e.preventDefault();
     };
   } else {
     playerElement.addEventListener(
       "DOMMouseScroll",
       function (e) {
-        emitMouseWheel(e.detail * -120, e.offsetX, e.offsetY);
+        push({ 
+          method: "mouse", 
+          action: "scroll",
+          x: e.offsetX, 
+          y: e.offsetY, 
+          value:e.detail * -120
+        });
         e.preventDefault();
       },
       false
     );
   }
-
-  playerElement.pressMouseButtons = function (e) {
-    pressMouseButtons(e.buttons, e.offsetX, e.offsetY);
-  };
-
-  playerElement.releaseMouseButtons = function (e) {
-    releaseMouseButtons(e.buttons, e.offsetX, e.offsetY);
-  };
 }
 
+// This is copied from UE. not used yet
 function registerTouchEvents(playerElement) {
   // We need to assign a unique identifier to each finger.
   // We do this by mapping each Touch object to the identifier.
