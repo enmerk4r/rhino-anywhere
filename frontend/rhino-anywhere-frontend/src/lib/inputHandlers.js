@@ -1,11 +1,13 @@
+var EMPTY = "NA";
+
 var template = {
-  method: "mouse|touch|keyboard",
-  action: "up|down|move|scroll",
-  x: "1",
-  y: "2",
-  deltax: "10",
-  deltay: "0",
-  value: "a"
+  method: EMPTY,
+  action: EMPTY,
+  x: EMPTY,
+  y: EMPTY,
+  deltax: EMPTY,
+  deltay: EMPTY,
+  value: EMPTY
 }
 
 /**
@@ -28,8 +30,15 @@ export function setupEvents(element, callback){
       throw new Error("Missing method in pkg");
     }
 
+    var data = JSON.parse(JSON.stringify(template))
+
+    for(var i in input){
+      data[i] = input[i];
+      console.log(i);
+    }
+
     //send
-    callback(input)
+    callback(data)
   }
 
   element.onmousemove = function (e) {
