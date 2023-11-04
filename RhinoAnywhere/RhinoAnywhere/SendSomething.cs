@@ -215,11 +215,11 @@ namespace RhinoAnywhere
         {
             if(inputArgs.type == "input")
             {
-                if (!int.TryParse(inputArgs.data.value, out int val))
-                    return;
 
-                int left = 0;
-                int right = 2;
+                string val = inputArgs.data.value;
+
+                string left = "0";
+                string right = "2";
 
                 if (inputArgs.data.method == "up" && val == left)
                 {
