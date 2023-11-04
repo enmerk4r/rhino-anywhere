@@ -242,7 +242,8 @@ namespace RhinoAnywhere
                     double newX = inputArgs.data.x + inputArgs.data.deltax;
                     double newY = inputArgs.data.y + inputArgs.data.deltay;
 
-                    MouseController.SetCursorPosition((int)newX, (int)newY);
+                    var pt = DisplayController.WebViewToServerWindowCoordinate(newY, newX);
+                    MouseController.SetCursorPosition((int)pt.X, (int)pt.Y);
                 }
             }
         }
