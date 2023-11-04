@@ -2,6 +2,9 @@
 import { ref } from 'vue';
 import Add from './svgs/Icon.vue'
 
+// import Draw_01 from './svgs/Draw_01.vue
+
+// import Test_Icons_01 from '../assets/icons/Test_Icons_01.svg'
 
 const iconStates = ref([false, false, false, false, false]);
 
@@ -22,8 +25,9 @@ function drawLine(){
 <template>
   <div class="icon-stack">
     <button @click="drawLine">
-      <Add></Add>
+
     </button>
+
 
       <Add class = "icon" 
         :class="{ 'icon-hover': !clicked, 'icon-clicked': clicked }"/>

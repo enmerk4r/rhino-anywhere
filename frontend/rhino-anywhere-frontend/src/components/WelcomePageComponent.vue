@@ -3,6 +3,9 @@
     <div class="image-container">
       <img :src="currentImage" class="background-image" />
     </div>
+    <div class="link-input-container">
+      <input type="text" v-model="link" placeholder="Enter link here..." class="link-input"/>
+    </div>
     <div class="content">
       <button @click="startSomething">Start something...</button>
     </div>
@@ -11,7 +14,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-
+const link = ref('');
 const images = [
   new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href,
   new URL('../assets/icons/Rhinoceros_2.png', import.meta.url).href
@@ -68,17 +71,33 @@ onBeforeUnmount(() => {
 button {
   font-size: 24px;
   padding: 20px 40px;
-  background-color: #fff; /* Changed to white */
-  color: #007bff; /* Text color changed to blue */
-  border: 2px solid #007bff; /* Add blue border */
+  background-color: #fff; 
+  color: #007bff; 
+  border: 2px solid #007bff; 
   cursor: pointer;
-  border-radius: 25px; /* Makes the button rounded */
-  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+  border-radius: 25px; 
+  transition: background-color 0.3s, color 0.3s; 
 }
 
 button:hover {
-  background-color: #007bff; /* Blue background on hover */
-  color: #fff; /* White text on hover */
+  background-color: #007bff;
+  color: #fff; 
 }
 
+link-input-container {
+  margin: 20px 0; 
+}
+
+.link-input {
+  font-size: 18px;
+  padding: 15px;
+
+  width: 50%; 
+  margin: 0 auto;
+  margin-bottom: 20px; 
+  display: block; 
+  border: 1px solid #ccc; 
+    cursor: pointer;
+  border-radius: 25px; 
+}
 </style>

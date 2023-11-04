@@ -2,7 +2,6 @@
 using Rhino;
 using Rhino.Commands;
 using Rhino.Display;
-using RhinoAnywhereCore;
 using SIPSorcery.Media;
 using SIPSorcery.Net;
 using SIPSorceryMedia.Abstractions;
@@ -86,10 +85,11 @@ namespace RhinoAnywhere
         {
             public string method { get; set; }
             public string action { get; set; }
-            public double x { get; set; }
-            public double y { get; set; }
-            public double deltax { get; set; }
-            public double deltay { get; set; }
+            public int x { get; set; }
+            public int y { get; set; }
+            public int deltax { get; set; }
+            public int deltay { get; set; }
+            public string value { get; set; }
         }
 
         public struct CommandData
@@ -203,19 +203,23 @@ namespace RhinoAnywhere
         {
             if(inputArgs.Type == "input")
             {
-                if (inputArgs.Data.Method == "leftup")
+                int val = int.Parse(inputArgs.data.value);
+                int left = 0;
+                int right = 2;
+
+                if (inputArgs.data.method == "up" && val == left)
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.LeftUp);
                 }
-                else if (inputArgs.Data.Method == "leftdown")
+                else if (inputArgs.data.method == "down" && val == left)
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.LeftDown);
                 }
-                else if (inputArgs.Data.Method == "rightdown")
+                else if (inputArgs.data.method == "down" && val == right)
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.RightDown);
                 }
-                else if (inputArgs.Data.Method == "rightup")
+                else if (inputArgs.data.method == "up" && val == right)
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.RightUp);
                 }
