@@ -2,6 +2,7 @@ export const initializeLocalConnection = async (
   signalChannel,
   videoElement
 ) => {
+  console.log("Starting");
   let localConnection = new RTCPeerConnection();
 
   const offer = await localConnection.createOffer();
@@ -19,6 +20,7 @@ export const initializeLocalConnection = async (
 
   signalChannel.onmessage = async (event) => {
     const obj = JSON.parse(event.data);
+    console.log("Get message");
     if (obj?.candidate) {
       localConnection.addIceCandidate(obj);
     } else if (obj?.sdp) {
@@ -28,7 +30,7 @@ export const initializeLocalConnection = async (
       localConnection
         .createAnswer()
         .then((answer) => localConnection.setLocalDescription(answer))
-        .then(() => signalChannel.send(JSON.stringify(pc.localDescription)));
+        .then(() => signalChannel.send(JSON.stringify(localConnection.localDescription)));
     }
   };
 
