@@ -23,6 +23,11 @@ using WebSocketSharp.Server;
 
 namespace RhinoAnywhere
 {
+
+    // TODO : Limit Video Sending
+    // TODO : Initial Video Frame!
+    // TODO : Fix the Video RGB -> BGR
+
     public sealed class SendSomething : Command
     {
         private const int WEBSOCKET_PORT = 8081;
@@ -71,8 +76,8 @@ namespace RhinoAnywhere
             var size = activeView.Size;
             using (var bitmap = new Bitmap(size.Width, size.Height))
             {
-                Bitmap outputBitmap = e.Display.FrameBuffer;
-                SendBitmap(outputBitmap, encoder);
+                Bitmap LastBitMap = e.Display.FrameBuffer;
+                SendBitmap(LastBitMap, encoder);
             }
         }
 
@@ -86,10 +91,10 @@ namespace RhinoAnywhere
         {
             public string method { get; set; }
             public string action { get; set; }
-            public int x { get; set; }
-            public int y { get; set; }
-            public int deltax { get; set; }
-            public int deltay { get; set; }
+            public double x { get; set; }
+            public double y { get; set; }
+            public double deltax { get; set; }
+            public double deltay { get; set; }
             public string value { get; set; }
         }
 
@@ -173,7 +178,8 @@ namespace RhinoAnywhere
         private void HandleClick(string json)
         {
             var clickPacket = JsonSerializer.Deserialize<Packet<MouseData>>(json);
-            RhinoApp.WriteLine($"Got x:{clickPacket.data.x} y:{clickPacket.data.y} from client");
+            // RhinoApp.WriteLine($"Got x:{clickPacket.data.x} y:{clickPacket.data.y} from client");
+            InputRecieved(clickPacket);
         }
 
         private void SendBitmap(Bitmap bitmap, IVideoEncoder encoder)
@@ -196,7 +202,9 @@ namespace RhinoAnywhere
         {
             if(inputArgs.type == "input")
             {
-                int val = int.Parse(inputArgs.data.value);
+                if (!int.TryParse(inputArgs.data.value, out int val))
+                    return;
+
                 int left = 0;
                 int right = 2;
 
@@ -218,10 +226,10 @@ namespace RhinoAnywhere
                 }
                 else if (inputArgs.data.method == "move")
                 {
-                    int newX = inputArgs.data.x + inputArgs.data.deltax;
-                    int newY = inputArgs.data.y + inputArgs.data.deltay;
+                    double newX = inputArgs.data.x + inputArgs.data.deltax;
+                    double newY = inputArgs.data.y + inputArgs.data.deltay;
 
-                    MouseController.SetCursorPosition(newX, newY);
+                    MouseController.SetCursorPosition((int)newX, (int)newY);
                 }
             }
         }
