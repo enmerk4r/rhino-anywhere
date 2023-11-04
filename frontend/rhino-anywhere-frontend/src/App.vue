@@ -1,11 +1,14 @@
 <script setup>
-//import HelloWorld from './components/HelloWorld.vue'
+import SearchComponent from './components/SearchComponent.vue'
+import VideoComponent from './components/VideoComponent.vue';
 </script>
 
 <template>
   <div>
-    <img src="./assets/img/rhino.png" alt="some nice logo"  style="width: 100px; height: 100px;"/>
-  <h1>Rhino anywhere</h1>
+    <SearchComponent class="search-component" />
+    <img src="./assets/img/rhino.png" alt="some nice logo"  style="width: 50px; height: 50px;"/>
+  <h3>Rhino anywhere</h3>
+  <VideoComponent/>
 </div>  
 </template>
 
@@ -21,5 +24,13 @@
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+
+.search-component {
+  position: absolute; /* or 'fixed' if you want it to stay at the top even when scrolling */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensure it's above other content; adjust as necessary */
 }
 </style>
