@@ -103,6 +103,12 @@ namespace RhinoAnywhere
             public string command { get; set; }
         }
 
+        public struct ViewportSize
+        {
+            public double Width { get; set; }
+            public double Height { get; set; }
+        }
+
 
         private Task<RTCPeerConnection> CreatePeerConnection()
         {
@@ -150,6 +156,7 @@ namespace RhinoAnywhere
                     {
                         "command" => HandleCommand,
                         "input" => HandleClick,
+                        "resize" => HandleResize,
                         _ => throw new NotImplementedException("No"),
                     };
 
@@ -180,6 +187,12 @@ namespace RhinoAnywhere
             var clickPacket = JsonSerializer.Deserialize<Packet<MouseData>>(json);
             // RhinoApp.WriteLine($"Got x:{clickPacket.data.x} y:{clickPacket.data.y} from client");
             InputRecieved(clickPacket);
+        }
+
+        private void HandleResize(string json)
+        {
+            var viewportSize = JsonSerializer.Deserialize<ViewportSize>(json);
+            RhinoDoc.ActiveDoc.Views.ActiveView.Size = new Size((int)viewportSize.Width, (int)viewportSize.Height);
         }
 
         private void SendBitmap(Bitmap bitmap, IVideoEncoder encoder)

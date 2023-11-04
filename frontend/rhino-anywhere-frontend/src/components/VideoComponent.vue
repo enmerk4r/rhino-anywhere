@@ -2,8 +2,12 @@
 import { onMounted } from 'vue';
 
 function initialize() {
-    window.anywhere.bind(document.getElementById("rhinoViewport"));
+    var viewport = document.getElementById("rhinoViewport")
+    window.anywhere.bind(viewport);
     window.anywhere.connect("ws://127.0.0.1:8081/");
+    viewport.onresize += (e) => {
+        window.anywhere.sendResize(viewport.clientWidth, viewport.clientHeight);
+    }
 }
 
 //onMounted(() => initialize());
