@@ -32,15 +32,14 @@ export function setupEvents(element, callback){
     callback(input)
   }
 
-
   element.onmousemove = function (e) {
     push({ 
       method: "mouse", 
       action: "move",
-      x: e.offsetX, 
-      y: e.offsetY, 
-      deltax: e.movementX,
-      deltay: e.movementY
+      x: e.offsetX / element.width, 
+      y: e.offsetY / element.width, 
+      deltax: e.movementX / element.width,
+      deltay: e.movementY / element.width
     });
 
     e.preventDefault();
@@ -50,8 +49,8 @@ export function setupEvents(element, callback){
     push({ 
       method: "mouse", 
       action: "down",
-      x: e.offsetX, 
-      y: e.offsetY, 
+      x: e.offsetX / element.width, 
+      y: e.offsetY / element.width, 
       value:e.button
     });
     
@@ -62,8 +61,8 @@ export function setupEvents(element, callback){
     push({ 
       method: "mouse", 
       action: "up",
-      x: e.offsetX, 
-      y: e.offsetY, 
+      x: e.offsetX / element.width, 
+      y: e.offsetY / element.width, 
       value:e.button
     });
     e.preventDefault();
@@ -80,8 +79,8 @@ export function setupEvents(element, callback){
       push({ 
         method: "mouse", 
         action: "scroll",
-        x: e.offsetX, 
-        y: e.offsetY, 
+        x: e.offsetX / element.width, 
+        y: e.offsetY / element.width, 
         value:e.wheelDelta
       });
       e.preventDefault();
@@ -93,8 +92,8 @@ export function setupEvents(element, callback){
         push({ 
           method: "mouse", 
           action: "scroll",
-          x: e.offsetX, 
-          y: e.offsetY, 
+          x: e.offsetX / element.width, 
+          y: e.offsetY / element.width, 
           value:e.detail * -120
         });
         e.preventDefault();
