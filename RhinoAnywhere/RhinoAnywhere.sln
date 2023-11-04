@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RhinoAnywhere", "RhinoAnywh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhinoAnywhereTestpad", "RhinoAnywhereTestpad\RhinoAnywhereTestpad.csproj", "{43F34DB5-9E88-4C99-A18A-A97816A0395B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhinoAnywhereCore", "RhinoAnywhereCore\RhinoAnywhereCore.csproj", "{F7F177FE-889C-4FA0-AB8E-E550703D8DBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{43F34DB5-9E88-4C99-A18A-A97816A0395B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43F34DB5-9E88-4C99-A18A-A97816A0395B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43F34DB5-9E88-4C99-A18A-A97816A0395B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7F177FE-889C-4FA0-AB8E-E550703D8DBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7F177FE-889C-4FA0-AB8E-E550703D8DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7F177FE-889C-4FA0-AB8E-E550703D8DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7F177FE-889C-4FA0-AB8E-E550703D8DBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

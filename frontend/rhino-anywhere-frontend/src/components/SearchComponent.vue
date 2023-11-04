@@ -9,11 +9,17 @@ let highlightedIndex = ref(0)
 
 // Method to add the search term to the history
 const addSearchTerm = () => {
+  window.anywhere.sendCommand(search.value);
+
   // Avoid adding empty strings or duplicates
   if (search.value && !searchHistory.value.includes(search.value)) {
     searchHistory.value.push(search.value)
     search.value = "" // Clear the input after adding to history
   }
+}
+
+window.anywhere.onMessageReceived = (data) => {
+  searchHistory.value.push(data);
 }
 
 const filterCommands = () => {
@@ -56,12 +62,7 @@ const selectCommand = (command) => {
     </div>
 
     <!-- Search bar -->
-    <input
-      type="text"
-      placeholder="Type your Rhino command here..."
-      v-model="search"
-      @keyup.enter="addSearchTerm"
-    />
+    <input type="text" placeholder="Type your Rhino command here..." v-model="search" @keyup.enter="addSearchTerm" />
 
     <!-- <div class="autocomplete">
       <input
@@ -91,13 +92,13 @@ const selectCommand = (command) => {
 .search-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
+  align-items: left;
+  margin-top: 0px;
 }
 
 .search-history {
   margin-bottom: 10px;
-  height: 150px;
+  height: 120px;
   width: 600px;
   overflow-y: auto;
   display: flex;
@@ -110,18 +111,16 @@ const selectCommand = (command) => {
 input[type="text"] {
   padding: 10px 15px;
   font-size: 16px;
-  width: 600px;
-  max-width: 400px; /* Adjust the width as needed */
+  width: 500px;
   border-radius: 20px;
   border: 1px solid #ccc;
   outline: none;
-  width: 500px;
 }
 
 ul.no-bullets {
-  list-style-type: none; /* Remove bullets */
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margins */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 ul {

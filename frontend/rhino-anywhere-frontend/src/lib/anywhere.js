@@ -1,55 +1,65 @@
 import { initializeLocalConnection } from './initializers/initializeLocalConnection';
-import { initializeLocalConnection } from './initializers/initializeLocalConnection';
 import { setupEvents } from './inputHandlers';
 
-/**
- * Anywhere Library Creator
- * @param {HTMLVideoElement} videoElement
- * @param {HTMLElement} textElement
- * @param {string} url
- */
-export function anywhere(videoElement, textElement, url) {
-  console.log('Setting up RhinoAnywhere');
+export class RhinoAnywhere {
+  _videoElement = null;
+  onMessageReceived = (data) => { console.log("Not subscribed, but you sent " + data)}
 
-  setupEvents(videoElement, (data) => {
-    sendData('input', data);
-  });
+  /**
+   * Bind to a video element
+   * @param {*} videoElement 
+   */
+  bind(videoElement){
+    this._videoElement = videoElement;
+  }
 
-  // TODO: Setup connection
+  /**
+   * Connect to rhino
+   * @param {*} url URl to connect to
+   */
+  connect(url){
+    console.log('Setting up RhinoAnywhere');
 
-  // TODO: TODO create public methods to allow us to send command and mouse movements
-  let signalChannel;
-  let localConnection;
+    setupEvents(this._videoElement, (data) => {
+      sendData('input', data);
+    });
 
-  function _setup() {
+    // TODO: Setup connection
+
+    // TODO: TODO create public methods to allow us to send command and mouse movements
+    let signalChannel;
+    let localConnection;
+
     signalChannel = new WebSocket(url, []);
     localConnection = initializeLocalConnection(
       signalChannel,
-      videoElement,
-      dataElement
+      this._videoElement,
+      onMessageReceived
     ); //Need to establish vars for data input and output
   }
 
-  function sendCommand() {}
-}
+  /**
+   * Execute a command
+   * @param {*} string 
+   */
+  sendCommand(string) {
+    _sendData('command', {
+      command: string
+    });
+  }
 
-export function sendCommand(string) {
-  sendData('command', {
-    command: string
-  });
-}
+  /**
+   * Send data to connection
+   * @param {string} type "input" or "command"
+   * @param {Object} data
+   */
+  _sendData(type, data) {
+    var toSend = {
+      type: type,
+      data: data
+    };
 
-/**
- * Send data to connection
- * @param {string} type "input" or "command"
- * @param {Object} data
- */
-function sendData(type, data) {
-  var toSend = {
-    type: type,
-    data: data
-  };
-
-  // Send over communication channel here
-  console.log(toSend);
+    // Send over communication channel here
+    console.log(toSend);
+  }
 }
