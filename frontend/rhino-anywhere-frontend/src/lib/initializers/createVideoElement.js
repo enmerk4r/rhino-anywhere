@@ -8,4 +8,9 @@ export default createVideoElement = (element, url) => {
     servers,
     pcConstraint
   );
+
+  sendChannel = localConnection.createDataChannel(
+    'sendDataChannel',
+    dataConstraint
+  );
 };
