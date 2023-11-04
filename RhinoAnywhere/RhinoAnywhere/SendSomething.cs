@@ -2,6 +2,7 @@
 using Rhino;
 using Rhino.Commands;
 using Rhino.Display;
+using RhinoAnywhereCore;
 using SIPSorcery.Media;
 using SIPSorcery.Net;
 using SIPSorceryMedia.Abstractions;
@@ -75,7 +76,7 @@ namespace RhinoAnywhere
             }
         }
 
-        public struct ClickPacket<T>
+        public struct Packet<T>
         {
             public string type { get; set; }
             public T data { get; set; }
@@ -157,7 +158,7 @@ namespace RhinoAnywhere
         private string lastcommand { get; set; }
         private void HandleCommand(string json)
         {
-            var clickPacket = JsonSerializer.Deserialize<ClickPacket<CommandData>>(json);
+            var clickPacket = JsonSerializer.Deserialize<Packet<CommandData>>(json);
             lastcommand = clickPacket.data.command;
             RhinoApp.WriteLine(lastcommand);
             RhinoApp.Idle += RhinoApp_Idle;
@@ -171,7 +172,7 @@ namespace RhinoAnywhere
 
         private void HandleClick(string json)
         {
-            var clickPacket = JsonSerializer.Deserialize<ClickPacket<ClickData>>(json);
+            var clickPacket = JsonSerializer.Deserialize<Packet<ClickData>>(json);
             RhinoApp.WriteLine($"Got x:{clickPacket.data.x} y:{clickPacket.data.y} from client");
         }
 
@@ -191,17 +192,9 @@ namespace RhinoAnywhere
             connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
         }
 
-        private void StartListener()
+        private void InputRecieved(Packet<ClickData> inputArgs)
         {
-            //Listener gets a message in.
-            //Deserialize InputEventArgs
-            InputEventArgs  inputArgs = null;
-            InputRecieved(inputArgs);
-        }
-
-        private void InputRecieved(InputEventArgs inputArgs)
-        {
-            if(inputArgs.Type == "input")
+            if(inputArgs.type == "input")
             {
                 int val = int.Parse(inputArgs.data.value);
                 int left = 0;
@@ -223,10 +216,10 @@ namespace RhinoAnywhere
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.RightUp);
                 }
-                else if (inputArgs.Data.Method == "move")
+                else if (inputArgs.data.method == "move")
                 {
-                    int newX = inputArgs.Data.X + inputArgs.Data.DeltaX;
-                    int newY = inputArgs.Data.Y + inputArgs.Data.DeltaY;
+                    int newX = inputArgs.data.x + inputArgs.data.deltax;
+                    int newY = inputArgs.data.y + inputArgs.data.deltay;
 
                     MouseController.SetCursorPosition(newX, newY);
                 }
