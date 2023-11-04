@@ -9,12 +9,15 @@ using SIPSorceryMedia.Abstractions;
 using SIPSorceryMedia.Encoders;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using WebSocketSharp.Server;
 
@@ -73,21 +76,27 @@ namespace RhinoAnywhere
             }
         }
 
-        public struct ClickPacket
+        public struct ClickPacket<T>
         {
             public string type { get; set; }
-            public ClickData data { get; set; }
+            public T data { get; set; }
         }
 
         public struct ClickData
         {
             public string method { get; set; }
             public string action { get; set; }
-            public int x { get; set; }
-            public int y { get; set; }
-            public int deltax { get; set; }
-            public int deltay { get; set; }
+            public double x { get; set; }
+            public double y { get; set; }
+            public double deltax { get; set; }
+            public double deltay { get; set; }
         }
+
+        public struct CommandData
+        {
+            public string command { get; set; }
+        }
+
 
         private Task<RTCPeerConnection> CreatePeerConnection()
         {
@@ -128,15 +137,42 @@ namespace RhinoAnywhere
                 channel.onmessage += (test1, something, data) =>
                 {
                     string json = System.Text.Encoding.UTF8.GetString(data);
-                    var clickPacket = JsonSerializer.Deserialize<ClickPacket>(json);
-                    ;
+                    var tst = JsonSerializer.Deserialize<JsonObject>(json);
 
-                    RhinoApp.WriteLine($"Got x:{clickPacket.data.x} y:{clickPacket.data.y} from client");
-                    //InputRecieved(clickPacket);
+                    string type = tst["type"].ToString();
+                    Action<string> method = type switch
+                    {
+                        "command" => HandleCommand,
+                        "input" => HandleClick,
+                        _ => throw new NotImplementedException("No"),
+                    };
+
+                    method(json);
                 };
             };
 
             return Task.FromResult(connection);
+        }
+
+        private string lastcommand { get; set; }
+        private void HandleCommand(string json)
+        {
+            var clickPacket = JsonSerializer.Deserialize<ClickPacket<CommandData>>(json);
+            lastcommand = clickPacket.data.command;
+            RhinoApp.WriteLine(lastcommand);
+            RhinoApp.Idle += RhinoApp_Idle;
+        }
+
+        private void RhinoApp_Idle(object sender, EventArgs e)
+        {
+            RhinoApp.Idle -= RhinoApp_Idle;
+            RhinoApp.RunScript(lastcommand, true);
+        }
+
+        private void HandleClick(string json)
+        {
+            var clickPacket = JsonSerializer.Deserialize<ClickPacket<ClickData>>(json);
+            RhinoApp.WriteLine($"Got x:{clickPacket.data.x} y:{clickPacket.data.y} from client");
         }
 
         private void SendBitmap(Bitmap bitmap, IVideoEncoder encoder)
@@ -155,30 +191,38 @@ namespace RhinoAnywhere
             connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
         }
 
-        private void InputRecieved(ClickPacket inputArgs)
+        private void StartListener()
         {
-            if(inputArgs.type == "input")
+            //Listener gets a message in.
+            //Deserialize InputEventArgs
+            InputEventArgs  inputArgs = null;
+            InputRecieved(inputArgs);
+        }
+
+        private void InputRecieved(InputEventArgs inputArgs)
+        {
+            if(inputArgs.Type == "input")
             {
-                if (inputArgs.data.method == "leftup")
+                if (inputArgs.Data.Method == "leftup")
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.LeftUp);
                 }
-                else if (inputArgs.data.method == "leftdown")
+                else if (inputArgs.Data.Method == "leftdown")
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.LeftDown);
                 }
-                else if (inputArgs.data.method == "rightdown")
+                else if (inputArgs.Data.Method == "rightdown")
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.RightDown);
                 }
-                else if (inputArgs.data.method == "rightup")
+                else if (inputArgs.Data.Method == "rightup")
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.RightUp);
                 }
-                else if (inputArgs.data.method == "move")
+                else if (inputArgs.Data.Method == "move")
                 {
-                    int newX = inputArgs.data.x + inputArgs.data.deltax;
-                    int newY = inputArgs.data.y + inputArgs.data.deltay;
+                    int newX = inputArgs.Data.X + inputArgs.Data.DeltaX;
+                    int newY = inputArgs.Data.Y + inputArgs.Data.DeltaY;
 
                     MouseController.SetCursorPosition(newX, newY);
                 }
