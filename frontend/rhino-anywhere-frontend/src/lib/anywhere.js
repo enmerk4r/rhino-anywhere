@@ -1,4 +1,4 @@
-import initializeLocalConnection from './initializers/initializeLocalConnection';
+import { initializeLocalConnection } from './initializers/initializeLocalConnection';
 import { setupEvents } from './inputHandlers';
 
 /**
@@ -17,10 +17,15 @@ export function anywhere(videoElement, dataElement, url) {
 
   // TODO: TODO create public methods to allow us to send command and mouse movements
   let signalChannel;
+  let localConnection;
 
   function _setup() {
     signalChannel = new WebSocket(url, []);
-    initializeLocalConnection(signalChannel, videoElement, dataElement); //Need to establish vars for data input and output
+    localConnection = initializeLocalConnection(
+      signalChannel,
+      videoElement,
+      dataElement
+    ); //Need to establish vars for data input and output
   }
 
   function sendCommand() {}

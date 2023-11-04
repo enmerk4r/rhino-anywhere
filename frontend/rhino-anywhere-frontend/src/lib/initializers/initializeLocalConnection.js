@@ -1,12 +1,11 @@
-export default initializeLocalConnection = async (
+export const initializeLocalConnection = async (
   signalChannel,
-  videoElement,
-  dataOutputElement
+  videoElement
 ) => {
   let localConnection = new RTCPeerConnection(configuration);
 
-  const offer = await peerConnection.createOffer();
-  await peerConnection.setLocalDescription(offer);
+  const offer = await localConnection.createOffer();
+  await localConnection.setLocalDescription(offer);
 
   localConnection.onicecandidate = (event) => {
     if (event.candidate) {
@@ -32,4 +31,6 @@ export default initializeLocalConnection = async (
         .then(() => signalChannel.send(JSON.stringify(pc.localDescription)));
     }
   };
+
+  return localConnection;
 };
