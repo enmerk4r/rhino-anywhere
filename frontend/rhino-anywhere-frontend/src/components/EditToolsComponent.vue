@@ -28,11 +28,11 @@ function drawLine(){
 
     
     <button class="transparent-button" @click="drawLine">
-      <Draw_01></Draw_01>
+      <Draw_01 class="svg-size"></Draw_01>
 
     </button>
 
-      <Draw_01></Draw_01>
+
 
       <Add class = "icon" 
         :class="{ 'icon-hover': !clicked, 'icon-clicked': clicked }"/>
@@ -86,5 +86,10 @@ function drawLine(){
 .icon {
     width:30px;
     height:30px;
+}
+
+.svg-size {
+  width: 30px;
+  height: 30px;
 }
 </style>

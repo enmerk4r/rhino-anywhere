@@ -43,7 +43,6 @@ function start(link) {
 }
 
 .container {
-  background-color: white;
   display: flex;
   flex-direction: column;
 }

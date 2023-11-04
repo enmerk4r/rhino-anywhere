@@ -3,10 +3,10 @@ var EMPTY = "NA";
 var template = {
   method: EMPTY,
   action: EMPTY,
-  x: EMPTY,
-  y: EMPTY,
-  deltax: EMPTY,
-  deltay: EMPTY,
+  x: 0,
+  y: 0,
+  deltax: 0,
+  deltay: 0,
   value: EMPTY
 }
 
@@ -34,7 +34,6 @@ export function setupEvents(element, callback){
 
     for(var i in input){
       data[i] = input[i];
-      console.log(i);
     }
 
     //send
