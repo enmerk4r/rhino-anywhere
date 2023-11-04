@@ -19,4 +19,14 @@
     <PackageReference Include="SIPSorceryMedia.Encoders" Version="0.0.12-pre" />
   </ItemGroup>
   
+  <ItemGroup>
+    <ProjectReference Include="..\RhinoAnywhereTestpad\RhinoAnywhereTestpad.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  
 </Project>
