@@ -1,6 +1,7 @@
 ﻿using System;
 using Rhino;
 using Rhino.Commands;
+using RhinoAnywhereTestpad;
 
 namespace RhinoAnywhere
 {
@@ -18,6 +19,10 @@ namespace RhinoAnywhere
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
+
+            TestpadWindow wnd = new TestpadWindow();
+            wnd.Show();
+
             RhinoApp.WriteLine("Start testpad");
 
             // TODO: complete command.
