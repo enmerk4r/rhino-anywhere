@@ -83,10 +83,10 @@ namespace RhinoAnywhere
         {
             public string method { get; set; }
             public string action { get; set; }
-            public double x { get; set; }
-            public double y { get; set; }
-            public double deltax { get; set; }
-            public double deltay { get; set; }
+            public int x { get; set; }
+            public int y { get; set; }
+            public int deltax { get; set; }
+            public int deltay { get; set; }
         }
 
         private Task<RTCPeerConnection> CreatePeerConnection()
@@ -132,6 +132,7 @@ namespace RhinoAnywhere
                     ;
 
                     RhinoApp.WriteLine($"Got x:{clickPacket.data.x} y:{clickPacket.data.y} from client");
+                    //InputRecieved(clickPacket);
                 };
             };
 
@@ -154,38 +155,30 @@ namespace RhinoAnywhere
             connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
         }
 
-        private void StartListener()
+        private void InputRecieved(ClickPacket inputArgs)
         {
-            //Listener gets a message in.
-            //Deserialize InputEventArgs
-            InputEventArgs  inputArgs = null;
-            InputRecieved(inputArgs);
-        }
-
-        private void InputRecieved(InputEventArgs inputArgs)
-        {
-            if(inputArgs.Type == "input")
+            if(inputArgs.type == "input")
             {
-                if (inputArgs.Data.Method == "leftup")
+                if (inputArgs.data.method == "leftup")
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.LeftUp);
                 }
-                else if (inputArgs.Data.Method == "leftdown")
+                else if (inputArgs.data.method == "leftdown")
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.LeftDown);
                 }
-                else if (inputArgs.Data.Method == "rightdown")
+                else if (inputArgs.data.method == "rightdown")
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.RightDown);
                 }
-                else if (inputArgs.Data.Method == "rightup")
+                else if (inputArgs.data.method == "rightup")
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.RightUp);
                 }
-                else if (inputArgs.Data.Method == "move")
+                else if (inputArgs.data.method == "move")
                 {
-                    int newX = inputArgs.Data.X + inputArgs.Data.DeltaX;
-                    int newY = inputArgs.Data.Y + inputArgs.Data.DeltaY;
+                    int newX = inputArgs.data.x + inputArgs.data.deltax;
+                    int newY = inputArgs.data.y + inputArgs.data.deltay;
 
                     MouseController.SetCursorPosition(newX, newY);
                 }
