@@ -82,7 +82,7 @@ namespace RhinoAnywhere
             public T data { get; set; }
         }
 
-        public struct ClickData
+        public struct MouseData
         {
             public string method { get; set; }
             public string action { get; set; }
@@ -172,7 +172,7 @@ namespace RhinoAnywhere
 
         private void HandleClick(string json)
         {
-            var clickPacket = JsonSerializer.Deserialize<Packet<ClickData>>(json);
+            var clickPacket = JsonSerializer.Deserialize<Packet<MouseData>>(json);
             RhinoApp.WriteLine($"Got x:{clickPacket.data.x} y:{clickPacket.data.y} from client");
         }
 
@@ -192,7 +192,7 @@ namespace RhinoAnywhere
             connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
         }
 
-        private void InputRecieved(Packet<ClickData> inputArgs)
+        private void InputRecieved(Packet<MouseData> inputArgs)
         {
             if(inputArgs.type == "input")
             {
