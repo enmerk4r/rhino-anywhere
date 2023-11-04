@@ -4,8 +4,12 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 import { RhinoCommands } from '../assets/data/rhinoCommands.js'
 let search = ref("")
 let searchHistory = ref([])
+let animateIcon = ref(false); 
 
-
+const images = [
+  new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href,
+  new URL('../assets/icons/Rhinoceros_2.png', import.meta.url).href
+];
 let commands = ref(RhinoCommands);
 
 const filteredSuggestions = computed(() => {
@@ -41,19 +45,29 @@ const handleTab = (event) => {
 
 const handleEnter = (event) => {
   if (event.key === "Enter" && filteredSuggestions.value.length > 0) {
-    event.preventDefault(); // Prevent the default enter behavior
-    search.value = filteredSuggestions.value[0]; // Select the first suggestion
-    console.log(filteredSuggestions.value[0])
-    addSearchTerm(); // Send the selected suggestion as a search term
+    event.preventDefault();
+    search.value = filteredSuggestions.value[0];
+    console.log(filteredSuggestions.value[0]);
+    addSearchTerm(); 
+
+
+    animateIcon.value = true;
+
+
+    setTimeout(() => {
+      animateIcon.value = false;
+    }, 2000); 
   }
 };
 
 onMounted(() => {
   window.addEventListener("keydown", handleTab);
+  window.addEventListener("keydown", handleEnter);
 });
 
 onUnmounted(() => {
   window.removeEventListener("keydown", handleTab);
+  window.removeEventListener("keydown", handleEnter);
 });
 </script>
 
@@ -79,6 +93,10 @@ onUnmounted(() => {
       </li>
     </ul>
 
+  </div>
+
+  <div class="fly-icon" :class="{ 'animate-fly': animateIcon }">
+    <img src='../assets/icons/Rhinoceros_1.png' alt="Flying Icon" />
   </div>
 </template>
 
@@ -151,5 +169,30 @@ ul {
 
 .suggestions li:hover {
   background-color: #ececec;
+}
+
+@keyframes flyAcross {
+  0% { transform: translateX(0); opacity: 0; } 
+  10% { opacity: 1; } 
+  90% { opacity: 0.1; } 
+  100% { transform: translateX(20vw); opacity: 0; } 
+}
+
+
+.animate-fly {
+  animation: flyAcross 1s linear forwards;
+}
+
+.fly-icon {
+  position: fixed;
+  top: 18%; 
+  left: 600px;
+  z-index: 1000;
+  opacity: 0;
+}
+
+.fly-icon img {
+  height: 50px; 
+  width: auto; 
 }
 </style>

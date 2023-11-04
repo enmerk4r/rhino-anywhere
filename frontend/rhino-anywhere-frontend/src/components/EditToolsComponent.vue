@@ -3,9 +3,8 @@ import { ref } from 'vue';
 import Add from './svgs/Icon.vue'
 
 import Draw_01 from './svgs/Draw_01.vue'
-
-
-// import Test_Icons_01 from '../assets/icons/Test_Icons_01.svg'
+import Draw_02 from './svgs/Draw_02.vue'
+import Draw_03 from './svgs/Draw_03.vue'
 
 const iconStates = ref([false, false, false, false, false]);
 
@@ -29,7 +28,11 @@ function drawLine(){
     
     <button class="transparent-button" @click="drawLine">
       <Draw_01 class="svg-size"></Draw_01>
+    </button>
 
+    <button class="transparent-button" @click="drawLine">
+      <Draw_02 class="svg-size"
+      ></Draw_02>
     </button>
 
 
@@ -57,7 +60,7 @@ function drawLine(){
 .transparent-button {
   background-color: transparent;
   border: none;
-  padding: 0;
+  padding: 3px;
   cursor: pointer;
 }
 

@@ -71,7 +71,7 @@ onBeforeUnmount(() => {
 button {
   font-size: 24px;
   padding: 20px 40px;
-  background-color: #fff;
+
   color: #007bff;
   border: 2px solid #007bff;
   cursor: pointer;
