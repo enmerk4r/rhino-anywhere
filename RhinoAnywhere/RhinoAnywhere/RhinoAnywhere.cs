@@ -11,17 +11,17 @@ namespace RhinoAnywhere
 {
     public class RhinoAnywhere : Command
     {
-        RhinoAnywhereSingleton _rhinoAnywhereServer;
+        //RhinoAnywhereSingleton _rhinoAnywhereServer;
 
         public RhinoAnywhere()
         {
             // Rhino only creates one instance of each command class defined in a
             // plug-in, so it is safe to store a refence in a static property.
             Instance = this;
-            _rhinoAnywhereServer = RhinoAnywhereSingleton.Instance;
+            //_rhinoAnywhereServer = RhinoAnywhereSingleton.Instance;
 
             // Subscribe to the InputEvent
-            _rhinoAnywhereServer.InputEvent += RhinoAnywhereServer_InputEvent;
+            //_rhinoAnywhereServer.InputEvent += RhinoAnywhereServer_InputEvent;
         }
 
         ///<summary>The only instance of this command.</summary>

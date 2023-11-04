@@ -1,4 +1,4 @@
-﻿using RhinoAnywhereCore;
+﻿//using RhinoAnywhereCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,12 +22,12 @@ namespace RhinoAnywhereTestpad
     /// </summary>
     public partial class TestpadWindow : Window
     {
-        RhinoAnywhereSingleton _rhinoAnywhereSingleton;
+        //RhinoAnywhereSingleton _rhinoAnywhereSingleton;
 
         public TestpadWindow()
         {
             InitializeComponent();
-            _rhinoAnywhereSingleton = RhinoAnywhereSingleton.Instance;
+            //_rhinoAnywhereSingleton = RhinoAnywhereSingleton.Instance;
         }
 
         private Point _previousPosition; // Field to store the previous mouse position
@@ -48,15 +48,15 @@ namespace RhinoAnywhereTestpad
             Trace.WriteLine($"Mouse Move: X = {currentPosition.X}, Y = {currentPosition.Y}, DeltaX = {deltaX}, DeltaY = {deltaY}");
 
             // Raise the InputEvent with the mouse move data
-            _rhinoAnywhereSingleton.RaiseInputEvent(
-                method: "mouse",
-                action: "move",
-                x: currentPosition.X,
-                y: currentPosition.Y,
-                deltaX: deltaX,
-                deltaY: deltaY,
-                value: "" // value is not applicable for a mouse move
-            );
+            //_rhinoAnywhereSingleton.RaiseInputEvent(
+            //    method: "mouse",
+            //    action: "move",
+            //    x: currentPosition.X,
+            //    y: currentPosition.Y,
+            //    deltaX: deltaX,
+            //    deltaY: deltaY,
+            //    value: "" // value is not applicable for a mouse move
+            //);
         }
 
 
