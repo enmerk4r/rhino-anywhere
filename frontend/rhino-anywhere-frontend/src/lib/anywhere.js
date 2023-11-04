@@ -3,6 +3,7 @@ import { setupEvents } from './inputHandlers';
 
 export class RhinoAnywhere {
   _videoElement = null;
+  onMessageReceived = (data) => { console.log("Not subscribed, but you sent " + data)}
 
   /**
    * Bind to a video element
@@ -33,7 +34,7 @@ export class RhinoAnywhere {
     localConnection = initializeLocalConnection(
       signalChannel,
       this._videoElement,
-      this._videoElement
+      onMessageReceived
     ); //Need to establish vars for data input and output
   }
 
