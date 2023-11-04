@@ -5,7 +5,7 @@ import VideoComponent from './components/VideoComponent.vue';
 import EditToolsComponent from './components/EditToolsComponent.vue';
 import WelcomePageComponent from './components/WelcomePageComponent.vue';
 
-let showWelcomePage = ref(false);
+let showWelcomePage = ref(true);
 </script>
 
 <template>
