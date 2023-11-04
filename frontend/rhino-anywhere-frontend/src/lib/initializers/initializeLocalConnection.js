@@ -1,7 +1,6 @@
-export var initializeLocalConnection = async (
+export const initializeLocalConnection = async (
   signalChannel,
-  videoElement,
-  dataOutputElement
+  videoElement
 ) => {
   let localConnection = new RTCPeerConnection();
 
@@ -32,4 +31,6 @@ export var initializeLocalConnection = async (
         .then(() => signalChannel.send(JSON.stringify(pc.localDescription)));
     }
   };
+
+  return localConnection;
 };
