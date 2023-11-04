@@ -5,14 +5,23 @@ import Add from './svgs/Icon.vue'
 
 const iconStates = ref([false, false, false, false, false]);
 
-
 const toggleIcon = (index) => {
   iconStates.value[index] = !iconStates.value[index];
 };
+
+function doSomething(){
+
+}
 </script>
 
 <template>
   <div class="icon-stack">
+     <div 
+              @click="doSomething">
+            <Add class = "icon" />
+          </div>
+
+
       <Add class = "icon" 
         :class="{ 'icon-hover': !clicked, 'icon-clicked': clicked }"/>
     
