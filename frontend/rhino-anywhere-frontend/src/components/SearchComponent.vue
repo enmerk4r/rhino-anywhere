@@ -9,11 +9,17 @@ let highlightedIndex = ref(0)
 
 // Method to add the search term to the history
 const addSearchTerm = () => {
+  window.anywhere.sendCommand(search.value);
+
   // Avoid adding empty strings or duplicates
   if (search.value && !searchHistory.value.includes(search.value)) {
     searchHistory.value.push(search.value)
     search.value = "" // Clear the input after adding to history
   }
+}
+
+window.anywhere.onMessageReceived = (data) => {
+  searchHistory.value.push(data);
 }
 
 const filterCommands = () => {
@@ -56,12 +62,7 @@ const selectCommand = (command) => {
     </div>
 
     <!-- Search bar -->
-    <input
-      type="text"
-      placeholder="Type your Rhino command here..."
-      v-model="search"
-      @keyup.enter="addSearchTerm"
-    />
+    <input type="text" placeholder="Type your Rhino command here..." v-model="search" @keyup.enter="addSearchTerm" />
 
     <!-- <div class="autocomplete">
       <input
@@ -118,8 +119,8 @@ input[type="text"] {
 
 ul.no-bullets {
   list-style-type: none;
-  padding: 0; 
-  margin: 0; 
+  padding: 0;
+  margin: 0;
 }
 
 ul {
