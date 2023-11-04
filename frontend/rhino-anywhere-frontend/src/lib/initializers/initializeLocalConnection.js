@@ -1,7 +1,6 @@
 export var initializeLocalConnection = async (
   signalChannel,
   videoElement,
-  dataInputElement,
   dataOutputElement
 ) => {
   let localConnection = new RTCPeerConnection(configuration);
