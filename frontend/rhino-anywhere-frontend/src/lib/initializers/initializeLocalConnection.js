@@ -20,7 +20,7 @@ export const initializeLocalConnection = async (
     console.log('found track');
   };
 
-  sendChannel = localConnection.createDataChannel("sebdDataChannel", null)
+  let sendChannel = localConnection.createDataChannel("sebdDataChannel", null)
 
   signalChannel.onmessage = async (event) => {
     console.log('Received Message');
@@ -52,8 +52,3 @@ const sendChannelCallback = (e, sendChannel) => {
 
 const receiveChannelCallback = (e, onMessageReceived) => 
   e.channel.onmessage = onMessageReceived;
-
-
-const receiveMessageCallback = (event) => {
-    
-}
