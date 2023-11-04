@@ -6,7 +6,7 @@ let search = ref("")
 let searchHistory = ref([])
 
 
-let commands = ref(RhinoCommands); 
+let commands = ref(RhinoCommands);
 
 const filteredSuggestions = computed(() => {
   if (!search.value) {
@@ -21,18 +21,18 @@ const addSearchTerm = () => {
   if (search.value && !searchHistory.value.includes(search.value)) {
     searchHistory.value.push(search.value)
 
-    //window.anywhere.sendCommand(search.value);
+    window.anywhere.sendCommand(search.value);
     search.value = "" // Clear the input after sending the command
   }
 }
 
-// window.anywhere.onMessageReceived = (data) => {
-//   searchHistory.value.push(data);
-// }
+window.anywhere.onMessageReceived = (data) => {
+  searchHistory.value.push(data);
+}
 
 const handleTab = (event) => {
   if (event.key === "Tab" && filteredSuggestions.value.length > 0) {
-    event.preventDefault(); 
+    event.preventDefault();
     search.value = filteredSuggestions.value[0];
     console.log(filteredSuggestions.value[0])
     //addSearchTerm(); 
@@ -73,11 +73,8 @@ onUnmounted(() => {
 
 
     <ul v-if="filteredSuggestions.length" class="suggestions">
-      <li
-        v-for="(suggestion, index) in filteredSuggestions"
-        :key="index"
-        @mousedown.prevent="search.value = suggestion; addSearchTerm()"
-      >
+      <li v-for="(suggestion, index) in filteredSuggestions" :key="index"
+        @mousedown.prevent="search.value = suggestion; addSearchTerm()">
         {{ suggestion }}
       </li>
     </ul>
@@ -91,7 +88,7 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: left;
   margin-top: 0px;
-  position:relative;
+  position: relative;
   margin-bottom: 50px;
 }
 
@@ -131,15 +128,15 @@ ul {
 }
 
 .suggestions {
-  margin-top: 2px; 
+  margin-top: 2px;
   border-radius: 20px;
   list-style-type: none;
   padding: 0;
   width: 600px;
   position: absolute;
-  left: 0; 
-  top: 100%; 
-  background-color: #f8f8f8; 
+  left: 0;
+  top: 100%;
+  background-color: #f8f8f8;
   z-index: 10;
   max-height: 100px;
   overflow-y: auto;
@@ -153,6 +150,6 @@ ul {
 }
 
 .suggestions li:hover {
-  background-color: #ececec; 
+  background-color: #ececec;
 }
 </style>
