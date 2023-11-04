@@ -7,7 +7,8 @@
       <input type="text" v-model="link" placeholder="Enter link here..." class="link-input"/>
     </div>
     <div class="content">
-      <button @click="startSomething">Start something...</button>
+      <button :disabled="!link"
+      @click="startSomething">Start something...</button>
     </div>
   </div>
 </template>
@@ -84,6 +85,14 @@ button:hover {
   color: #fff; 
 }
 
+button:disabled {
+  background-color: #ccc;
+  color: #666;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+
+
 link-input-container {
   margin: 20px 0; 
 }
@@ -91,7 +100,6 @@ link-input-container {
 .link-input {
   font-size: 18px;
   padding: 15px;
-
   width: 50%; 
   margin: 0 auto;
   margin-bottom: 20px; 

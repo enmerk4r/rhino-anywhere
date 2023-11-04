@@ -2,7 +2,8 @@
 import { ref } from 'vue';
 import Add from './svgs/Icon.vue'
 
-// import Draw_01 from './svgs/Draw_01.vue
+import Draw_01 from './svgs/Draw_01.vue'
+
 
 // import Test_Icons_01 from '../assets/icons/Test_Icons_01.svg'
 
@@ -24,10 +25,14 @@ function drawLine(){
 
 <template>
   <div class="icon-stack">
-    <button @click="drawLine">
+
+    
+    <button class="transparent-button" @click="drawLine">
+      <Draw_01></Draw_01>
 
     </button>
 
+      <Draw_01></Draw_01>
 
       <Add class = "icon" 
         :class="{ 'icon-hover': !clicked, 'icon-clicked': clicked }"/>
@@ -49,6 +54,21 @@ function drawLine(){
   padding-top:10px;
 }
 
+.transparent-button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.transparent-button svg {
+  display: block; /* This can help with SVG sizing issues */
+}
+
+/* You might also need to set the fill or stroke of the SVG paths if they're not set within the SVG itself */
+.transparent-button svg path {
+  stroke: #000; /* Example: setting a black stroke for visibility */
+}
 
 .icon-container {
   margin: 2px; /* Adjust the space between icons as needed */
