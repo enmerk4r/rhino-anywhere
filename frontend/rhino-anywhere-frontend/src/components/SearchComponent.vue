@@ -91,13 +91,13 @@ const selectCommand = (command) => {
 .search-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
+  align-items: left;
+  margin-top: 0px;
 }
 
 .search-history {
   margin-bottom: 10px;
-  height: 150px;
+  height: 120px;
   width: 600px;
   overflow-y: auto;
   display: flex;
@@ -110,18 +110,16 @@ const selectCommand = (command) => {
 input[type="text"] {
   padding: 10px 15px;
   font-size: 16px;
-  width: 600px;
-  max-width: 400px; /* Adjust the width as needed */
+  width: 500px;
   border-radius: 20px;
   border: 1px solid #ccc;
   outline: none;
-  width: 500px;
 }
 
 ul.no-bullets {
-  list-style-type: none; /* Remove bullets */
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margins */
+  list-style-type: none;
+  padding: 0; 
+  margin: 0; 
 }
 
 ul {

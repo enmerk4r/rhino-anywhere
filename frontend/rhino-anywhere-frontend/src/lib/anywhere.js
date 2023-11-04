@@ -17,10 +17,13 @@ export function anywhere(videoElement, textElement, url) {
   // TODO: Setup connection
 
   // TODO: TODO create public methods to allow us to send command and mouse movements
-  let signalChannel;
 
-  signalChannel = new WebSocket(url, []);
-  initializeLocalConnection(signalChannel, videoElement, textElement); //Need to establish vars for data input and output
+  let signalChannel = new WebSocket(url, []);
+  let localConnection = initializeLocalConnection(
+    signalChannel,
+    videoElement,
+    textElement
+  );
 
   function sendCommand() {}
 }
