@@ -16,10 +16,10 @@ namespace RhinoAnywhereCore
     {
         public string Method { get; set; }
         public string Action { get; set; }
-        public double X { get; set; }
-        public double Y { get; set; }
-        public double DeltaX { get; set; }
-        public double DeltaY { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int DeltaX { get; set; }
+        public int DeltaY { get; set; }
         public string Value { get; set; }
     }
 }

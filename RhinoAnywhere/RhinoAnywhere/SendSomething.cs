@@ -2,6 +2,7 @@
 using Rhino;
 using Rhino.Commands;
 using Rhino.Display;
+using RhinoAnywhereCore;
 using SIPSorcery.Media;
 using SIPSorcery.Net;
 using SIPSorceryMedia.Abstractions;
@@ -121,5 +122,42 @@ namespace RhinoAnywhere
             connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
         }
 
+        private void StartListener()
+        {
+            //Listener gets a message in.
+            //Deserialize InputEventArgs
+            InputEventArgs  inputArgs = null;
+            InputRecieved(inputArgs);
+        }
+
+        private void InputRecieved(InputEventArgs inputArgs)
+        {
+            if(inputArgs.Type == "input")
+            {
+                if (inputArgs.Data.Method == "leftup")
+                {
+                    MouseController.MouseEvent(MouseController.MouseEventFlags.LeftUp);
+                }
+                else if (inputArgs.Data.Method == "leftdown")
+                {
+                    MouseController.MouseEvent(MouseController.MouseEventFlags.LeftDown);
+                }
+                else if (inputArgs.Data.Method == "rightdown")
+                {
+                    MouseController.MouseEvent(MouseController.MouseEventFlags.RightDown);
+                }
+                else if (inputArgs.Data.Method == "rightup")
+                {
+                    MouseController.MouseEvent(MouseController.MouseEventFlags.RightUp);
+                }
+                else if (inputArgs.Data.Method == "move")
+                {
+                    int newX = inputArgs.Data.X + inputArgs.Data.DeltaX;
+                    int newY = inputArgs.Data.Y + inputArgs.Data.DeltaY;
+
+                    MouseController.SetCursorPosition(newX, newY);
+                }
+            }
+        }
     }
 }
