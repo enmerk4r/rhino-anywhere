@@ -2,7 +2,6 @@
 using Rhino;
 using Rhino.Commands;
 using Rhino.Display;
-using RhinoAnywhereCore;
 using SIPSorcery.Media;
 using SIPSorcery.Net;
 using SIPSorceryMedia.Abstractions;
