@@ -1,15 +1,16 @@
-import initializeLocalConnection from './initializers/initializeLocalConnection';
+import { initializeLocalConnection } from './initializers/initializeLocalConnection';
 import { setupEvents } from './inputHandlers';
 
 /**
  * Anywhere Library Creator
  * @param {HTMLVideoElement} videoElement
+ * @param {HTMLElement} textElement
  * @param {string} url
  */
-export function anywhere(videoElement, dataElement, url) {
+export function anywhere(videoElement, textElement, url) {
   console.log('Setting up RhinoAnywhere');
 
-  setupEvents(element, (data) => {
+  setupEvents(videoElement, (data) => {
     sendData('input', data);
   });
 
@@ -17,11 +18,14 @@ export function anywhere(videoElement, dataElement, url) {
 
   // TODO: TODO create public methods to allow us to send command and mouse movements
   let signalChannel;
+  let localConnection;
 
-  function _setup() {
-    signalChannel = new WebSocket(url, []);
-    initializeLocalConnection(signalChannel, videoElement, dataElement); //Need to establish vars for data input and output
-  }
+  signalChannel = new WebSocket(url, []);
+  localConnection = initializeLocalConnection(
+    signalChannel,
+    videoElement,
+    textElement
+  ); //Need to establish vars for data input and output
 
   function sendCommand() {}
 }
