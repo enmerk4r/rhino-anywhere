@@ -86,6 +86,8 @@ namespace RhinoAnywhere
             public int y { get; set; }
             public int deltax { get; set; }
             public int deltay { get; set; }
+            public string value { get; set; }
+
         }
 
         private Task<RTCPeerConnection> CreatePeerConnection()
@@ -158,19 +160,23 @@ namespace RhinoAnywhere
         {
             if(inputArgs.type == "input")
             {
-                if (inputArgs.data.method == "leftup")
+                int val = int.Parse(inputArgs.data.value);
+                int left = 0;
+                int right = 2;
+
+                if (inputArgs.data.method == "up" && val == left)
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.LeftUp);
                 }
-                else if (inputArgs.data.method == "leftdown")
+                else if (inputArgs.data.method == "down" && val == left)
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.LeftDown);
                 }
-                else if (inputArgs.data.method == "rightdown")
+                else if (inputArgs.data.method == "down" && val == right)
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.RightDown);
                 }
-                else if (inputArgs.data.method == "rightup")
+                else if (inputArgs.data.method == "up" && val == right)
                 {
                     MouseController.MouseEvent(MouseController.MouseEventFlags.RightUp);
                 }
