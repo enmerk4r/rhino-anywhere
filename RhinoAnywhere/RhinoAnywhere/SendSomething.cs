@@ -2,18 +2,22 @@
 using Rhino;
 using Rhino.Commands;
 using Rhino.Display;
+using RhinoAnywhereCore;
 using SIPSorcery.Media;
 using SIPSorcery.Net;
 using SIPSorceryMedia.Abstractions;
 using SIPSorceryMedia.Encoders;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using WebSocketSharp.Server;
 
@@ -72,13 +76,13 @@ namespace RhinoAnywhere
             }
         }
 
-        public struct ClickPacket
+        public struct Packet<T>
         {
             public string type { get; set; }
-            public ClickData data { get; set; }
+            public T data { get; set; }
         }
 
-        public struct ClickData
+        public struct MouseData
         {
             public string method { get; set; }
             public string action { get; set; }
@@ -87,8 +91,13 @@ namespace RhinoAnywhere
             public int deltax { get; set; }
             public int deltay { get; set; }
             public string value { get; set; }
-
         }
+
+        public struct CommandData
+        {
+            public string command { get; set; }
+        }
+
 
         private Task<RTCPeerConnection> CreatePeerConnection()
         {
@@ -129,15 +138,42 @@ namespace RhinoAnywhere
                 channel.onmessage += (test1, something, data) =>
                 {
                     string json = System.Text.Encoding.UTF8.GetString(data);
-                    var clickPacket = JsonSerializer.Deserialize<ClickPacket>(json);
-                    ;
+                    var tst = JsonSerializer.Deserialize<JsonObject>(json);
 
-                    RhinoApp.WriteLine($"Got x:{clickPacket.data.x} y:{clickPacket.data.y} from client");
-                    //InputRecieved(clickPacket);
+                    string type = tst["type"].ToString();
+                    Action<string> method = type switch
+                    {
+                        "command" => HandleCommand,
+                        "input" => HandleClick,
+                        _ => throw new NotImplementedException("No"),
+                    };
+
+                    method(json);
                 };
             };
 
             return Task.FromResult(connection);
+        }
+
+        private string lastcommand { get; set; }
+        private void HandleCommand(string json)
+        {
+            var clickPacket = JsonSerializer.Deserialize<Packet<CommandData>>(json);
+            lastcommand = clickPacket.data.command;
+            RhinoApp.WriteLine(lastcommand);
+            RhinoApp.Idle += RhinoApp_Idle;
+        }
+
+        private void RhinoApp_Idle(object sender, EventArgs e)
+        {
+            RhinoApp.Idle -= RhinoApp_Idle;
+            RhinoApp.RunScript(lastcommand, true);
+        }
+
+        private void HandleClick(string json)
+        {
+            var clickPacket = JsonSerializer.Deserialize<Packet<MouseData>>(json);
+            RhinoApp.WriteLine($"Got x:{clickPacket.data.x} y:{clickPacket.data.y} from client");
         }
 
         private void SendBitmap(Bitmap bitmap, IVideoEncoder encoder)
@@ -156,7 +192,7 @@ namespace RhinoAnywhere
             connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
         }
 
-        private void InputRecieved(ClickPacket inputArgs)
+        private void InputRecieved(Packet<MouseData> inputArgs)
         {
             if(inputArgs.type == "input")
             {
