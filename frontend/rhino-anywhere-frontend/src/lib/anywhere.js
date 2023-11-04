@@ -31,14 +31,14 @@ export class RhinoAnywhere {
     let localConnection;
     
     let sendChannel;
-    let receiveChannel;
 
     signalChannel = new WebSocket(url, []);
     localConnection = initializeLocalConnection(
       signalChannel,
+      sendChannel,
       this._videoElement,
       this.onMessageReceived
-    ); //Need to establish vars for data input and output
+    ); //Need to establish vars for data input and output 
   }
 
   /**
@@ -64,5 +64,7 @@ export class RhinoAnywhere {
 
     // Send over communication channel here
     console.log(toSend);
+
+    sendChannel.send(toSend);
   }
 }
