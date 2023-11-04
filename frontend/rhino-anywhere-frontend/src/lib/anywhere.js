@@ -35,10 +35,12 @@ export class RhinoAnywhere {
     signalChannel = new WebSocket(url, []);
     localConnection = initializeLocalConnection(
       signalChannel,
-      sendChannel,
       this._videoElement,
       this.onMessageReceived
     ); //Need to establish vars for data input and output 
+
+    this.sendChannel = localConnection.createDataChannel("sendDataChannel", null);
+
   }
 
   /**
