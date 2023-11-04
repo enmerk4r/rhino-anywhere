@@ -1,3 +1,3 @@
 <template>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><style>.cls-1,.cls-2{fill:#fff;stroke-miterlimit:10;}.cls-1{stroke:#444;stroke-width:2px;}.cls-2{stroke:#1d1d1b;fill-rule:evenodd;}</style></defs><g id="Layer_2" data-name="Layer 2"><circle class="cls-1" cx="32" cy="32" r="31"/></g><g id="Layer_1" data-name="Layer 1"><path class="cls-2" d="M26.14,32A5.86,5.86,0,1,1,32,37.86,5.86,5.86,0,0,1,26.14,32Z"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g id="Layer_2" data-name="Layer 2"><circle cx="32" cy="32" r="31" fill="#fff" stroke="#444" stroke-miterlimit="10" stroke-width="2"/></g><g id="Layer_1" data-name="Layer 1"><path d="M26.14,32A5.86,5.86,0,1,1,32,37.86,5.86,5.86,0,0,1,26.14,32Z" fill="#fff" stroke="#1d1d1b" stroke-miterlimit="10" fill-rule="evenodd"/></g></svg>
 </template>
