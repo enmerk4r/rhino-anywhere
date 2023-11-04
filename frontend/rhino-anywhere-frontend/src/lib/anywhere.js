@@ -19,10 +19,8 @@ export function anywhere(videoElement, textElement, url) {
   // TODO: TODO create public methods to allow us to send command and mouse movements
   let signalChannel;
 
-  function _setup() {
-    signalChannel = new WebSocket(url, []);
-    initializeLocalConnection(signalChannel, videoElement, textElement); //Need to establish vars for data input and output
-  }
+  signalChannel = new WebSocket(url, []);
+  initializeLocalConnection(signalChannel, videoElement, textElement); //Need to establish vars for data input and output
 
   function sendCommand() {}
 }

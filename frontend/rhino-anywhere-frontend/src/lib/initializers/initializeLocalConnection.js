@@ -3,10 +3,10 @@ export var initializeLocalConnection = async (
   videoElement,
   dataOutputElement
 ) => {
-  let localConnection = new RTCPeerConnection(configuration);
+  let localConnection = new RTCPeerConnection();
 
-  const offer = await peerConnection.createOffer();
-  await peerConnection.setLocalDescription(offer);
+  const offer = await localConnection.createOffer();
+  await localConnection.setLocalDescription(offer);
 
   localConnection.onicecandidate = (event) => {
     if (event.candidate) {

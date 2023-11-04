@@ -5,4 +5,4 @@ import App from './App.vue'
 createApp(App).mount('#app')
 
 import { anywhere } from "./lib/anywhere.js";
-anywhere(document.getElementById("rhinoViewport"), document.getElementById("rhinoTextBox"), "google.ca");
+anywhere(document.getElementById("rhinoViewport"), document.getElementById("rhinoTextBox"), "ws://192.168.0.224:8081");
