@@ -60,9 +60,6 @@ export function setupEvents(element, callback){
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
       value:e.button,
-      altKey: e.altKey,
-      shiftKey: e.shiftKey,
-      cntrlKey: e.cntrlKey
     });
     
     e.preventDefault();
@@ -75,9 +72,6 @@ export function setupEvents(element, callback){
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
       value:e.button,
-      altKey: e.altKey,
-      shiftKey: e.shiftKey,
-      cntrlKey: e.cntrlKey
     });
 
     e.preventDefault();
@@ -103,7 +97,7 @@ export function setupEvents(element, callback){
   window.onkeyup = e => {
     push({
       method: "keyboard", 
-      action: "keyuo",
+      action: "keyup",
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
       value: e.key

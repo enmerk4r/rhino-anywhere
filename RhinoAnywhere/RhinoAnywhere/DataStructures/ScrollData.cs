@@ -10,4 +10,9 @@ namespace RhinoAnywhere.DataStructures
     {
         public double amount { get; set; }
     }
+
+    public struct KeyCode
+    {
+        public int key { get; set; }
+    }
 }
