@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RhinoAnywhere
 {
+
+    /// <summary>Handles Mouse Controlling</summary>
     public static class MouseController
     {
         [Flags]
@@ -33,16 +31,19 @@ namespace RhinoAnywhere
         [DllImport("user32.dll")]
         private static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
 
+        /// <summary>Sets a Cursor Position</summary>
+        /// <param name="x">The X coordinate</param>
+        /// <param name="y">The Y Cooordinate</param>
         public static void SetCursorPosition(int x, int y)
         {
             SetCursorPos(x, y);
         }
 
+        /// <summary>Sets a Cursor Position</summary>
         public static void SetCursorPosition(MousePoint point)
-        {
-            SetCursorPos(point.X, point.Y);
-        }
+            => SetCursorPos(point.X, point.Y);
 
+        /// <summary>Returns the current cursor position</summary>
         public static MousePoint GetCursorPosition()
         {
             MousePoint currentMousePoint;
@@ -51,6 +52,7 @@ namespace RhinoAnywhere
             return currentMousePoint;
         }
 
+        /// <summary>Captures a Mouse Event</summary>
         public static void MouseEvent(MouseEventFlags value)
         {
             MousePoint position = GetCursorPosition();
@@ -64,6 +66,7 @@ namespace RhinoAnywhere
                 ;
         }
 
+        /// <summary>Maps a Mouse Coordinate to a struct</summary>
         [StructLayout(LayoutKind.Sequential)]
         public struct MousePoint
         {
