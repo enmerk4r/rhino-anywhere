@@ -225,7 +225,7 @@ namespace RhinoAnywhere
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Video encoding or sending failed: {ex.Message}");
+                RhinoApp.WriteLine($"Video encoding or sending failed: {ex.Message}");
                 // Handle the exception, potentially reinitialize the encoder or alert the user
             }
             finally
