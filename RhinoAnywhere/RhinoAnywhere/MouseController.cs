@@ -17,7 +17,8 @@ namespace RhinoAnywhere
             Move = 0x00000001,
             Absolute = 0x00008000,
             RightDown = 0x00000008,
-            RightUp = 0x00000010
+            RightUp = 0x00000010,
+            WheelScroll = 0x0800
         }
 
         [DllImport("user32.dll", EntryPoint = "SetCursorPos")]
@@ -39,6 +40,11 @@ namespace RhinoAnywhere
             SetCursorPos(x, y);
         }
 
+        public static void MousewheelScroll(int amount)
+        {
+            MouseEvent(MouseEventFlags.WheelScroll, amount);
+        }
+
         /// <summary>Sets a Cursor Position</summary>
         public static void SetCursorPosition(MousePoint point)
             => SetCursorPos(point.X, point.Y);
@@ -53,7 +59,7 @@ namespace RhinoAnywhere
         }
 
         /// <summary>Captures a Mouse Event</summary>
-        public static void MouseEvent(MouseEventFlags value)
+        public static void MouseEvent(MouseEventFlags value, int dwData=0)
         {
             MousePoint position = GetCursorPosition();
 
@@ -61,7 +67,7 @@ namespace RhinoAnywhere
                 ((int)value,
                  position.X,
                  position.Y,
-                 0,
+                 dwData,
                  0)
                 ;
         }
