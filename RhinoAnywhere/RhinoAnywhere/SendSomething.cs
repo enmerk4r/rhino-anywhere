@@ -34,7 +34,7 @@ namespace RhinoAnywhere
     {
         private const int WEBSOCKET_PORT = 2337;
 
-        private static uint DurationUnits => 16;
+        private static uint DurationUnits { get; set; } = 1;
 
         public override string EnglishName => nameof(StartRhinoAnywhere);
 
@@ -72,8 +72,13 @@ namespace RhinoAnywhere
             DisplayPipeline.DrawForeground += DisplayPipeline_PostDrawObjects;
         }
 
+        private static DateTime LastCall { get; set; } = DateTime.UtcNow;
+
         private static void DisplayPipeline_PostDrawObjects(object sender, DrawEventArgs e)
         {
+            DurationUnits = (uint)DateTime.UtcNow.Subtract(LastCall).TotalMilliseconds;
+            LastCall = DateTime.UtcNow;
+
             if (Connection is null)
                 return;
 
