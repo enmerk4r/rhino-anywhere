@@ -26,7 +26,7 @@ const addSearchTerm = () => {
     searchHistory.value.push(search.value)
 
     window.anywhere.sendCommand(search.value);
-    search.value = "" // Clear the input after sending the command
+    search.value = "" 
   }
 }
 
@@ -195,7 +195,7 @@ ul {
 
 .fly-icon {
   position: fixed;
-  top: 18%;
+  top: 17%;
   left: 600px;
   z-index: 1000;
   opacity: 0;
