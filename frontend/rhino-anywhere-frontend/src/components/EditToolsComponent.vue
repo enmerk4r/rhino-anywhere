@@ -15,6 +15,8 @@ import Draw_10 from './svgs/Draw_10.vue'
 import Draw_11 from './svgs/Draw_11.vue'
 import Draw_12 from './svgs/Draw_12.vue'
 import Draw_13 from './svgs/Draw_13.vue'
+import Draw_14 from './svgs/Draw_14.vue'
+import Draw_15 from './svgs/Draw_15.vue'
 
 const iconStates = ref([false, false, false, false, false]);
 
@@ -95,6 +97,14 @@ const handleClick = () => {
       <Draw_13 class="svg-size"></Draw_13>
     </button>
 
+        <button class="transparent-button" @click="sendCommand('BooleanUnion')">
+      <Draw_14 class="svg-size"></Draw_14>
+    </button>
+
+        <button class="transparent-button" @click="sendCommand('BooleanDifference')">
+      <Draw_15 class="svg-size"></Draw_15>
+    </button>
+
 
   </div>
 </template>
@@ -114,7 +124,7 @@ const handleClick = () => {
   background-color: transparent;
   border: none;
   padding: 3px;
-  margin-top:1px;
+  margin-top:5px;
   cursor: pointer;
   border-radius: 19px;
   border-style: solid;
