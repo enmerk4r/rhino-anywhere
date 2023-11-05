@@ -116,8 +116,11 @@ const handleClick = () => {
   align-items: center;
   width:50px;
   padding-top:5px;
-  padding-bottom: 5px;
+  padding-bottom: 15px;
+  /* padding: 0 10px 0 10px; */
   height:fit-content;
+  height: 100%;
+  justify-content: space-evenly;
 }
 
 .transparent-button {

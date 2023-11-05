@@ -87,6 +87,7 @@ const gif =  new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href;
   border: 1px solid #ccc;
   border-radius: 30px;
   flex: 1;
+  margin-top: 15px;
 }
 
 .video-component {
@@ -105,7 +106,6 @@ const gif =  new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href;
   .content-area {
     flex-direction: column;
   }
-
 }
 
 </style>

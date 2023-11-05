@@ -10,7 +10,7 @@
       <input type="text" v-model="link" placeholder="Enter link here..." class="link-input" />
     </div>
     <div class="content">
-      <button :disabled="!link" @click="startSomething">Start something...</button>
+      <button :disabled="!link" @click="startSomething">Start Rhino Anywhere...</button>
     </div>
   </div>
 </template>
