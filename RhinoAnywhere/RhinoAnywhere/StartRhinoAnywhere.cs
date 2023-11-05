@@ -177,8 +177,13 @@ namespace RhinoAnywhere
 
         private void HandleResize(string json)
         {
-            var viewportSize = JsonSerializer.Deserialize<ViewportSize>(json);
-            RhinoDoc.ActiveDoc.Views.ActiveView.Size = new Size((int)viewportSize.Width, (int)viewportSize.Height);
+            var viewportSize = JsonSerializer.Deserialize<Packet<ViewportSize>>(json);
+            RhinoDoc.ActiveDoc.Views.ActiveView.Size = new Size((int)viewportSize.data.Width, (int)viewportSize.data.Height);
+        }
+        private void HandleScroll(string json)
+        {
+            var scrollAmount = JsonSerializer.Deserialize<Packet<ScrollData>>(json);
+            MouseController.MousewheelScroll((int)scrollAmount.data.amount);
         }
 
         private static void SendBitmap(Bitmap bitmap)

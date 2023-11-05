@@ -6,6 +6,7 @@ function initialize() {
     window.anywhere.bind(viewport);
 
   window.onresize = _ =>  window.anywhere.sendResize(viewport.clientWidth, viewport.clientHeight);
+  window.onwheel = e => window.anywhere.sendScroll(e.deltaY);
 }
 
 onMounted(() => initialize());
