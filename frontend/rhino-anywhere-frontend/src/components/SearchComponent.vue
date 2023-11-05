@@ -7,7 +7,7 @@ let searchHistory = ref([])
 let animateIcon = ref(false); 
 
 const images = [
-  new URL('../assets/icons/Rhinoceros_1_Mirrored.png', import.meta.url).href,
+  new URL('../assets/icons/rhino.gif', import.meta.url).href,
   new URL('../assets/icons/Rhinoceros_2_Mirrored.png', import.meta.url).href
 ];
 let commands = ref(RhinoCommands);
@@ -46,10 +46,9 @@ const handleTab = (event) => {
 const handleEnter = (event) => {
   if (event.key === "Enter" && filteredSuggestions.value.length > 0) {
     event.preventDefault();
-    search.value = filteredSuggestions.value[0];
+    //search.value = filteredSuggestions.value[0];
     console.log(filteredSuggestions.value[0]);
     addSearchTerm(); 
-
 
     animateIcon.value = true;
 
@@ -94,7 +93,7 @@ onUnmounted(() => {
   </div>
 
   <div class="fly-icon" :class="{ 'animate-fly': animateIcon }">
-    <img src='../assets/icons/Rhinoceros_1_Mirrored.png' alt="Flying Icon" />
+    <img src='../assets/icons/rhino.gif' alt="Flying Icon" />
   </div>
 </template>
 
