@@ -95,18 +95,19 @@ export function setupEvents(element, callback){
       action: "keydown",
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
-      value: e.key
+      value: e.keyCode
     });
     e.preventDefault();
   }
 
   window.onkeyup = e => {
+    console.log(e);
     push({
       method: "keyboard", 
-      action: "keyuo",
+      action: "keyup",
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
-      value: e.key
+      value: e.keyCode
     });
      e.preventDefault();
   }
