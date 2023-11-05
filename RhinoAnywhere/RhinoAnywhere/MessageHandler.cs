@@ -80,7 +80,10 @@ namespace RhinoAnywhere
         }
         else if (inputArgs.data.method == "keyboard")
         {
-          // todo keys
+          // maybe keys
+          int keyCode = int.Parse(inputArgs.data.value);
+          bool up = inputArgs.data.action.ToLower() == "keyup";
+          MouseController.KeyboardEvent(keyCode, up);
         }
       }
     }
