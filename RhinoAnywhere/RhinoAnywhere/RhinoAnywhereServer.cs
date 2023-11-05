@@ -28,9 +28,9 @@ namespace RhinoAnywhere
     private WebSocketServer SocketServer { get; set; }
     private VpxVideoEncoder Encoder;
 
-    public Server(int port)
+    public Server()
     {
-      WEBSOCKET_PORT = port;
+      var port = WEBSOCKET_PORT;
       SocketServer = new WebSocketServer(IPAddress.Any, port);
       SocketServer.AddWebSocketService<WebRTCWebSocketPeer>("/", (peer) => peer.CreatePeerConnection = () => CreatePeerConnection());
       SocketServer.Start();
@@ -131,10 +131,11 @@ namespace RhinoAnywhere
       RhinoDoc.ActiveDoc.Views.Redraw();
     }
 
-    public void SendBitmap(Bitmap bitmap)
+    public bool SendBitmap(Bitmap bitmap)
     {
       var rect = new Rectangle(new Point(0, 0), new Size(bitmap.Width, bitmap.Height));
       var bitmapData = bitmap.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
       try
       {
         IntPtr ptr = bitmapData.Scan0;
@@ -145,6 +146,7 @@ namespace RhinoAnywhere
 
         var encodedVideo = Encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H265);
         Connection.SendVideo(DurationUnits, encodedVideo);
+        return true;
       }
       catch (Exception ex)
       {
@@ -154,8 +156,9 @@ namespace RhinoAnywhere
       finally
       {
         bitmap.UnlockBits(bitmapData);
-        bitmap.Dispose();
       }
+
+      return false;
     }
 
   }

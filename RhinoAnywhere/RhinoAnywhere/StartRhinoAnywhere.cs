@@ -15,7 +15,7 @@ namespace RhinoAnywhere
     protected override Result RunCommand(RhinoDoc doc, RunMode mode)
     {
       Server?.Dispose();
-      Server = new Server(2337);
+      Server = new Server();
       return Result.Success;
     }
 
@@ -40,7 +40,12 @@ namespace RhinoAnywhere
       LastCall = DateTime.UtcNow;
 
       Bitmap LastBitMap = e.Display.FrameBuffer;
-      Server?.SendBitmap(LastBitMap);
+      if (!Server.SendBitmap(LastBitMap))
+      {
+        RhinoApp.WriteLine("Exception in sending bitmap, restarting server. Reload client to reconnect.");
+        Server?.Dispose();
+        Server = new Server();
+      }
     }
   }
 }
