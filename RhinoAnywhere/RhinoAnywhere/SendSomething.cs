@@ -68,7 +68,7 @@ namespace RhinoAnywhere
 
         private static void RegisterPipelineCall()
         {
-            DisplayPipeline.DrawForeground += DisplayPipeline_PostDrawObjects;
+            DisplayPipeline.DrawOverlay += DisplayPipeline_PostDrawObjects;
         }
 
         private static DateTime LastCall { get; set; } = DateTime.UtcNow;
