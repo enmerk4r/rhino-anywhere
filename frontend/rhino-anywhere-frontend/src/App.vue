@@ -12,22 +12,25 @@ function start(link) {
   window.anywhere.connect(link);
 }
 
+const gif =  new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href;
+
 </script>
 
 <template>
   <WelcomePageComponent v-show="showWelcomePage" @start="start" />
   <div class="container" v-show="!showWelcomePage">
     <div class="search-area">
-      <div class="logo-container">
-        pretty logo
-      </div>
+
       <SearchComponent />
     </div>
 
     <div class="content-area">
-      <div class="edit-tools">
+      <div class="sidebar">
+        <img src="../src/assets/icons/Rhino_Logo_White.gif" class="logo" />
+        <div class="edit-tools">
         <EditToolsComponent />
       </div>
+      </div>      
       <div class="video-component">
         <VideoComponent />
       </div>
@@ -42,9 +45,23 @@ function start(link) {
   height: 100%;
 }
 
+.sidebar {
+  width: 50px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.logo {
+  width: 100%;
+  max-width: 50px;
+}
+
 .container {
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 50px);
 }
 
 .search-area {
@@ -52,7 +69,7 @@ function start(link) {
   align-items: left;
    /* display: none; */
   position: absolute;
-  top: 10px;
+  top: 40px;
   left: 100px;
   /* background-color: red; */
   z-index: 1;
@@ -62,6 +79,7 @@ function start(link) {
 .content-area {
   display: flex;
   margin-top: 0px;
+  height: 100%;
 }
 
 .edit-tools {
@@ -79,8 +97,8 @@ function start(link) {
   margin-top: 10px;
   margin-bottom: 10px;
   text-align: center;
-  max-height: calc(100vh - 180px);
-
+  /* max-height: calc(100vh - 50px); */
+  height: 100%;
 }
 
 @media (max-width: 600px) {

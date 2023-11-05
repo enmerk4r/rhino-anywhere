@@ -107,6 +107,7 @@ const handleClick = () => {
   width:50px;
   padding-top:5px;
   padding-bottom: 5px;
+  height:fit-content;
 }
 
 .transparent-button {
