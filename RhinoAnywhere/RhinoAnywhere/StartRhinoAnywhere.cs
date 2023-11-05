@@ -189,24 +189,6 @@ namespace RhinoAnywhere
 
             Marshal.Copy(ptr, rgbValues, 0, bytes);
 
-            // BRGA => RGBA conversion
-            for (int i = 0; i < bitmap.Height; i++)
-            {
-                for (int j = 0; j < bitmap.Width; j++)
-                {
-                    var idx = (i * bitmap.Width + j) * 4;
-                    var b = rgbValues[idx + 0];
-                    var g = rgbValues[idx + 1];
-                    var r = rgbValues[idx + 2];
-                    var a = rgbValues[idx + 3];
-
-                    rgbValues[idx + 0] = r;
-                    rgbValues[idx + 1] = g;
-                    rgbValues[idx + 2] = b;
-                    rgbValues[idx + 3] = a;
-                }
-            }
-
             Connection.SendVideo(DurationUnits, Encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H265));
         }
 
