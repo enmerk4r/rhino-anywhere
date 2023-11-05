@@ -58,6 +58,12 @@ export class RhinoAnywhere {
     });
   }
 
+  sendScroll(y) {
+    this._sendData('scroll', {
+      amount: y
+    });
+  }
+
   /**
    * Send data to connection
    * @param {string} type "input" or "command"
