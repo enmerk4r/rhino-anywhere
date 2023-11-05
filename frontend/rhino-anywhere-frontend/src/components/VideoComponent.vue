@@ -1,6 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
-const rhinoViewport = ref(null);
+import { onMounted } from 'vue';
 
 function initialize() {
     var viewport = document.getElementById("rhinoViewport")
@@ -13,8 +12,7 @@ onMounted(() => initialize());
 </script>
 
 <template>
-    <video ref="rhinoViewport" autoplay="autoplay" playsinline>
-    </video>
+    <video id="rhinoViewport" autoplay="autoplay" playsinline></video>
 </template>
 
 <style>
