@@ -4,7 +4,7 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 import { RhinoCommands } from '../assets/data/rhinoCommands.js'
 let search = ref("")
 let searchHistory = ref([])
-let animateIcon = ref(false); 
+let animateIcon = ref(false);
 
 const images = [
   new URL('../assets/icons/rhino.gif', import.meta.url).href,
@@ -25,8 +25,8 @@ const addSearchTerm = () => {
   if (search.value) {
     searchHistory.value.push(search.value)
 
-    //window.anywhere.sendCommand(search.value);
-    search.value = "" 
+    window.anywhere.sendCommand(search.value);
+    search.value = "" // Clear the input after sending the command
   }
 }
 
@@ -48,14 +48,14 @@ const handleEnter = (event) => {
     event.preventDefault();
     //search.value = filteredSuggestions.value[0];
     console.log(filteredSuggestions.value[0]);
-    addSearchTerm(); 
+    addSearchTerm();
 
     animateIcon.value = true;
 
 
     setTimeout(() => {
       animateIcon.value = false;
-    }, 2000); 
+    }, 2000);
   }
 };
 
@@ -169,10 +169,23 @@ ul {
 }
 
 @keyframes flyAcross {
-  0% { transform: translateX(0); opacity: 0; } 
-  10% { opacity: 1; } 
-  90% { opacity: 0.1; } 
-  100% { transform: translateX(20vw); opacity: 0; } 
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 0.1;
+  }
+
+  100% {
+    transform: translateX(20vw);
+    opacity: 0;
+  }
 }
 
 
@@ -182,14 +195,14 @@ ul {
 
 .fly-icon {
   position: fixed;
-  top: 18%; 
+  top: 18%;
   left: 600px;
   z-index: 1000;
   opacity: 0;
 }
 
 .fly-icon img {
-  height: 50px; 
-  width: auto; 
+  height: 50px;
+  width: auto;
 }
 </style>
