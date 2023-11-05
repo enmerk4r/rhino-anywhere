@@ -27,7 +27,7 @@ function drawLine(){
 
     
     <button class="transparent-button" @click="drawLine">
-      <Draw_01 class="svg-size"></Draw_01>
+      <Draw_01 class="svg-size" :class="{ 'svg-hover': hover, 'svg-clicked': clicked }"></Draw_01>
     </button>
 
     <button class="transparent-button" @click="drawLine">
@@ -35,16 +35,6 @@ function drawLine(){
       ></Draw_02>
     </button>
 
-
-
-      <Add class = "icon" 
-        :class="{ 'icon-hover': !clicked, 'icon-clicked': clicked }"/>
-    
-              <Add class = "icon" 
-        :class="{ 'icon-hover': !clicked, 'icon-clicked': clicked }"/>
-
-              <Add class = "icon" 
-        :class="{ 'icon-hover': !clicked, 'icon-clicked': clicked }"/>
   </div>
 </template>
 
@@ -61,36 +51,34 @@ function drawLine(){
   background-color: transparent;
   border: none;
   padding: 3px;
+  margin-top:5px;
   cursor: pointer;
+  border-radius: 18px;
+  border-style: solid;
+  border-color:transparent;
+}
+
+.transparent-button:hover {
+  padding: 3px;
+  cursor: pointer;
+  border-radius: 18px;
+  border-color:yellow;
+  border-style: solid;
 }
 
 .transparent-button svg {
-  display: block; /* This can help with SVG sizing issues */
-}
-
-/* You might also need to set the fill or stroke of the SVG paths if they're not set within the SVG itself */
-.transparent-button svg path {
-  stroke: #000; /* Example: setting a black stroke for visibility */
+  display: block; 
 }
 
 .icon-container {
-  margin: 2px; /* Adjust the space between icons as needed */
+  margin: 2px;
   cursor: pointer;
-}
-
-.icon-container:hover .icon-hover {
-  fill: black; /* Color on hover */
-}
-
-.icon-clicked {
-  fill: pink; /* Color on click */
 }
 
 .icon {
     width:30px;
     height:30px;
 }
-
 .svg-size {
   width: 30px;
   height: 30px;

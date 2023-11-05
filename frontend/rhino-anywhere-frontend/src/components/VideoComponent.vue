@@ -12,5 +12,5 @@ onMounted(() => initialize());
 </script>
 
 <template>
-    <video controls autoplay="autoplay" id="rhinoViewport"></video>
+    <video autoplay="autoplay" id="rhinoViewport"></video>
 </template>
