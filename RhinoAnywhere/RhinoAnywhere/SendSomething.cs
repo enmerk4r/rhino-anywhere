@@ -30,7 +30,7 @@ namespace RhinoAnywhere
 
     public sealed class SendSomething : Command
     {
-        private const int WEBSOCKET_PORT = 8081;
+        private const int WEBSOCKET_PORT = 2337;
         private uint durationUnits => 16;
 
         public override string EnglishName => nameof(SendSomething);
