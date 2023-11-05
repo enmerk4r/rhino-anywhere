@@ -31,7 +31,7 @@ namespace RhinoAnywhere
 
     public sealed class SendSomething : Command
     {
-        private const int WEBSOCKET_PORT = 2337;
+        private const int WEBSOCKET_PORT = 8081;
         private uint durationUnits => 16;
 
         public override string EnglishName => nameof(SendSomething);
@@ -201,12 +201,30 @@ namespace RhinoAnywhere
             // DO NOT USE SENDFASTER
 
             var rect = new Rectangle(new Point(0, 0), new Size(bitmap.Width, bitmap.Height));
-            var bitmapData = bitmap.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb); // ALREADY BGRA
+            var bitmapData = bitmap.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             IntPtr ptr = bitmapData.Scan0;
             int bytes = bitmapData.Stride * bitmap.Height;
             byte[] rgbValues = new byte[bytes];
 
             Marshal.Copy(ptr, rgbValues, 0, bytes);
+
+            // BRGA => RGBA conversion
+            for (int i = 0; i < bitmap.Height; i++)
+            {
+                for (int j = 0; j < bitmap.Width; j++)
+                {
+                    var idx = (i * bitmap.Width + j) * 4;
+                    var b = rgbValues[idx + 0];
+                    var g = rgbValues[idx + 1];
+                    var r = rgbValues[idx + 2];
+                    var a = rgbValues[idx + 3];
+
+                    rgbValues[idx + 0] = r;
+                    rgbValues[idx + 1] = g;
+                    rgbValues[idx + 2] = b;
+                    rgbValues[idx + 3] = a;
+                }
+            }
 
             // connection.SendVideo(durationUnits, encoder.EncodeVideo(640, 480, myBits(), VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
             connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H265));
