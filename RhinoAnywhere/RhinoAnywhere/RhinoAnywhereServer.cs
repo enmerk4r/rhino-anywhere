@@ -34,6 +34,7 @@ namespace RhinoAnywhere
       SocketServer = new WebSocketServer(IPAddress.Any, port);
       SocketServer.AddWebSocketService<WebRTCWebSocketPeer>("/", (peer) => peer.CreatePeerConnection = () => CreatePeerConnection());
       SocketServer.Start();
+      RhinoApp.WriteLine($"Listening for connections on 0.0.0.0:{port}");
       Encoder = new VpxVideoEncoder();
     }
 
