@@ -69,13 +69,13 @@ onBeforeUnmount(() => {
 }
 
 button {
-  font-size: 24px;
+  font-size: 20px;
   padding: 20px 40px;
 
   color: #007bff;
   border: 2px solid #007bff;
   cursor: pointer;
-  border-radius: 25px;
+  border-radius: 40px;
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -85,9 +85,9 @@ button:hover {
 }
 
 button:disabled {
-  background-color: #ccc;
+  background-color: darkgray;
   color: #666;
-  border-color: #ccc;
+  border-color: darkgray;
   cursor: not-allowed;
 }
 
@@ -106,5 +106,7 @@ link-input-container {
   border: 1px solid #ccc;
   cursor: pointer;
   border-radius: 25px;
+  background-color: transparent;
+  color: #007bff;
 }
 </style>
