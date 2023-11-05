@@ -1,8 +1,11 @@
 <template>
   <div class="welcome-page">
     <div class="image-container">
-      <img :src="currentImage" class="background-image" />
+      <!-- <img :src="currentImage" class="background-image" /> -->
+      <img :src="gif" class="background-image"/>
+
     </div>
+
     <div class="link-input-container">
       <input type="text" v-model="link" placeholder="Enter link here..." class="link-input" />
     </div>
@@ -19,6 +22,8 @@ const images = [
   new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href,
   new URL('../assets/icons/Rhinoceros_2.png', import.meta.url).href
 ];
+
+const gif =  new URL('../assets/img/mirrored.gif', import.meta.url).href;
 const currentImageIndex = ref(0);
 
 const currentImage = computed(() => images[currentImageIndex.value]);

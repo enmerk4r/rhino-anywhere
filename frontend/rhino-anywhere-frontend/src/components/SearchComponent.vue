@@ -93,7 +93,7 @@ onUnmounted(() => {
   </div>
 
   <div class="fly-icon" :class="{ 'animate-fly': animateIcon }">
-    <img src='../assets/icons/rhino.gif' alt="Flying Icon" />
+    <img src='../assets/icons/Rhinoceros_1_Mirrored.png' alt="Flying Icon" />
   </div>
 </template>
 
@@ -195,7 +195,7 @@ ul {
 
 .fly-icon {
   position: fixed;
-  top: 17%;
+  top: 18%;
   left: 600px;
   z-index: 1000;
   opacity: 0;

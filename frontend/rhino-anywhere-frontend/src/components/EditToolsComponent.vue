@@ -113,7 +113,7 @@ const handleClick = () => {
   background-color: transparent;
   border: none;
   padding: 3px;
-  margin-top:2px;
+  margin-top:1px;
   cursor: pointer;
   border-radius: 19px;
   border-style: solid;
