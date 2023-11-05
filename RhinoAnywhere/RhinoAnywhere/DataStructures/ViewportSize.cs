@@ -1,13 +1,13 @@
 ﻿namespace RhinoAnywhere
 {
 
-
-    public sealed partial class StartRhinoAnywhere
+    /// <summary>Captures the Viewport Dimensions</summary>
+    public struct ViewportSize
     {
-        public struct ViewportSize
-        {
-            public double Width { get; set; }
-            public double Height { get; set; }
-        }
+        /// <summary>The width of the Viewport</summary>
+        public double Width { get; set; }
+
+        /// <summary>The height of the Viewport</summary>
+        public double Height { get; set; }
     }
 }

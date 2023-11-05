@@ -171,7 +171,6 @@ namespace RhinoAnywhere
         private void HandleClick(string json)
         {
             var clickPacket = JsonSerializer.Deserialize<Packet<MouseData>>(json);
-            // RhinoApp.WriteLine($"Got x:{clickPacket.data.x} y:{clickPacket.data.y} from client");
             InputRecieved(clickPacket);
         }
 
@@ -211,7 +210,6 @@ namespace RhinoAnywhere
                 }
             }
 
-            // connection.SendVideo(durationUnits, encoder.EncodeVideo(640, 480, myBits(), VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
             Connection.SendVideo(DurationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H265));
         }
 

@@ -1,12 +1,11 @@
 ﻿namespace RhinoAnywhere
 {
 
-
-    public sealed partial class StartRhinoAnywhere
+    /// <summary>Captures Command Data from the server</summary>
+    public struct CommandData
     {
-        public struct CommandData
-        {
-            public string command { get; set; }
-        }
+
+        /// <summary>The Command</summary>
+        public string command { get; set; }
     }
 }
