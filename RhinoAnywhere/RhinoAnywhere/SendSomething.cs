@@ -2,6 +2,7 @@
 using Rhino;
 using Rhino.Commands;
 using Rhino.Display;
+using RhinoAnywhere.DataStructures;
 using RhinoAnywhereCore;
 using SIPSorcery.Media;
 using SIPSorcery.Net;
@@ -28,49 +29,57 @@ namespace RhinoAnywhere
     // TODO : Initial Video Frame!
     // TODO : Fix the Video RGB -> BGR
 
-    public sealed class SendSomething : Command
+    public sealed partial class StartRhinoAnywhere : Command
     {
-        private const int WEBSOCKET_PORT = 8081;
-        private uint durationUnits => 16;
+        private const int WEBSOCKET_PORT = 2337;
 
-        public override string EnglishName => nameof(SendSomething);
+        private static uint DurationUnits => 16;
 
-        private RTCPeerConnection connection { get; set; }
-        private WebSocketServer webSocketServer { get; set; }
+        public override string EnglishName => nameof(StartRhinoAnywhere);
+
+        static private RTCPeerConnection Connection { get; set; }
+        static private WebSocketServer SocketServer { get; set; }
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
-            Rhino.Display.DisplayPipeline.DrawForeground += DisplayPipeline_PostDrawObjects;
+            if (Connection is not null)
+                Connection.Close("Because I said so");
 
-            if (connection is not null)
-                connection.Close("Because I said so");
-
-            if (webSocketServer is not null)
-                webSocketServer.Stop();
+            if (SocketServer is not null)
+                SocketServer.Stop();
 
             RhinoApp.WriteLine("WebRTC Get Started");
             RhinoApp.WriteLine("Starting web socket server...");
 
-            webSocketServer = new WebSocketServer(IPAddress.Any, WEBSOCKET_PORT);
-            webSocketServer.AddWebSocketService<WebRTCWebSocketPeer>("/", (peer) => peer.CreatePeerConnection = () => CreatePeerConnection());
-            webSocketServer.Start();
+            SocketServer = new WebSocketServer(IPAddress.Any, WEBSOCKET_PORT);
+            SocketServer.AddWebSocketService<WebRTCWebSocketPeer>("/", (peer) => peer.CreatePeerConnection = () => CreatePeerConnection());
+            SocketServer.Start();
 
-            RhinoApp.WriteLine($"Waiting for web socket connections on {webSocketServer.Address}:{webSocketServer.Port}...");
+            RhinoApp.WriteLine($"Waiting for web socket connections on {SocketServer.Address}:{SocketServer.Port}...");
 
             // Probably
             return Result.Success;
         }
 
-        private void DisplayPipeline_PostDrawObjects(object sender, DrawEventArgs e)
+        static StartRhinoAnywhere()
         {
-            if (connection is null)
+            RegisterPipelineCall();
+        }
+
+        private static void RegisterPipelineCall()
+        {
+            DisplayPipeline.DrawForeground += DisplayPipeline_PostDrawObjects;
+        }
+
+        private static void DisplayPipeline_PostDrawObjects(object sender, DrawEventArgs e)
+        {
+            if (Connection is null)
                 return;
 
-            if (webSocketServer is null)
+            if (SocketServer is null)
                 return;
 
-            // TODO: complete command.
-            RhinoView activeView = Rhino.RhinoDoc.ActiveDoc.Views.ActiveView;
+            RhinoView activeView = RhinoDoc.ActiveDoc.Views.ActiveView;
 
             var encoder = new VpxVideoEncoder();
             var size = activeView.Size;
@@ -81,49 +90,21 @@ namespace RhinoAnywhere
             }
         }
 
-        public struct Packet<T>
-        {
-            public string type { get; set; }
-            public T data { get; set; }
-        }
-
-        public struct MouseData
-        {
-            public string method { get; set; }
-            public string action { get; set; }
-            public double x { get; set; }
-            public double y { get; set; }
-            public double deltax { get; set; }
-            public double deltay { get; set; }
-            public string value { get; set; }
-        }
-
-        public struct CommandData
-        {
-            public string command { get; set; }
-        }
-
-        public struct ViewportSize
-        {
-            public double Width { get; set; }
-            public double Height { get; set; }
-        }
-
 
         private Task<RTCPeerConnection> CreatePeerConnection()
         {
-            connection = new RTCPeerConnection(null);
+            Connection = new RTCPeerConnection(null);
 
             var encoder = new VpxVideoEncoder();
             var testPatternSource = new VideoTestPatternSource(encoder);
 
             MediaStreamTrack videoTrack = new MediaStreamTrack(testPatternSource.GetVideoSourceFormats(), MediaStreamStatusEnum.SendOnly);
-            connection.addTrack(videoTrack);
+            Connection.addTrack(videoTrack);
 
             // testPatternSource.OnVideoSourceEncodedSample += connection.SendVideo;
-            connection.OnVideoFormatsNegotiated += (formats) => testPatternSource.SetVideoSourceFormat(formats.First());
+            Connection.OnVideoFormatsNegotiated += (formats) => testPatternSource.SetVideoSourceFormat(formats.First());
 
-            connection.onconnectionstatechange += async (state) =>
+            Connection.onconnectionstatechange += async (state) =>
             {
                 Console.WriteLine($"Peer connection state change to {state}.");
 
@@ -133,7 +114,7 @@ namespace RhinoAnywhere
                         await testPatternSource.StartVideo();
                         break;
                     case RTCPeerConnectionState.failed:
-                        connection.Close("ice disconnection");
+                        Connection.Close("ice disconnection");
                         break;
                     case RTCPeerConnectionState.closed:
                         await testPatternSource.CloseVideo();
@@ -142,9 +123,9 @@ namespace RhinoAnywhere
                 }
             };
 
-            connection.createDataChannel("test");
+            Connection.createDataChannel("test");
 
-            connection.ondatachannel += (channel) =>
+            Connection.ondatachannel += (channel) =>
             {
                 channel.onmessage += (test1, something, data) =>
                 {
@@ -164,7 +145,7 @@ namespace RhinoAnywhere
                 };
             };
 
-            return Task.FromResult(connection);
+            return Task.FromResult(Connection);
         }
 
         private string lastcommand { get; set; }
@@ -195,7 +176,7 @@ namespace RhinoAnywhere
             RhinoDoc.ActiveDoc.Views.ActiveView.Size = new Size((int)viewportSize.Width, (int)viewportSize.Height);
         }
 
-        private void SendBitmap(Bitmap bitmap, IVideoEncoder encoder)
+        private static void SendBitmap(Bitmap bitmap, IVideoEncoder encoder)
         {
             // DO NOT USE SENDFASTER
 
@@ -208,7 +189,7 @@ namespace RhinoAnywhere
             Marshal.Copy(ptr, rgbValues, 0, bytes);
 
             // connection.SendVideo(durationUnits, encoder.EncodeVideo(640, 480, myBits(), VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
-            connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
+            Connection.SendVideo(DurationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
         }
 
         private void InputRecieved(Packet<MouseData> inputArgs)
