@@ -137,6 +137,7 @@ namespace RhinoAnywhere
                         "command" => HandleCommand,
                         "input" => HandleClick,
                         "resize" => HandleResize,
+                        "scroll" => HandleScroll,
                         _ => throw new NotImplementedException("No"),
                     };
 
@@ -204,7 +205,7 @@ namespace RhinoAnywhere
         private void HandleScroll(string json)
         {
             var scrollAmount = JsonSerializer.Deserialize<Packet<ScrollData>>(json);
-            MouseController.MousewheelScroll((int)scrollAmount.data.amount);
+            MouseController.MousewheelScroll(-(int)scrollAmount.data.amount);
         }
 
         private static void SendBitmap(Bitmap bitmap)
