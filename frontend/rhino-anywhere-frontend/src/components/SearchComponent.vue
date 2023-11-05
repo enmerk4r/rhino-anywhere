@@ -4,11 +4,11 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 import { RhinoCommands } from '../assets/data/rhinoCommands.js'
 let search = ref("")
 let searchHistory = ref([])
-let animateIcon = ref(false); 
+let animateIcon = ref(false);
 
 const images = [
-  new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href,
-  new URL('../assets/icons/Rhinoceros_2.png', import.meta.url).href
+  new URL('../assets/icons/rhino.gif', import.meta.url).href,
+  new URL('../assets/icons/Rhinoceros_2_Mirrored.png', import.meta.url).href
 ];
 let commands = ref(RhinoCommands);
 
@@ -22,10 +22,10 @@ const filteredSuggestions = computed(() => {
 });
 
 const addSearchTerm = () => {
-  if (search.value && !searchHistory.value.includes(search.value)) {
+  if (search.value) {
     searchHistory.value.push(search.value)
 
-    //window.anywhere.sendCommand(search.value);
+    window.anywhere.sendCommand(search.value);
     search.value = "" // Clear the input after sending the command
   }
 }
@@ -46,17 +46,16 @@ const handleTab = (event) => {
 const handleEnter = (event) => {
   if (event.key === "Enter" && filteredSuggestions.value.length > 0) {
     event.preventDefault();
-    search.value = filteredSuggestions.value[0];
+    //search.value = filteredSuggestions.value[0];
     console.log(filteredSuggestions.value[0]);
-    addSearchTerm(); 
-
+    addSearchTerm();
 
     animateIcon.value = true;
 
 
     setTimeout(() => {
       animateIcon.value = false;
-    }, 2000); 
+    }, 2000);
   }
 };
 
@@ -73,7 +72,6 @@ onUnmounted(() => {
 
 <template>
   <div class="search-container">
-    <!-- Display the search history -->
     <div class="search-history">
       <ul>
         <li v-for="(entry, index) in searchHistory" :key="index">
@@ -82,7 +80,6 @@ onUnmounted(() => {
       </ul>
     </div>
 
-    <!-- Search bar -->
     <input type="text" placeholder="Type your Rhino command here..." v-model="search" @keyup.enter="addSearchTerm" />
 
 
@@ -96,7 +93,7 @@ onUnmounted(() => {
   </div>
 
   <div class="fly-icon" :class="{ 'animate-fly': animateIcon }">
-    <img src='../assets/icons/Rhinoceros_1.png' alt="Flying Icon" />
+    <img src='../assets/icons/rhino.gif' alt="Flying Icon" />
   </div>
 </template>
 
@@ -172,10 +169,23 @@ ul {
 }
 
 @keyframes flyAcross {
-  0% { transform: translateX(0); opacity: 0; } 
-  10% { opacity: 1; } 
-  90% { opacity: 0.1; } 
-  100% { transform: translateX(20vw); opacity: 0; } 
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 0.1;
+  }
+
+  100% {
+    transform: translateX(20vw);
+    opacity: 0;
+  }
 }
 
 
@@ -185,14 +195,14 @@ ul {
 
 .fly-icon {
   position: fixed;
-  top: 18%; 
+  top: 18%;
   left: 600px;
   z-index: 1000;
   opacity: 0;
 }
 
 .fly-icon img {
-  height: 50px; 
-  width: auto; 
+  height: 50px;
+  width: auto;
 }
 </style>
