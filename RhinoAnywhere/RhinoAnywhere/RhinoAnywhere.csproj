@@ -27,7 +27,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Update="manifest.yaml">
+    <None Update="Logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="manifest.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
