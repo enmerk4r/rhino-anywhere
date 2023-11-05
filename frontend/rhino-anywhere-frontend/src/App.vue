@@ -20,7 +20,6 @@ const gif =  new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href;
   <WelcomePageComponent v-show="showWelcomePage" @start="start" />
   <div class="container" v-show="!showWelcomePage">
     <div class="search-area">
-
       <SearchComponent />
     </div>
 
@@ -47,10 +46,10 @@ const gif =  new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href;
 
 .sidebar {
   width: 50px;
-  height: 100%;
+  height: calc(100vh - 50px);
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  justify-content:flex-start;
 }
 
 .logo {
@@ -87,6 +86,7 @@ const gif =  new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href;
   width: 50px;
   border: 1px solid #ccc;
   border-radius: 30px;
+  flex: 1;
 }
 
 .video-component {
