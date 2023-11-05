@@ -79,7 +79,7 @@ function start(link) {
   margin-top: 10px;
   margin-bottom: 10px;
   text-align: center;
-  max-height: calc(100vh - 280px);
+  max-height: calc(100vh - 180px);
 
 }
 

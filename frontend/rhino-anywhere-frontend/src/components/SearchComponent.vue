@@ -117,7 +117,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column-reverse;
   border: 1px solid #ccc;
-  background-color: white;
+  background-color: black;
   backdrop-filter: blur(2px);
   opacity: 0.5;
   text-align: left;
