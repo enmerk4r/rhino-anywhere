@@ -51,30 +51,39 @@ namespace RhinoAnywhere
 
         string left = "0";
         string right = "2";
+        if (inputArgs.data.method == "mouse")
+        {
+          if (inputArgs.data.action == "up" && val == left)
+          {
+            MouseController.MouseEvent(MouseController.MouseEventFlags.LeftUp);
+          }
+          else if (inputArgs.data.action == "down" && val == left)
+          {
+            MouseController.MouseEvent(MouseController.MouseEventFlags.LeftDown);
+          }
+          else if (inputArgs.data.action == "down" && val == right)
+          {
+            MouseController.MouseEvent(MouseController.MouseEventFlags.RightDown);
+          }
+          else if (inputArgs.data.action == "up" && val == right)
+          {
+            MouseController.MouseEvent(MouseController.MouseEventFlags.RightUp);
+          }
+          else if (inputArgs.data.action == "move")
+          {
+            double newX = inputArgs.data.x + inputArgs.data.deltax;
+            double newY = inputArgs.data.y + inputArgs.data.deltay;
 
-        if (inputArgs.data.action == "up" && val == left)
-        {
-          MouseController.MouseEvent(MouseController.MouseEventFlags.LeftUp);
+            var pt = DisplayController.WebViewToServerWindowCoordinate(newY, newX);
+            MouseController.SetCursorPosition((int)pt.X, (int)pt.Y);
+          }
         }
-        else if (inputArgs.data.action == "down" && val == left)
+        else if (inputArgs.data.method == "keyboard")
         {
-          MouseController.MouseEvent(MouseController.MouseEventFlags.LeftDown);
-        }
-        else if (inputArgs.data.action == "down" && val == right)
-        {
-          MouseController.MouseEvent(MouseController.MouseEventFlags.RightDown);
-        }
-        else if (inputArgs.data.action == "up" && val == right)
-        {
-          MouseController.MouseEvent(MouseController.MouseEventFlags.RightUp);
-        }
-        else if (inputArgs.data.action == "move")
-        {
-          double newX = inputArgs.data.x + inputArgs.data.deltax;
-          double newY = inputArgs.data.y + inputArgs.data.deltay;
-
-          var pt = DisplayController.WebViewToServerWindowCoordinate(newY, newX);
-          MouseController.SetCursorPosition((int)pt.X, (int)pt.Y);
+          // maybe keys
+          int keyCode = int.Parse(inputArgs.data.value);
+          bool up = inputArgs.data.action.ToLower() == "keyup";
+          MouseController.KeyboardEvent(keyCode, up);
         }
       }
     }

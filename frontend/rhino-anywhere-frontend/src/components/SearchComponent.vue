@@ -22,10 +22,17 @@ const filteredSuggestions = computed(() => {
 });
 
 const addSearchTerm = () => {
+  console.log(search.value)
   if (search.value) {
     searchHistory.value.push(search.value)
 
-    window.anywhere.sendCommand(search.value);
+    try {
+     // window.anywhere.sendCommand(search.value);
+
+    } catch (e) {
+      console.log(e);
+    }
+    //window.anywhere.sendCommand(search.value);
     search.value = "" 
   }
 }
@@ -59,6 +66,10 @@ const handleEnter = (event) => {
   }
 };
 
+function updateFromSuggestion(suggestion){
+  search.value = suggestion;
+}
+
 onMounted(() => {
   window.addEventListener("keydown", handleTab);
   window.addEventListener("keydown", handleEnter);
@@ -85,7 +96,7 @@ onUnmounted(() => {
 
     <ul v-if="filteredSuggestions.length" class="suggestions">
       <li v-for="(suggestion, index) in filteredSuggestions" :key="index"
-        @mousedown.prevent="search.value = suggestion; addSearchTerm()">
+        @click="updateFromSuggestion(suggestion)">
         {{ suggestion }}
       </li>
     </ul>
@@ -201,7 +212,7 @@ ul {
 
 .fly-icon {
   position: fixed;
-  top: 18%;
+  top: 4.5%;
   left: 600px;
   z-index: 1000;
   opacity: 0;

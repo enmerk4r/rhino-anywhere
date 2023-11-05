@@ -73,14 +73,35 @@ export function setupEvents(element, callback){
       y: e.offsetY / element.clientHeight, 
       value:e.button
     });
-    e.preventDefault();
-  };
+  }
 
   element.oncontextmenu = function (e) {
     // This causes issues with mac not being able to use left button.
     //emitMouseUp(e.button, e.offsetX, e.offsetY);
     e.preventDefault();
   };
+
+  window.onkeydown = e => {
+    push({
+      method: "keyboard", 
+      action: "keydown",
+      x: e.offsetX / element.clientWidth, 
+      y: e.offsetY / element.clientHeight, 
+      value: e.keyCode
+    });
+    e.preventDefault();
+  }
+
+  window.onkeyup = e => {
+    push({
+      method: "keyboard", 
+      action: "keyup",
+      x: e.offsetX / element.clientWidth, 
+      y: e.offsetY / element.clientHeight, 
+      value: e.keyCode
+    });
+     e.preventDefault();
+  }
 
   if ("onmousewheel" in element) {
     element.onmousewheel = function (e) {
