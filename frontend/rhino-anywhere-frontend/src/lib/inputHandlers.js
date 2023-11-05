@@ -59,7 +59,10 @@ export function setupEvents(element, callback){
       action: "down",
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
-      value:e.button
+      value:e.button,
+      altKey: e.altKey,
+      shiftKey: e.shiftKey,
+      cntrlKey: e.cntrlKey
     });
     
     e.preventDefault();
@@ -71,8 +74,12 @@ export function setupEvents(element, callback){
       action: "up",
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
-      value:e.button
+      value:e.button,
+      altKey: e.altKey,
+      shiftKey: e.shiftKey,
+      cntrlKey: e.cntrlKey
     });
+
     e.preventDefault();
   };
 
@@ -81,6 +88,28 @@ export function setupEvents(element, callback){
     //emitMouseUp(e.button, e.offsetX, e.offsetY);
     e.preventDefault();
   };
+
+  window.onkeydown = e => {
+    push({
+      method: "keyboard", 
+      action: "keydown",
+      x: e.offsetX / element.clientWidth, 
+      y: e.offsetY / element.clientHeight, 
+      value: e.key
+    });
+    e.preventDefault();
+  }
+
+  window.onkeyup = e => {
+    push({
+      method: "keyboard", 
+      action: "keyuo",
+      x: e.offsetX / element.clientWidth, 
+      y: e.offsetY / element.clientHeight, 
+      value: e.key
+    });
+     e.preventDefault();
+  }
 
   if ("onmousewheel" in element) {
     element.onmousewheel = function (e) {
