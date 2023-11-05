@@ -3,7 +3,6 @@ using Rhino;
 using Rhino.Commands;
 using Rhino.Display;
 using RhinoAnywhere.DataStructures;
-using RhinoAnywhereCore;
 using SIPSorcery.Media;
 using SIPSorcery.Net;
 using SIPSorceryMedia.Abstractions;
@@ -194,7 +193,7 @@ namespace RhinoAnywhere
 
             Marshal.Copy(ptr, rgbValues, 0, bytes);
 
-            connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H265));
+            Connection.SendVideo(DurationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H265));
         }
 
         private void InputRecieved(Packet<MouseData> inputArgs)
