@@ -25,7 +25,13 @@ const addSearchTerm = () => {
   if (search.value) {
     searchHistory.value.push(search.value)
 
-    window.anywhere.sendCommand(search.value);
+    try {
+          window.anywhere.sendCommand(search.value);
+
+    } catch (e) {
+      console.log(e);
+    }
+    //window.anywhere.sendCommand(search.value);
     search.value = "" 
   }
 }
@@ -101,12 +107,12 @@ onUnmounted(() => {
 .search-container {
   display:flex;
   width: 100%;
-  height: 150px;
+  /* height: 150px; */
   flex-direction: column;
   align-items: left;
   margin-top: 0px;
   position: relative;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
 }
 
 .search-history {
@@ -114,7 +120,7 @@ onUnmounted(() => {
   height: 120px;
   width: 600px;
   overflow-y: auto;
-  display: flex;
+  display: none;
   flex-direction: column-reverse;
   border: 1px solid #ccc;
   background-color: black;
@@ -148,7 +154,7 @@ ul {
 }
 
 .suggestions {
-  margin-top: 2px;
+  margin-top: 10px;
   border-radius: 20px;
   list-style-type: none;
   padding: 0;
@@ -161,6 +167,7 @@ ul {
   max-height: 100px;
   overflow-y: auto;
   font-size: 0.8rem;
+  overflow: hidden;
 }
 
 .suggestions li {
@@ -200,7 +207,7 @@ ul {
 
 .fly-icon {
   position: fixed;
-  top: 18%;
+  top: 4.5%;
   left: 600px;
   z-index: 1000;
   opacity: 0;
