@@ -52,7 +52,6 @@ export class RhinoAnywhere {
   }
 
   sendResize(w, h) {
-    console.log(w,h);
     this._sendData('resize', {
       width: w,
       height: h
@@ -70,7 +69,9 @@ export class RhinoAnywhere {
       data: data,
     };
 
-    toSend.data.value = toSend.data.value.toString();
+    if("value" in data){
+      toSend.data.value = toSend.data.value.toString();
+    }
 
     this._sendChannel.send(JSON.stringify(toSend));
   }
