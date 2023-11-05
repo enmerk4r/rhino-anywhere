@@ -25,7 +25,13 @@ const addSearchTerm = () => {
   if (search.value) {
     searchHistory.value.push(search.value)
 
-    window.anywhere.sendCommand(search.value);
+    try {
+          window.anywhere.sendCommand(search.value);
+
+    } catch (e) {
+      console.log(e);
+    }
+    //window.anywhere.sendCommand(search.value);
     search.value = "" 
   }
 }
@@ -201,7 +207,7 @@ ul {
 
 .fly-icon {
   position: fixed;
-  top: 18%;
+  top: 4.5%;
   left: 600px;
   z-index: 1000;
   opacity: 0;
