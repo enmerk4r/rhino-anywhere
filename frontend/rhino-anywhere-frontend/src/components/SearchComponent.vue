@@ -101,12 +101,12 @@ onUnmounted(() => {
 .search-container {
   display:flex;
   width: 100%;
-  height: 150px;
+  /* height: 150px; */
   flex-direction: column;
   align-items: left;
   margin-top: 0px;
   position: relative;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
 }
 
 .search-history {
@@ -148,7 +148,7 @@ ul {
 }
 
 .suggestions {
-  margin-top: 2px;
+  margin-top: 10px;
   border-radius: 20px;
   list-style-type: none;
   padding: 0;
@@ -161,6 +161,7 @@ ul {
   max-height: 100px;
   overflow-y: auto;
   font-size: 0.8rem;
+  overflow: hidden;
 }
 
 .suggestions li {
