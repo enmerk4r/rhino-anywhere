@@ -57,8 +57,8 @@ export function setupEvents(element, callback){
     push({ 
       method: "mouse", 
       action: "down",
-      x: e.offsetX / element.width, 
-      y: e.offsetY / element.width, 
+      x: e.offsetX / element.clientWidth, 
+      y: e.offsetY / element.clientHeight, 
       value:e.button
     });
     
@@ -69,8 +69,8 @@ export function setupEvents(element, callback){
     push({ 
       method: "mouse", 
       action: "up",
-      x: e.offsetX / element.width, 
-      y: e.offsetY / element.width, 
+      x: e.offsetX / element.clientWidth, 
+      y: e.offsetY / element.clientHeight, 
       value:e.button
     });
     e.preventDefault();
@@ -87,8 +87,8 @@ export function setupEvents(element, callback){
       push({ 
         method: "mouse", 
         action: "scroll",
-        x: e.offsetX / element.width, 
-        y: e.offsetY / element.width, 
+        x: e.offsetX / element.clientWidth, 
+        y: e.offsetY / element.clientHeight, 
         value:e.wheelDelta
       });
       e.preventDefault();
@@ -100,8 +100,8 @@ export function setupEvents(element, callback){
         push({ 
           method: "mouse", 
           action: "scroll",
-          x: e.offsetX / element.width, 
-          y: e.offsetY / element.width, 
+          x: e.offsetX / element.clientWidth, 
+          y: e.offsetY / element.clientHeight, 
           value:e.detail * -120
         });
         e.preventDefault();
