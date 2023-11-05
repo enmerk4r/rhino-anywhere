@@ -75,6 +75,7 @@ button:focus-visible {
   text-align: left;
   align-items: left;
   width:100%;
+  background-color: #242424;
 }
 
 @media (prefers-color-scheme: dark) {
