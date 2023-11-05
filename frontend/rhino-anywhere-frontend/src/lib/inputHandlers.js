@@ -59,10 +59,7 @@ export function setupEvents(element, callback){
       action: "down",
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
-      value:e.button,
-      altKey: e.altKey,
-      shiftKey: e.shiftKey,
-      cntrlKey: e.cntrlKey
+      value:e.button
     });
     
     e.preventDefault();
@@ -74,14 +71,8 @@ export function setupEvents(element, callback){
       action: "up",
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
-      value:e.button,
-      altKey: e.altKey,
-      shiftKey: e.shiftKey,
-      cntrlKey: e.cntrlKey
+      value:e.button
     });
-
-    e.preventDefault();
-  };
 
   element.oncontextmenu = function (e) {
     // This causes issues with mac not being able to use left button.
