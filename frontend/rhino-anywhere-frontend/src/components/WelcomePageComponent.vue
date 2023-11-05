@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-const link = ref('ws://127.0.0.1:2337/');
+const link = ref('ws://10.1.15.15:2337/');
 const images = [
   new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href,
   new URL('../assets/icons/Rhinoceros_2.png', import.meta.url).href
