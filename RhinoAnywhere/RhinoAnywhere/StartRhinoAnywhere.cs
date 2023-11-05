@@ -15,9 +15,7 @@ namespace RhinoAnywhere
     protected override Result RunCommand(RhinoDoc doc, RunMode mode)
     {
       Server?.Dispose();
-      var random = new Random();
-      var portNumber = (int)((random.NextDouble() * 50) + 2330);
-      Server = new Server(portNumber);
+      Server = new Server(2337);
       return Result.Success;
     }
 
@@ -35,7 +33,7 @@ namespace RhinoAnywhere
 
     private static void DisplayPipeline_PostDrawObjects(object sender, DrawEventArgs e)
     {
-      if (Server is null)
+      if (Server?.Connection is null)
         return;
 
       Server.DurationUnits = (uint)DateTime.UtcNow.Subtract(LastCall).TotalMilliseconds;

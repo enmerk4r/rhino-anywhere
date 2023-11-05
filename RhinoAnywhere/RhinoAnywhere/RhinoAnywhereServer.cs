@@ -24,7 +24,7 @@ namespace RhinoAnywhere
   {
     private int WEBSOCKET_PORT { get; set; } = 2337;
     public uint DurationUnits { get; set; } = 1;
-    private RTCPeerConnection Connection { get; set; }
+    public RTCPeerConnection Connection { get; set; }
     private WebSocketServer SocketServer { get; set; }
     private VpxVideoEncoder Encoder;
 
