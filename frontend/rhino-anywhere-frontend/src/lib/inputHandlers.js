@@ -59,7 +59,7 @@ export function setupEvents(element, callback){
       action: "down",
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
-      value:e.button,
+      value:e.button
     });
     
     e.preventDefault();
@@ -71,11 +71,8 @@ export function setupEvents(element, callback){
       action: "up",
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
-      value:e.button,
+      value:e.button
     });
-
-    e.preventDefault();
-  };
 
   element.oncontextmenu = function (e) {
     // This causes issues with mac not being able to use left button.
@@ -89,18 +86,19 @@ export function setupEvents(element, callback){
       action: "keydown",
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
-      value: e.key
+      value: e.keyCode
     });
     e.preventDefault();
   }
 
   window.onkeyup = e => {
+    console.log(e);
     push({
       method: "keyboard", 
       action: "keyup",
       x: e.offsetX / element.clientWidth, 
       y: e.offsetY / element.clientHeight, 
-      value: e.key
+      value: e.keyCode
     });
      e.preventDefault();
   }
