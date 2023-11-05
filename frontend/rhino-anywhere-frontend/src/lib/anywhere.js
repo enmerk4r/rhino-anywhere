@@ -71,7 +71,23 @@ export class RhinoAnywhere {
 
     if("value" in data){
       toSend.data.value = toSend.data.value.toString();
+      
     }
+
+    var oldx = toSend.data.x;
+    var oldy = toSend.data.y;
+
+    if("x" in data){
+      toSend.data.x = oldy;
+    }
+
+    if("y" in data){
+      toSend.data.y = oldx;
+    }
+
+
+
+
 
     this._sendChannel.send(JSON.stringify(toSend));
   }

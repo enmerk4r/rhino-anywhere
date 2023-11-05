@@ -26,15 +26,15 @@ const images = [
 const gif =  new URL('../assets/img/mirrored.gif', import.meta.url).href;
 const currentImageIndex = ref(0);
 
-const currentImage = computed(() => images[currentImageIndex.value]);
+// const currentImage = computed(() => images[currentImageIndex.value]);
 
-let timer = null;
+// let timer = null;
 
-const rotateImages = () => {
-  timer = setInterval(() => {
-    currentImageIndex.value = (currentImageIndex.value + 1) % images.length;
-  }, 200);
-};
+// const rotateImages = () => {
+//   timer = setInterval(() => {
+//     currentImageIndex.value = (currentImageIndex.value + 1) % images.length;
+//   }, 200);
+// };
 
 const emit = defineEmits(['start']);
 
@@ -42,13 +42,13 @@ const startSomething = () => {
   emit('start', link.value);
 };
 
-onMounted(() => {
-  rotateImages();
-});
+// onMounted(() => {
+//   rotateImages();
+// });
 
-onBeforeUnmount(() => {
-  clearInterval(timer);
-});
+// onBeforeUnmount(() => {
+//   clearInterval(timer);
+// });
 </script>
 
 <style scoped>

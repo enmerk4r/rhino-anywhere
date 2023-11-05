@@ -12,5 +12,13 @@ onMounted(() => initialize());
 </script>
 
 <template>
-    <video autoplay="autoplay" id="rhinoViewport"></video>
+    <video id="rhinoViewport" autoplay="autoplay" playsinline></video>
 </template>
+
+<style>
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}</style>
