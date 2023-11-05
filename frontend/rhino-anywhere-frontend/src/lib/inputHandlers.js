@@ -89,7 +89,6 @@ export function setupEvents(element, callback){
       y: e.offsetY / element.clientHeight, 
       value: e.keyCode
     });
-    e.preventDefault();
   }
 
   window.onkeyup = e => {
@@ -100,7 +99,6 @@ export function setupEvents(element, callback){
       y: e.offsetY / element.clientHeight, 
       value: e.keyCode
     });
-     e.preventDefault();
   }
 
   if ("onmousewheel" in element) {
