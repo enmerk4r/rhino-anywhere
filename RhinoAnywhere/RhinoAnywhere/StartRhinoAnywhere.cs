@@ -210,17 +210,29 @@ namespace RhinoAnywhere
 
         private static void SendBitmap(Bitmap bitmap)
         {
-            // DO NOT USE SENDFASTER
-
             var rect = new Rectangle(new Point(0, 0), new Size(bitmap.Width, bitmap.Height));
             var bitmapData = bitmap.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            IntPtr ptr = bitmapData.Scan0;
-            int bytes = bitmapData.Stride * bitmap.Height;
-            byte[] rgbValues = new byte[bytes];
+            try
+            {
+                IntPtr ptr = bitmapData.Scan0;
+                int bytes = bitmapData.Stride * bitmap.Height;
+                byte[] rgbValues = new byte[bytes];
 
-            Marshal.Copy(ptr, rgbValues, 0, bytes);
+                Marshal.Copy(ptr, rgbValues, 0, bytes);
 
-            Connection.SendVideo(DurationUnits, Encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H265));
+                var encodedVideo = Encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H265);
+                Connection.SendVideo(DurationUnits, encodedVideo);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Video encoding or sending failed: {ex.Message}");
+                // Handle the exception, potentially reinitialize the encoder or alert the user
+            }
+            finally
+            {
+                bitmap.UnlockBits(bitmapData);
+                bitmap.Dispose();
+            }
         }
 
         private void InputRecieved(Packet<MouseData> inputArgs)
