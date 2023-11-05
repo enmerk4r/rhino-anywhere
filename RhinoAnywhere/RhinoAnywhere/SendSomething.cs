@@ -31,8 +31,7 @@ namespace RhinoAnywhere
 
     public sealed partial class StartRhinoAnywhere : Command
     {
-        private const int WEBSOCKET_PORT = 8081;
-        private uint durationUnits => 16;
+        private const int WEBSOCKET_PORT = 2337;
 
         private static uint DurationUnits { get; set; } = 1;
 
