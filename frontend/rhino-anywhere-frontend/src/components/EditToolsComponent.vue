@@ -105,17 +105,17 @@ const handleClick = () => {
   flex-direction: column;
   align-items: center;
   width:50px;
-  padding-top:10px;
-  padding-bottom: 10px;
+  padding-top:5px;
+  padding-bottom: 5px;
 }
 
 .transparent-button {
   background-color: transparent;
   border: none;
   padding: 3px;
-  margin-top:5px;
+  margin-top:2px;
   cursor: pointer;
-  border-radius: 18px;
+  border-radius: 19px;
   border-style: solid;
   border-color:transparent;
 }
@@ -123,7 +123,7 @@ const handleClick = () => {
 .transparent-button:hover {
   padding: 3px;
   cursor: pointer;
-  border-radius: 18px;
+  border-radius: 19px;
   border-color:yellow;
   border-style: solid;
 }

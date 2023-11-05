@@ -55,7 +55,7 @@ function start(link) {
 
 .content-area {
   display: flex;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 .edit-tools {
@@ -70,7 +70,11 @@ function start(link) {
   margin-left: 20px;
   border: 1px solid #ccc;
   text-align: right;
-  /* Aligns the content of the video component to the right */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  max-height: calc(100vh - 280px);
+
 }
 
 @media (max-width: 600px) {
@@ -78,13 +82,6 @@ function start(link) {
     flex-direction: column;
   }
 
-  .video-component {
-    margin-left: 0;
-    margin-top: 20px;
-    /* Adjust the margin as needed */
-    text-align: center;
-    /* Center the content on small screens */
-  }
 }
 
 </style>
