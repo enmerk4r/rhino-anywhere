@@ -73,6 +73,7 @@ export function setupEvents(element, callback){
       y: e.offsetY / element.clientHeight, 
       value:e.button
     });
+  }
 
   element.oncontextmenu = function (e) {
     // This causes issues with mac not being able to use left button.
@@ -92,7 +93,6 @@ export function setupEvents(element, callback){
   }
 
   window.onkeyup = e => {
-    console.log(e);
     push({
       method: "keyboard", 
       action: "keyup",
