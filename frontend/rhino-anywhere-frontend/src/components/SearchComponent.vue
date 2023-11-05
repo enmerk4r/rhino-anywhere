@@ -7,8 +7,8 @@ let searchHistory = ref([])
 let animateIcon = ref(false); 
 
 const images = [
-  new URL('../assets/icons/Rhinoceros_1.png', import.meta.url).href,
-  new URL('../assets/icons/Rhinoceros_2.png', import.meta.url).href
+  new URL('../assets/icons/Rhinoceros_1_Mirrored.png', import.meta.url).href,
+  new URL('../assets/icons/Rhinoceros_2_Mirrored.png', import.meta.url).href
 ];
 let commands = ref(RhinoCommands);
 
@@ -26,7 +26,7 @@ const addSearchTerm = () => {
     searchHistory.value.push(search.value)
 
     //window.anywhere.sendCommand(search.value);
-    search.value = "" // Clear the input after sending the command
+    search.value = "" 
   }
 }
 
@@ -73,7 +73,6 @@ onUnmounted(() => {
 
 <template>
   <div class="search-container">
-    <!-- Display the search history -->
     <div class="search-history">
       <ul>
         <li v-for="(entry, index) in searchHistory" :key="index">
@@ -82,7 +81,6 @@ onUnmounted(() => {
       </ul>
     </div>
 
-    <!-- Search bar -->
     <input type="text" placeholder="Type your Rhino command here..." v-model="search" @keyup.enter="addSearchTerm" />
 
 
@@ -96,7 +94,7 @@ onUnmounted(() => {
   </div>
 
   <div class="fly-icon" :class="{ 'animate-fly': animateIcon }">
-    <img src='../assets/icons/Rhinoceros_1.png' alt="Flying Icon" />
+    <img src='../assets/icons/Rhinoceros_1_Mirrored.png' alt="Flying Icon" />
   </div>
 </template>
 
