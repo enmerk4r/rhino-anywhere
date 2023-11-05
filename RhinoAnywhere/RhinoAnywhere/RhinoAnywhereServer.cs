@@ -26,8 +26,7 @@ namespace RhinoAnywhere
     public uint DurationUnits { get; set; } = 1;
     private RTCPeerConnection Connection { get; set; }
     private WebSocketServer SocketServer { get; set; }
-
-    private static VpxVideoEncoder Encoder;
+    private VpxVideoEncoder Encoder;
 
     public Server(int port)
     {
@@ -83,21 +82,21 @@ namespace RhinoAnywhere
       {
         channel.onmessage += (test1, something, data) =>
               {
-            string json = System.Text.Encoding.UTF8.GetString(data);
-            var tst = JsonSerializer.Deserialize<JsonObject>(json);
+                string json = System.Text.Encoding.UTF8.GetString(data);
+                var tst = JsonSerializer.Deserialize<JsonObject>(json);
 
-            string type = tst["type"].ToString();
-            Action<string> method = type switch
-            {
-              "command" => MessageHandler.HandleCommand,
-              "input" => MessageHandler.HandleClick,
-              "resize" => MessageHandler.HandleResize,
-              "scroll" => MessageHandler.HandleScroll,
-              _ => throw new NotImplementedException("No"),
-            };
+                string type = tst["type"].ToString();
+                Action<string> method = type switch
+                {
+                  "command" => MessageHandler.HandleCommand,
+                  "input" => MessageHandler.HandleClick,
+                  "resize" => MessageHandler.HandleResize,
+                  "scroll" => MessageHandler.HandleScroll,
+                  _ => throw new NotImplementedException("No"),
+                };
 
-            method(json);
-          };
+                method(json);
+              };
       };
 
       async Task AttemptReconnect()

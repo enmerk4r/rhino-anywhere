@@ -1,7 +1,6 @@
 ﻿using Rhino;
 using Rhino.Commands;
 using Rhino.Display;
-using SIPSorceryMedia.Encoders;
 using System;
 using System.Drawing;
 
@@ -22,17 +21,14 @@ namespace RhinoAnywhere
       return Result.Success;
     }
 
-    private readonly static VpxVideoEncoder Encoder;
     static StartRhinoAnywhere()
     {
       RegisterPipelineCall();
-      Encoder = new VpxVideoEncoder();
     }
 
     private static void RegisterPipelineCall()
     {
       DisplayPipeline.DrawOverlay += DisplayPipeline_PostDrawObjects;
-
     }
 
     private static DateTime LastCall { get; set; } = DateTime.UtcNow;
