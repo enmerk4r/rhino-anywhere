@@ -25,9 +25,6 @@ using WebSocketSharp.Server;
 namespace RhinoAnywhere
 {
 
-    // TODO : Limit Video Sending
-    // TODO : Initial Video Frame!
-    // TODO : Fix the Video RGB -> BGR
 
     public sealed partial class StartRhinoAnywhere : Command
     {
@@ -61,9 +58,11 @@ namespace RhinoAnywhere
             return Result.Success;
         }
 
+        private readonly static VpxVideoEncoder Encoder;
         static StartRhinoAnywhere()
         {
             RegisterPipelineCall();
+            Encoder = new VpxVideoEncoder();
         }
 
         private static void RegisterPipelineCall()
@@ -86,12 +85,11 @@ namespace RhinoAnywhere
 
             RhinoView activeView = RhinoDoc.ActiveDoc.Views.ActiveView;
 
-            var encoder = new VpxVideoEncoder();
             var size = activeView.Size;
             using (var bitmap = new Bitmap(size.Width, size.Height))
             {
                 Bitmap LastBitMap = e.Display.FrameBuffer;
-                SendBitmap(LastBitMap, encoder);
+                SendBitmap(LastBitMap);
             }
         }
 
@@ -100,8 +98,7 @@ namespace RhinoAnywhere
         {
             Connection = new RTCPeerConnection(null);
 
-            var encoder = new VpxVideoEncoder();
-            var testPatternSource = new VideoTestPatternSource(encoder);
+            var testPatternSource = new VideoTestPatternSource(Encoder);
 
             MediaStreamTrack videoTrack = new MediaStreamTrack(testPatternSource.GetVideoSourceFormats(), MediaStreamStatusEnum.SendOnly);
             Connection.addTrack(videoTrack);
@@ -180,7 +177,7 @@ namespace RhinoAnywhere
             RhinoDoc.ActiveDoc.Views.ActiveView.Size = new Size((int)viewportSize.Width, (int)viewportSize.Height);
         }
 
-        private static void SendBitmap(Bitmap bitmap, IVideoEncoder encoder)
+        private static void SendBitmap(Bitmap bitmap)
         {
             // DO NOT USE SENDFASTER
 
@@ -210,7 +207,7 @@ namespace RhinoAnywhere
                 }
             }
 
-            Connection.SendVideo(DurationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H265));
+            Connection.SendVideo(DurationUnits, Encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H265));
         }
 
         private void InputRecieved(Packet<MouseData> inputArgs)
