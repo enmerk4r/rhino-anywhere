@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -213,15 +214,15 @@ namespace RhinoAnywhere
                 for (int j = 0; j < bitmap.Width; j++)
                 {
                     var idx = (i * bitmap.Width + j) * 4;
-                    var a = rgbValues[i + 0];
-                    var r = rgbValues[i + 1];
-                    var g = rgbValues[i + 2];
-                    var b = rgbValues[i + 3];
+                    var a = rgbValues[idx + 0];
+                    var r = rgbValues[idx + 1];
+                    var g = rgbValues[idx + 2];
+                    var b = rgbValues[idx + 3];
 
-                    rgbValues[i + 0] = b;
-                    rgbValues[i + 1] = g;
-                    rgbValues[i + 2] = r;
-                    rgbValues[i + 3] = a;
+                    rgbValues[idx + 0] = b;
+                    rgbValues[idx + 1] = g;
+                    rgbValues[idx + 2] = r;
+                    rgbValues[idx + 3] = a;
                 }
             }
 
