@@ -114,7 +114,7 @@ onUnmounted(() => {
   height: 120px;
   width: 600px;
   overflow-y: auto;
-  display: flex;
+  display: none;
   flex-direction: column-reverse;
   border: 1px solid #ccc;
   background-color: black;
