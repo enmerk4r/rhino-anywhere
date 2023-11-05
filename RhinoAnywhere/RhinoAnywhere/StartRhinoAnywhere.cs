@@ -111,7 +111,9 @@ namespace RhinoAnywhere
                         await testPatternSource.StartVideo();
                         break;
                     case RTCPeerConnectionState.failed:
-                        Connection.Close("ice disconnection");
+                        // Connection failed - attempt to reconnect or clean up
+                        RhinoApp.WriteLine("Connection failed, attempting to reconnect...");
+                        await AttemptReconnect();
                         break;
                     case RTCPeerConnectionState.closed:
                         await testPatternSource.CloseVideo();
@@ -141,6 +143,25 @@ namespace RhinoAnywhere
                     method(json);
                 };
             };
+
+            async Task AttemptReconnect()
+            {
+                try
+                {
+                    // Close the existing connection if it's not already closed
+                    Connection?.Close("Close before reconnect");
+
+                    // Reinitialize the connection
+                    Connection = await CreatePeerConnection();
+
+                    RhinoApp.WriteLine("Reconnection successful");
+                }
+                catch (Exception ex)
+                {
+                    RhinoApp.WriteLine($"Reconnection failed: {ex.Message}");
+                    // Handle reconnection failure as appropriate
+                }
+            }
 
             RhinoApp.Idle += InitialReDraw;
 
