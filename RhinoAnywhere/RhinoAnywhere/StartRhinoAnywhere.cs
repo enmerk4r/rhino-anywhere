@@ -35,6 +35,9 @@ namespace RhinoAnywhere
 
     private static void DisplayPipeline_PostDrawObjects(object sender, DrawEventArgs e)
     {
+      if (Server is null)
+        return;
+
       Server.DurationUnits = (uint)DateTime.UtcNow.Subtract(LastCall).TotalMilliseconds;
       LastCall = DateTime.UtcNow;
 
