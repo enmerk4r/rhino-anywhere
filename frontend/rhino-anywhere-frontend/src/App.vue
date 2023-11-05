@@ -48,9 +48,15 @@ function start(link) {
 }
 
 .search-area {
-  align-self: flex-start;
+  /* align-self: flex-start; */
   align-items: left;
-  display: flex;
+   /* display: none; */
+  position: absolute;
+  top: 10px;
+  left: 100px;
+  /* background-color: red; */
+  z-index: 1;
+
 }
 
 .content-area {

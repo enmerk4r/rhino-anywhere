@@ -13,7 +13,8 @@ onMounted(() => initialize());
 </script>
 
 <template>
-    <video ref="rhinoViewport" autoplay="autoplay" playsinline></video>
+    <video ref="rhinoViewport" autoplay="autoplay" playsinline>
+    </video>
 </template>
 
 <style>
