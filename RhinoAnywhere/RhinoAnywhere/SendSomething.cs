@@ -207,8 +207,26 @@ namespace RhinoAnywhere
 
             Marshal.Copy(ptr, rgbValues, 0, bytes);
 
+            // ARGB => BGRA conversion
+            for (int i = 0; i < bitmap.Height; i++)
+            {
+                for (int j = 0; j < bitmap.Width; j++)
+                {
+                    var idx = (i * bitmap.Width + j) * 4;
+                    var a = rgbValues[i + 0];
+                    var r = rgbValues[i + 1];
+                    var g = rgbValues[i + 2];
+                    var b = rgbValues[i + 3];
+
+                    rgbValues[i + 0] = b;
+                    rgbValues[i + 1] = g;
+                    rgbValues[i + 2] = r;
+                    rgbValues[i + 3] = a;
+                }
+            }
+
             // connection.SendVideo(durationUnits, encoder.EncodeVideo(640, 480, myBits(), VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
-            connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H264));
+            connection.SendVideo(durationUnits, encoder.EncodeVideo(bitmap.Width, bitmap.Height, rgbValues, VideoPixelFormatsEnum.Bgra, VideoCodecsEnum.H265));
         }
 
         private void InputRecieved(Packet<MouseData> inputArgs)
