@@ -99,7 +99,9 @@ onUnmounted(() => {
 
 <style scoped>
 .search-container {
-  display: flex;
+  display:flex;
+  width: 100%;
+  height: 150px;
   flex-direction: column;
   align-items: left;
   margin-top: 0px;
@@ -115,6 +117,9 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column-reverse;
   border: 1px solid #ccc;
+  background-color: white;
+  backdrop-filter: blur(2px);
+  opacity: 0.5;
   text-align: left;
   border-radius: 20px;
 }
