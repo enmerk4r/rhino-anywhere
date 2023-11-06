@@ -71,8 +71,8 @@ namespace RhinoAnywhere
           }
           else if (inputArgs.data.action == "move")
           {
-            double newX = inputArgs.data.x + inputArgs.data.deltax;
-            double newY = inputArgs.data.y + inputArgs.data.deltay;
+            double newX = inputArgs.data.x.Value + inputArgs.data.deltax.Value;
+            double newY = inputArgs.data.y.Value + inputArgs.data.deltay.Value;
 
             var pt = DisplayController.WebViewToServerWindowCoordinate(newY, newX);
             MouseController.SetCursorPosition((int)pt.X, (int)pt.Y);
